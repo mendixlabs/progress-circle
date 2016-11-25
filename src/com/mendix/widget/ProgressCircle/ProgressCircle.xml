@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="com.mendix.widget.ProgressCircle.ProgressCircle" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../../xsd/widget.xsd">
+    <name>ProgressCircle</name>
+    <description>Displays circular progress bar.</description>
+    <icon/>
+    <properties>
+        <property key="textSize" type="enumeration" required="true" defaultValue="medium">
+            <caption>Text size</caption>
+            <category>Display</category>
+            <description>Size of the progress text</description>
+            <enumerationValues>
+                <enumerationValue key="small">Small</enumerationValue>
+                <enumerationValue key="medium">Medium</enumerationValue>
+                <enumerationValue key="large">Large</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="animate" type="boolean" required="true" defaultValue="true">
+            <caption>Animate</caption>
+            <category>Display</category>
+            <description>Animates when the progress circle is loaded and updated</description>
+        </property>
+        <property key="progressAttribute" type="attribute" required="true">
+            <caption>Progress attribute</caption>
+            <category>Data</category>
+            <description>Holds the progress value</description>
+            <attributeTypes>
+                <attributeType name="Integer" />
+                <attributeType name="Decimal" />
+            </attributeTypes>
+        </property>
+        <property key="maximumValueAttribute" type="attribute" required="false">
+            <caption>Maximum value attribute</caption>
+            <category>Data</category>
+            <description>Highest progress value. If not set, maximum value defaults to 100</description>
+            <attributeTypes>
+                <attributeType name="Integer" />
+            </attributeTypes>
+        </property>
+    </properties>
+</widget>
