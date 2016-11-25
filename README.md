@@ -1,8 +1,8 @@
-# ProgressCircle
+# Progress Circle
 Displays a circular progress bar.
 
 ## Features
-* Shows the percentage (from 0 to 100) based on the progress value and the maximum progress value
+* Shows the percentage based on the progress value and the maximum progress value
 * Animates on load
 
 ## Dependencies
