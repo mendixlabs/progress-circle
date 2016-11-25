@@ -54,7 +54,7 @@
             "check-type"
         ],
         "interface-name": [ false, "always-prefix" ],        
-        "no-multi-spaces": [true],
+        "no-multi-spaces": [ true ],
         "no-extra-semi": true,
         "no-irregular-whitespace": true,
         "no-duplicate-case": true,

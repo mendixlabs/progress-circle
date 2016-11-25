@@ -1,9 +1,9 @@
-# ProgressCircle
-Displays a circular progress bar.
+# Progress Circle
+Displays a progress circle.
 
 ## Features
-* Shows the percentage (from 0 to 100) based on the progress value and the maximum progress value
-* Animates on load
+* Show the percentage based on the progress value and the maximum progress value
+* Animate on load and on update
 
 ## Dependencies
 Mendix 6.

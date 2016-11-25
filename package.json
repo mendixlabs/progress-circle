@@ -1,10 +1,10 @@
 {
   "name": "progresscircle",
   "version": "0.1.0",
-  "description": "Displays a circular progress bar.",
+  "description": "Displays a progress circle",
   "scripts": {
     "pretest": "tsc",
-    "test": "karma start && node tests/remap.js"
+    "test": "karma start --single-run && node tests/remap.js"
   },
   "repository": {
     "type": "git",
@@ -47,8 +47,6 @@
     "karma-remap-istanbul": "^0.2.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.8.0",
-    "less": "^2.7.1",
-    "less-loader": "^2.2.3",
     "mendix-client": "git+https://github.com/FlockOfBirds/Mendix-client-typing.git",
     "react-addons-test-utils": "~15.3.2",
     "remap-istanbul": "^0.6.4",

@@ -26,13 +26,13 @@ module.exports = function (grunt) {
                     archive: "./dist/" + pkg.version + "/" + pkg.name + ".mpk",
                     mode: "zip"
                 },
-                files: [{
+                files: [ {
                     expand: true,
                     date: new Date(),
                     store: false,
                     cwd: "./dist/tmp/src",
                     src: [ "**/*" ]
-                }]
+                } ]
             }
         },
         copy: {
