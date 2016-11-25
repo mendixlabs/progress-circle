@@ -1,0 +1,24 @@
+.widget-progress-circle {
+    width: 100%;
+    max-width: 300px;
+}
+
+.widget-progress-circle.progress-circle-small .progressbar-text {
+    font-size: 16px;
+}
+
+.widget-progress-circle.progress-circle-medium .progressbar-text {
+    font-size: 26px;
+}
+
+.widget-progress-circle.progress-circle-large .progressbar-text {
+    font-size: 36px;
+}
+
+.widget-progress-circle .widget-progress-path {
+    stroke: #307bbb;
+}
+
+.widget-progress-circle .widget-trail-path {
+    stroke: #eee;
+}
