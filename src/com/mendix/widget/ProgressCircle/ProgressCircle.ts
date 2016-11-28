@@ -23,16 +23,14 @@ class ProgressCircle extends WidgetBase {
     }
 
     updateRendering() {
-        if (this.contextObject) {
-            render(createElement(Circle, {
-                animate: this.animate,
-                maximumValue: Number(this.contextObject.get(this.maximumValueAttribute)),
-                textSize: this.textSize,
-                value: Number(this.contextObject.get(this.progressAttribute))
-            }), this.domNode);
-        } else {
-            unmountComponentAtNode(this.domNode);
-        }
+        render(createElement(Circle, {
+            animate: this.animate,
+            maximumValue: this.contextObject && this.maximumValueAttribute
+                ? Number(this.contextObject.get(this.maximumValueAttribute))
+                : undefined,
+            textSize: this.textSize,
+            value: this.contextObject ? Number(this.contextObject.get(this.progressAttribute)) : null
+        }), this.domNode);
     }
 
     uninitialize() {
