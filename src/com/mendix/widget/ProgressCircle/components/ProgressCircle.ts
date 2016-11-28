@@ -1,4 +1,3 @@
-import * as classNames from "classnames";
 import { Circle } from "progressbar.js";
 import { Component, DOM, ReactNode } from "react";
 
@@ -33,7 +32,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
 
     render() {
         return DOM.div({
-            className: classNames("widget-progress-circle", "progress-circle-" + this.props.textSize),
+            className: "widget-progress-circle progress-circle-" + this.props.textSize,
             ref: (node: ReactNode) => { this.progressNode = node; }
         });
     }
@@ -56,24 +55,26 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         if (!this.progressCircle) {
             this.createProgressCircle();
         }
+
         let progress: number;
+        let progressText: string;
         if (value === null || typeof value === "undefined") {
-            this.progressCircle.setText("");
-            this.progressCircle.animate(0);
-            return;
+            progress = 0;
+            progressText = "";
         } else if (maximum < 1) {
             window.console.warn("The maximum value is less than one. Progress is set to NA");
-        } else if (value < 0) {
-            window.console.warn("The progress value is less than the zero. Progress is set to 0%");
-            progress = 0;
-        } else if (value > maximum) {
-            window.console.warn("The progress value is greater than the maximum value. Progress is set to 100%");
-            progress = 100;
+            progressText = "NA";
         } else {
             progress = Math.round((value / maximum) * 100);
+            progressText = progress + "%";
+            if (value < 0) {
+                progress = 0;
+            } else if (value > maximum) {
+                progress = 100;
+            }
         }
 
-        this.progressCircle.setText(progress > -1 ? progress + "%" : "NA");
+        this.progressCircle.setText(progressText);
         this.progressCircle.animate(progress/100 || 0);
     }
 }
