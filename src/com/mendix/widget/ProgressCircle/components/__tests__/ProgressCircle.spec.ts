@@ -8,6 +8,10 @@ import { ProgressCircle, ProgressCircleProps } from "../ProgressCircle";
 describe("ProgressCircle", () => {
     let progressCircle: progressbar.Circle;
     const render = (props: ProgressCircleProps) => shallow(createElement(ProgressCircle, props));
+    const newCircleInstance = (props: ProgressCircleProps) => {
+        const progress = render(props);
+        return progress.instance() as ProgressCircle;
+    };
     const Circle = progressbar.Circle;
     const spyOnCircle = () =>
         spyOn(progressbar, "Circle").and.callFake(() => {
@@ -25,9 +29,8 @@ describe("ProgressCircle", () => {
 
     it("creates a circle progress bar", () => {
         spyOnCircle();
-        const progress = render({ value: 80 });
-        let instance = progress.instance() as ProgressCircle;
-        instance.componentDidMount();
+        const progress = newCircleInstance({ value: 80 });
+        progress.componentDidMount();
 
         expect(progressbar.Circle).toHaveBeenCalled();
     });
@@ -37,22 +40,20 @@ describe("ProgressCircle", () => {
         const setText = progressbar.Circle.prototype.setText as jasmine.Spy;
         spyOnCircle();
 
-        const progress = render({ animate: false, value: 80 });
-        let instance = progress.instance() as ProgressCircle;
-        instance.componentDidMount();
+        const progress = newCircleInstance({ animate: false, value: 80 });
+        progress.componentDidMount();
 
         expect(setText).toHaveBeenCalled();
     });
 
-    it("updates the progress percentage when updated", () => {
+    it("updates the progress percentage when the values are changed", () => {
         spyOn(progressbar.Circle.prototype, "setText").and.callThrough();
         const setText = progressbar.Circle.prototype.setText as jasmine.Spy;
         spyOnCircle();
 
-        const progress = render({ value: 80 });
-        let instance = progress.instance() as ProgressCircle;
-        instance.componentDidMount();
-        instance.componentDidUpdate();
+        const progress = newCircleInstance({ value: 80 });
+        progress.componentDidMount();
+        progress.componentDidUpdate();
 
         expect(setText).toHaveBeenCalledTimes(2);
     });
@@ -62,71 +63,78 @@ describe("ProgressCircle", () => {
         const destroy = progressbar.Circle.prototype.destroy as jasmine.Spy;
         spyOnCircle();
 
-        const progress = render({ value: 280 });
-        let instance = progress.instance() as ProgressCircle;
-        instance.componentDidMount();
-        instance.componentWillUnmount();
+        const progress = newCircleInstance({ value: 80 });
+        progress.componentDidMount();
+        progress.componentWillUnmount();
 
         expect(destroy).toHaveBeenCalled();
     });
 
-    describe("with the text size small", () => {
-        it("has the class progress-circle-small", () => {
-            const progress = render({ textSize: "small", value: 20 });
+    describe("with no value specified", () => {
+        it("renders a circle no text", () => {
+            spyOnCircle();
 
-            expect(progress.find(".progress-circle-small").length).toBe(1);
-        });
-    });
+            const progress = newCircleInstance({ value: null });
+            progress.componentDidMount();
 
-    describe("with the text size medium", () => {
-        it("has the class progress-circle-medium", () => {
-            const progress = render({ textSize: "medium", value: 20 });
-
-            expect(progress.find(".progress-circle-medium").length).toBe(1);
-        });
-    });
-
-    describe("with the text size large", () => {
-        it("has the class progress-circle-large", () => {
-            const progress = render({ textSize: "large", value: 20 });
-
-            expect(progress.find(".progress-circle-large").length).toBe(1);
+            expect(progressCircle.text.textContent).toBe("");
         });
     });
 
     describe("with a maximum value less than 1", () => {
-        it("renders a circle with text NA", () => {
+        it("renders a circle with the text set to NA", () => {
             spyOnCircle();
 
-            const progress = render({ animate: false, value: 80, maximumValue: -1 });
-            let instance = progress.instance() as ProgressCircle;
-            instance.componentDidMount();
+            const progress = newCircleInstance({ animate: false, value: 80, maximumValue: -1 });
+            progress.componentDidMount();
 
             expect(progressCircle.text.textContent).toBe("NA");
         });
     });
 
     describe("with the value less than 0", () => {
-        it("renders a circle with text 0%", () => {
+        it("renders a circle with the correct text", () => {
             spyOnCircle();
 
-            const progress = render({ animate: false, value: -1 });
-            let instance = progress.instance() as ProgressCircle;
-            instance.componentDidMount();
+            const progress = newCircleInstance({ animate: false, value: -1 });
+            progress.componentDidMount();
 
-            expect(progressCircle.text.textContent).toBe("0%");
+            expect(progressCircle.text.textContent).toBe("-1%");
         });
     });
 
     describe("with the value greater than the maximum", () => {
-        it("renders a circle with text 100%", () => {
+        it("renders a circle with the correct text", () => {
             spyOnCircle();
 
-            const progress = render({ animate: false, value: 180 });
-            let instance = progress.instance() as ProgressCircle;
-            instance.componentDidMount();
+            const progress = newCircleInstance({ value: 180 });
+            progress.componentDidMount();
 
-            expect(progressCircle.text.textContent).toBe("100%");
+            expect(progressCircle.text.textContent).toBe("180%");
+        });
+    });
+
+    describe("with the text size small", () => {
+        it("has the class widget-progress-circle-small", () => {
+            const progress = render({ textSize: "small", value: 20 });
+
+            expect(progress.find(".widget-progress-circle-small").length).toBe(1);
+        });
+    });
+
+    describe("with the text size medium", () => {
+        it("has the class widget-progress-circle-medium", () => {
+            const progress = render({ textSize: "medium", value: 20 });
+
+            expect(progress.find(".widget-progress-circle-medium").length).toBe(1);
+        });
+    });
+
+    describe("with the text size large", () => {
+        it("has the class widget-progress-circle-large", () => {
+            const progress = render({ textSize: "large", value: 20 });
+
+            expect(progress.find(".widget-progress-circle-large").length).toBe(1);
         });
     });
 });

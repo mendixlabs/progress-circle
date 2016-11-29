@@ -1,9 +1,10 @@
 import * as dojoDeclare from "dojo/_base/declare";
 import * as WidgetBase from "mxui/widget/_WidgetBase";
 
-import { ProgressCircle as Circle, ProgressTextSize } from "./components/ProgressCircle";
 import { createElement } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
+
+import { ProgressCircle as Circle, ProgressTextSize } from "./components/ProgressCircle";
 
 class ProgressCircle extends WidgetBase {
     // Properties from Mendix modeler

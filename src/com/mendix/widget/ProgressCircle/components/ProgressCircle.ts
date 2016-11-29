@@ -1,5 +1,5 @@
-import { Circle } from "progressbar.js";
 import { Component, DOM, ReactNode } from "react";
+import { Circle } from "progressbar.js";
 
 import "../ui/ProgressCircle.css";
 
@@ -32,7 +32,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
 
     render() {
         return DOM.div({
-            className: "widget-progress-circle progress-circle-" + this.props.textSize,
+            className: "widget-progress-circle widget-progress-circle-" + this.props.textSize,
             ref: (node: ReactNode) => { this.progressNode = node; }
         });
     }
@@ -47,8 +47,8 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
             strokeWidth: 6,
             trailWidth: 6
         });
-        this.progressCircle.path.className.baseVal = "widget-progress-path";
-        this.progressCircle.trail.className.baseVal = "widget-trail-path";
+        this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
+        this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
     }
 
     private setProgress(value: number, maximum: number) {
