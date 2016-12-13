@@ -1,5 +1,5 @@
-import { Component, DOM, ReactNode } from "react";
 import { Circle } from "progressbar.js";
+import { Component, DOM, ReactNode } from "react";
 
 import "../ui/ProgressCircle.css";
 
@@ -75,6 +75,6 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         }
 
         this.progressCircle.setText(progressText);
-        this.progressCircle.animate(progress/100 || 0);
+        this.progressCircle.animate(progress / 100 || 0);
     }
 }
