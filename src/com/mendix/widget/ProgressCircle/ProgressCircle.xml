@@ -36,5 +36,36 @@
                 <attributeType name="Integer" />
             </attributeTypes>
         </property>
+        <property key="onClickEvent" type="enumeration" required="true" defaultValue="doNothing">
+            <caption>On click</caption>
+            <category>Events</category>
+            <description></description>
+            <enumerationValues>
+                <enumerationValue key="doNothing">Do nothing</enumerationValue>
+                <enumerationValue key="showPage">Show a page</enumerationValue>
+                <enumerationValue key="callMicroflow">Call a microflow</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="microflow" type="microflow" required="false">
+            <caption>MicroFlow</caption>
+            <category>Events</category>
+            <description>When set the microflow will be called on click on the progress circle</description>
+            <returnType type="Void" />
+        </property>
+        <property key="page" type="form" required="false">
+            <caption>Page</caption>
+            <category>Events</category>
+            <description>When set the page will be opened on click on the progress circle</description>
+        </property>
+        <property key="pageSettings" type="enumeration" required="true" defaultValue="popup">
+            <caption>Page settings</caption>
+            <category>Events</category>
+            <description></description>
+            <enumerationValues>
+                <enumerationValue key="content">In content</enumerationValue>
+                <enumerationValue key="popup">Pop-up</enumerationValue>
+                <enumerationValue key="modal">Blocking pop-up</enumerationValue>
+            </enumerationValues>
+        </property>
     </properties>
 </widget>

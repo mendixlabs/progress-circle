@@ -4,7 +4,9 @@ import * as WidgetBase from "mxui/widget/_WidgetBase";
 import { createElement } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 
-import { ProgressCircle as Circle, ProgressTextSize } from "./components/ProgressCircle";
+import {
+    OnclickProps, PageSettings, ProgressCircle as Circle, ProgressOnclick, ProgressTextSize
+} from "./components/ProgressCircle";
 
 class ProgressCircle extends WidgetBase {
     // Properties from Mendix modeler
@@ -12,6 +14,10 @@ class ProgressCircle extends WidgetBase {
     textSize: ProgressTextSize;
     animate: boolean;
     maximumValueAttribute: string;
+    onClickEvent: ProgressOnclick;
+    microflow: string;
+    page: string;
+    pageSettings: PageSettings;
 
     private contextObject: mendix.lib.MxObject;
 
@@ -23,21 +29,34 @@ class ProgressCircle extends WidgetBase {
         if (callback) callback();
     }
 
+    uninitialize() {
+        unmountComponentAtNode(this.domNode);
+
+        return true;
+    }
+
     updateRendering() {
         render(createElement(Circle, {
             animate: this.animate,
             maximumValue: this.contextObject && this.maximumValueAttribute
                 ? Number(this.contextObject.get(this.maximumValueAttribute))
                 : undefined,
+            progressOnClick: this.createOnClickProps(),
             textSize: this.textSize,
             value: this.contextObject ? Number(this.contextObject.get(this.progressAttribute)) : null
         }), this.domNode);
     }
 
-    uninitialize() {
-        unmountComponentAtNode(this.domNode);
-
-        return true;
+    private createOnClickProps(): OnclickProps {
+        return ({
+            entity: this.contextObject ? this.contextObject.getEntity() : undefined,
+            guid: this.contextObject ? this.contextObject.getGuid() : undefined,
+            microflow: this.microflow,
+            onClickType: this.onClickEvent,
+            origin: this.mxform,
+            page: this.page,
+            pageSetting: this.pageSettings
+        });
     }
 
     private resetSubscriptions() {
