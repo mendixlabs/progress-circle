@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget id="com.mendix.widget.ProgressCircle.ProgressCircle" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../../xsd/widget.xsd">
-    <name>ProgressCircle</name>
-    <description>Displays circular progress bar.</description>
+    <name>Progress circle</name>
+    <description>Displays circular progress bar</description>
     <icon/>
     <properties>
         <property key="textSize" type="enumeration" required="true" defaultValue="medium">
@@ -39,7 +39,7 @@
         <property key="onClickEvent" type="enumeration" required="true" defaultValue="doNothing">
             <caption>On click</caption>
             <category>Events</category>
-            <description></description>
+            <description/>
             <enumerationValues>
                 <enumerationValue key="doNothing">Do nothing</enumerationValue>
                 <enumerationValue key="showPage">Show a page</enumerationValue>
@@ -47,20 +47,20 @@
             </enumerationValues>
         </property>
         <property key="microflow" type="microflow" required="false">
-            <caption>MicroFlow</caption>
+            <caption>Microflow</caption>
             <category>Events</category>
-            <description>When set the microflow will be called on click on the progress circle</description>
+            <description>The microflow that will be executed on click</description>
             <returnType type="Void" />
         </property>
         <property key="page" type="form" required="false">
             <caption>Page</caption>
             <category>Events</category>
-            <description>When set the page will be opened on click on the progress circle</description>
+            <description>The page that will be opened on click</description>
         </property>
         <property key="pageSettings" type="enumeration" required="true" defaultValue="popup">
             <caption>Page settings</caption>
             <category>Events</category>
-            <description></description>
+            <description/>
             <enumerationValues>
                 <enumerationValue key="content">In content</enumerationValue>
                 <enumerationValue key="popup">Pop-up</enumerationValue>

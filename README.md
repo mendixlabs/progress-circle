@@ -4,9 +4,10 @@ Displays a progress circle.
 ## Features
 * Show the percentage based on the progress value and the maximum progress value
 * Animate on load and on update
+* On click open a page or run a microflow
 
 ## Dependencies
-Mendix 6.
+Mendix 6
 
 ## Demo project
 http://progresscircle.mxapps.io
