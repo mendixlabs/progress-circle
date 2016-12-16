@@ -1,4 +1,3 @@
-// tslint:disable-next-line
 declare namespace progressbar {
 
     export class Circle {
