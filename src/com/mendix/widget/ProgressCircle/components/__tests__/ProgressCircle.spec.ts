@@ -8,18 +8,16 @@ import { ProgressCircle, ProgressCircleProps } from "../ProgressCircle";
 describe("ProgressCircle", () => {
     let progressCircle: progressbar.Circle;
     const render = (props: ProgressCircleProps) => shallow(createElement(ProgressCircle, props));
-    const newCircleInstance = (props: ProgressCircleProps) => {
-        const progress = render(props);
-        return progress.instance() as ProgressCircle;
-    };
+    const newCircleInstance = (props: ProgressCircleProps) =>
+        render(props).instance() as ProgressCircle;
     const Circle = progressbar.Circle;
     const spyOnCircle = () =>
-        spyOn(progressbar, "Circle").and.callFake(() => {
-            return progressCircle = new Circle(document.createElement("div"), {
+        spyOn(progressbar, "Circle").and.callFake(() =>
+            progressCircle = new Circle(document.createElement("div"), {
                 strokeWidth: 6,
                 trailWidth: 6
-            });
-        });
+            })
+        );
 
     it("renders the structure correctly", () => {
         const progress = render({ value: 60 });

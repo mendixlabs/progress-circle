@@ -29,13 +29,13 @@ class ProgressCircle extends WidgetBase {
         if (callback) callback();
     }
 
-    uninitialize() {
+    uninitialize(): boolean {
         unmountComponentAtNode(this.domNode);
 
         return true;
     }
 
-    updateRendering() {
+    private updateRendering() {
         render(createElement(Circle, {
             animate: this.animate,
             maximumValue: this.contextObject && this.maximumValueAttribute
@@ -53,7 +53,6 @@ class ProgressCircle extends WidgetBase {
             guid: this.contextObject ? this.contextObject.getGuid() : undefined,
             microflow: this.microflow,
             onClickType: this.onClickEvent,
-            origin: this.mxform,
             page: this.page,
             pageSetting: this.pageSettings
         });

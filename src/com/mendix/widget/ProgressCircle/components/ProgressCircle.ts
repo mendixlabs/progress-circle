@@ -8,7 +8,6 @@ export interface OnclickProps {
     microflow: string;
     guid: string;
     onClickType: ProgressOnclick;
-    origin?: mxui.lib.form._FormBase;
     page?: string;
     pageSetting?: PageSettings;
 }
@@ -46,9 +45,9 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
 
     render() {
         return DOM.div({
-            className: "widget-progress-circle widget-progress-circle-" + this.props.textSize,
+            className: `widget-progress-circle widget-progress-circle-${this.props.textSize}`,
             onClick: () => this.handleOnClick(this.props.progressOnClick),
-            ref: (node: ReactNode) => { this.progressNode = node; }
+            ref: node => this.progressNode = node
         });
     }
 
@@ -95,29 +94,26 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
     private checkConfig() {
         let errorMessage: string[] = [];
         if (this.props.progressOnClick.onClickType === "callMicroflow" && !this.props.progressOnClick.microflow) {
-            errorMessage.push("'On Click' call a microFlow is set " +
-                "and there is no 'Microflow' Selected in Tab Events");
+            errorMessage.push("'On click' call a microFlow is set " +
+                "and there is no 'Microflow' Selected in tab Events");
         }
         if (this.props.progressOnClick.onClickType === "showPage" && !this.props.progressOnClick.page) {
-            errorMessage.push("'On Click' Show a page is set and there is no 'Page' Selected in Tab 'Events'");
+            errorMessage.push("'On click' Show a page is set and there is no 'Page' Selected in tab 'Events'");
         }
         if (errorMessage.length > 0) {
-            errorMessage.unshift("Error in Configuration of ProgressCircleWidget ");
-            mx.ui.error(errorMessage.join("\n"));
+            errorMessage.unshift("Error in configuration of the Progress circle widget");
+            window.mx.ui.error(errorMessage.join("\n"));
         }
     }
 
     private handleOnClick(props: OnclickProps) {
         if (props.onClickType === "callMicroflow" && props.microflow && props.guid) {
-            window.mx.data.action({
-                error: (error: Error) => {
-                    window.mx.ui.error(`Error while executing microflow: ${props.microflow}: ${error.message}`);
-                },
-                origin: props.origin || undefined,
+            window.mx.ui.action(props.microflow, {
+                error: error =>
+                    window.mx.ui.error(`Error while executing microflow: ${props.microflow}: ${error.message}`),
                 params: {
-                    actionname: props.microflow,
                     applyto: "selection",
-                    guids: [props.guid]
+                    guids: [ props.guid ]
                 }
             });
         } else if (props.onClickType === "showPage" && props.page && props.guid) {
@@ -125,12 +121,10 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
             context.setTrackId(props.guid);
             context.setTrackEntity(props.entity);
 
-            mx.ui.openForm(props.page, {
+            window.mx.ui.openForm(props.page, {
                 context,
                 location: props.pageSetting
             });
-        } else {
-            window.console.info("No click event specified");
         }
     }
 }
