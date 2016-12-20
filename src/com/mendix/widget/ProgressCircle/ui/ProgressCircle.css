@@ -26,3 +26,7 @@
 .widget-progress-circle .widget-progress-circle-negative-path {
     stroke: darkorange;
 }
+
+.red-progress-text .progressbar-text {
+    color: red !important;
+}

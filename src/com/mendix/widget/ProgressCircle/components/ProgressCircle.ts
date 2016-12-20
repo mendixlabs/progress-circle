@@ -41,7 +41,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         textSize: "medium",
         value: 0
     };
-    private progressNode: ReactNode;
+    private progressNode: HTMLElement;
     private progressCircle: Circle;
 
     componentDidMount() {
@@ -87,6 +87,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         } else if (maximum < 1) {
             window.console.warn("The maximum value is less than one. Progress is set to NA");
             progressText = "NA";
+            this.progressNode.className += " red-progress-text";
         } else {
             if (value < 0) {
                 progress = value;
