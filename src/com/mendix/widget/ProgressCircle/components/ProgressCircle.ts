@@ -1,4 +1,4 @@
-import { Component, DOM, ReactNode } from "react";
+import { Component, DOM } from "react";
 
 import { Circle } from "progressbar.js";
 
@@ -71,7 +71,6 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
             strokeWidth: 6,
             trailWidth: 6
         });
-        this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
         this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
     }
 
@@ -89,15 +88,15 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
             progressText = "NA";
             this.progressNode.className += " red-progress-text";
         } else {
+            progress = Math.round((value / maximum) * 100);
+            progressText = progress + "%";
+            this.progressNode.className = this.progressNode.className.replace(" red-progress-text", "");
+            this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
             if (value < 0) {
-                progress = value;
                 this.progressCircle.path.className.baseVal = "widget-progress-circle-negative-path";
             } else if (value > maximum) {
                 progress = 100;
-            } else {
-                progress = Math.round((value / maximum) * 100);
             }
-            progressText = progress + "%";
         }
 
         this.progressCircle.setText(progressText);
