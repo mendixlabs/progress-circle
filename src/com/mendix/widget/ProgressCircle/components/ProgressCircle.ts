@@ -1,15 +1,25 @@
 import { Component, DOM, ReactNode } from "react";
+
 import { Circle } from "progressbar.js";
 
 import "../ui/ProgressCircle.css";
 
 export interface OnclickProps {
-    entity: string;
+    onClickType: ProgressOnclick;
+    microflowProps?: MicroflowProps;
+    pageProps?: PageProps;
+}
+
+export interface MicroflowProps {
     microflow: string;
     guid: string;
-    onClickType: ProgressOnclick;
-    page?: string;
-    pageSetting?: PageSettings;
+}
+
+export interface PageProps {
+    page: string;
+    pageSetting: PageSettings;
+    entity: string;
+    guid: string;
 }
 
 export interface ProgressCircleProps {
@@ -93,11 +103,12 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
 
     private checkConfig() {
         let errorMessage: string[] = [];
-        if (this.props.progressOnClick.onClickType === "callMicroflow" && !this.props.progressOnClick.microflow) {
+        if (this.props.progressOnClick.onClickType === "callMicroflow"
+            && !this.props.progressOnClick.microflowProps.microflow) {
             errorMessage.push("'On click' call a microFlow is set " +
                 "and there is no 'Microflow' Selected in tab Events");
         }
-        if (this.props.progressOnClick.onClickType === "showPage" && !this.props.progressOnClick.page) {
+        if (this.props.progressOnClick.onClickType === "showPage" && !this.props.progressOnClick.pageProps.page) {
             errorMessage.push("'On click' Show a page is set and there is no 'Page' Selected in tab 'Events'");
         }
         if (errorMessage.length > 0) {
@@ -107,23 +118,25 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
     }
 
     private handleOnClick(props: OnclickProps) {
-        if (props.onClickType === "callMicroflow" && props.microflow && props.guid) {
-            window.mx.ui.action(props.microflow, {
+        if (props.onClickType === "callMicroflow" && props.microflowProps.microflow && props.microflowProps.guid) {
+            window.mx.ui.action(props.microflowProps.microflow, {
                 error: error =>
-                    window.mx.ui.error(`Error while executing microflow: ${props.microflow}: ${error.message}`),
+                    window.mx.ui.error(
+                        `Error while executing microflow: ${props.microflowProps.microflow}: ${error.message}`
+                    ),
                 params: {
                     applyto: "selection",
-                    guids: [ props.guid ]
+                    guids: [ props.microflowProps.guid ]
                 }
             });
-        } else if (props.onClickType === "showPage" && props.page && props.guid) {
-            let context = new mendix.lib.MxContext();
-            context.setTrackId(props.guid);
-            context.setTrackEntity(props.entity);
+        } else if (props.onClickType === "showPage" && props.pageProps.page && props.pageProps.guid) {
+            let context = new window.mendix.lib.MxContext();
+            context.setTrackId(props.pageProps.guid);
+            context.setTrackEntity(props.pageProps.entity);
 
-            window.mx.ui.openForm(props.page, {
+            window.mx.ui.openForm(props.pageProps.page, {
                 context,
-                location: props.pageSetting
+                location: props.pageProps.pageSetting
             });
         }
     }

@@ -10,14 +10,14 @@ import {
 
 class ProgressCircle extends WidgetBase {
     // Properties from Mendix modeler
-    progressAttribute: string;
-    textSize: ProgressTextSize;
     animate: boolean;
     maximumValueAttribute: string;
-    onClickEvent: ProgressOnclick;
     microflow: string;
+    onClickEvent: ProgressOnclick;
     page: string;
     pageSettings: PageSettings;
+    progressAttribute: string;
+    textSize: ProgressTextSize;
 
     private contextObject: mendix.lib.MxObject;
 
@@ -49,12 +49,17 @@ class ProgressCircle extends WidgetBase {
 
     private createOnClickProps(): OnclickProps {
         return ({
-            entity: this.contextObject ? this.contextObject.getEntity() : undefined,
-            guid: this.contextObject ? this.contextObject.getGuid() : undefined,
-            microflow: this.microflow,
+            microflowProps: {
+                guid: this.contextObject ? this.contextObject.getGuid() : undefined,
+                microflow: this.microflow
+            },
             onClickType: this.onClickEvent,
-            page: this.page,
-            pageSetting: this.pageSettings
+            pageProps: {
+                entity: this.contextObject ? this.contextObject.getEntity() : undefined,
+                guid: this.contextObject ? this.contextObject.getGuid() : undefined,
+                page: this.page,
+                pageSetting: this.pageSettings
+            }
         });
     }
 
@@ -82,8 +87,6 @@ class ProgressCircle extends WidgetBase {
     }
 }
 
-// Declare widget prototype the Dojo way
-// Thanks to https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/dojo/README.md
 // tslint:disable : only-arrow-functions
 dojoDeclare("com.mendix.widget.ProgressCircle.ProgressCircle", [ WidgetBase ], function (Source: any) {
     let result: any = {};
