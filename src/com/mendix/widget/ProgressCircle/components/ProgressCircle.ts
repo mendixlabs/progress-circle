@@ -83,7 +83,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         let progress = 0;
         let progressText: string;
         if (value === null || typeof value === "undefined") {
-            progressText = "";
+            progressText = "--";
         } else if (maximum < 1) {
             window.console.warn("The maximum value is less than one. Progress is set to NA");
             progressText = "NA";
