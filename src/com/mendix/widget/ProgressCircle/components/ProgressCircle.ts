@@ -88,13 +88,14 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
             window.console.warn("The maximum value is less than one. Progress is set to NA");
             progressText = "NA";
         } else {
-            progress = Math.round((value / maximum) * 100);
-            progressText = progress + "%";
             if (value < 0) {
                 progress = 0;
             } else if (value > maximum) {
                 progress = 100;
+            } else {
+                progress = Math.round((value / maximum) * 100);
             }
+            progressText = progress + "%";
         }
 
         this.progressCircle.setText(progressText);
