@@ -89,7 +89,8 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
             progressText = "NA";
         } else {
             if (value < 0) {
-                progress = 0;
+                progress = value;
+                this.progressCircle.path.className.baseVal = "widget-progress-circle-negative-path";
             } else if (value > maximum) {
                 progress = 100;
             } else {
