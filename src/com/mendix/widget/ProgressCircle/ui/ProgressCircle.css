@@ -23,7 +23,7 @@
     stroke: #eee;
 }
 
-.widget-progress-circle .widget-progress-circle-negative-path {
+.widget-progress-circle.negative .widget-progress-circle-path {
     stroke: darkorange;
 }
 

@@ -91,10 +91,10 @@ describe("ProgressCircle", () => {
         const progress = newCircleInstance({ progressOnClick: clickProps, value: null });
         progress.componentDidMount();
 
-        expect(progressCircle.text.textContent).toBe("");
+        expect(progressCircle.text.textContent).toBe("--");
     });
 
-    it("renders a circle with the text set to NA when the maximum value is less than 1", () => {
+    it("renders a circle with the text set to Invalid when the maximum value is less than 1", () => {
         spyOnCircle();
 
         const progress = newCircleInstance({
@@ -105,7 +105,7 @@ describe("ProgressCircle", () => {
         });
         progress.componentDidMount();
 
-        expect(progressCircle.text.textContent).toBe("NA");
+        expect(progressCircle.text.textContent).toBe("Invalid");
     });
 
     it("renders a circle with the correct text when the value is less than 0", () => {

@@ -1,5 +1,6 @@
 import { Component, DOM } from "react";
 
+import * as classNames from "classnames";
 import { Circle } from "progressbar.js";
 
 import "../ui/ProgressCircle.css";
@@ -55,7 +56,10 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
 
     render() {
         return DOM.div({
-            className: `widget-progress-circle widget-progress-circle-${this.props.textSize}`,
+            className: classNames("widget-progress-circle", `widget-progress-circle-${this.props.textSize}`, {
+                negative: this.props.value < 0,
+                "red-progress-text": this.props.maximumValue < 1
+            }),
             onClick: () => this.handleOnClick(this.props.progressOnClick),
             ref: node => this.progressNode = node
         });
@@ -72,6 +76,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
             trailWidth: 6
         });
         this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
+        this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
     }
 
     private setProgress(value: number | null, maximum: number = 100) {
@@ -84,18 +89,15 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         if (value === null || typeof value === "undefined") {
             progressText = "--";
         } else if (maximum < 1) {
-            window.console.warn("The maximum value is less than one. Progress is set to NA");
-            progressText = "NA";
-            this.progressNode.className += " red-progress-text";
+            window.console.warn("The maximum value is less than one. Progress is set to Invalid");
+            progressText = "Invalid";
         } else {
-            progress = Math.round((value / maximum) * 100);
-            progressText = progress + "%";
-            this.progressNode.className = this.progressNode.className.replace(" red-progress-text", "");
-            this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
-            if (value < 0) {
-                this.progressCircle.path.className.baseVal = "widget-progress-circle-negative-path";
-            } else if (value > maximum) {
+            if (value > maximum) {
                 progress = 100;
+                progressText = Math.round((value / maximum) * 100) + "%";
+            } else {
+                progress = Math.round((value / maximum) * 100);
+                progressText = progress + "%";
             }
         }
 
