@@ -46,8 +46,8 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
     private progressCircle: Circle;
 
     componentDidMount() {
-        this.setProgress(this.props.value, this.props.maximumValue);
         this.checkConfig();
+        this.setProgress(this.props.value, this.props.maximumValue);
     }
 
     componentDidUpdate() {
@@ -56,10 +56,13 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
 
     render() {
         return DOM.div({
-            className: classNames("widget-progress-circle", `widget-progress-circle-${this.props.textSize}`, {
-                negative: this.props.value < 0,
-                "red-progress-text": this.props.maximumValue < 1
-            }),
+            className: classNames(
+                "widget-progress-circle",
+                `widget-progress-circle-${this.props.textSize}`, {
+                    negative: this.props.value < 0,
+                    "red-progress-text": this.props.maximumValue < 1
+                }
+            ),
             onClick: () => this.handleOnClick(this.props.progressOnClick),
             ref: node => this.progressNode = node
         });
