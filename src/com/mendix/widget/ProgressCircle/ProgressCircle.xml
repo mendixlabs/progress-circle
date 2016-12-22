@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget id="com.mendix.widget.ProgressCircle.ProgressCircle" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../../xsd/widget.xsd">
-    <name>Progress circle</name>
-    <description>Displays circular progress bar</description>
+    <name> Progress circle </name>
+    <description>Displays circular progress</description>
     <icon/>
     <properties>
         <property key="textSize" type="enumeration" required="true" defaultValue="medium">

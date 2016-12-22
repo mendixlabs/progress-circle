@@ -27,6 +27,6 @@
     stroke: darkorange;
 }
 
-.red-progress-text .progressbar-text {
-    color: red !important;
+.widget-progress-circle.red-progress-text .progressbar-text {
+    color: red !important; /* The Progress library has inline styling on the circle text*/
 }
