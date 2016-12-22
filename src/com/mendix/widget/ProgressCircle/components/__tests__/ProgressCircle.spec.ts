@@ -17,9 +17,9 @@ describe("ProgressCircle", () => {
 
     let progressCircle: progressbar.Circle;
     const render = (props: ProgressCircleProps) => shallow(createElement(ProgressCircle, props));
-    const newCircleInstance = (props: ProgressCircleProps) =>
-        render(props).instance() as ProgressCircle;
+    const newCircleInstance = (props: ProgressCircleProps) => render(props).instance() as ProgressCircle;
     const Circle = progressbar.Circle;
+
     const spyOnCircle = () =>
         spyOn(progressbar, "Circle").and.callFake(() =>
             progressCircle = new Circle(document.createElement("div"), {
@@ -27,9 +27,7 @@ describe("ProgressCircle", () => {
                 trailWidth: 6
             })
         );
-    const clickProps: OnclickProps = {
-        onClickType: "doNothing"
-    };
+    const clickProps: OnclickProps = { onClickType: "doNothing" };
 
     it("renders the structure correctly", () => {
         const progress = render({ progressOnClick: clickProps, value: 60 });
@@ -42,9 +40,10 @@ describe("ProgressCircle", () => {
         );
     });
 
-    it("creates a circle progress bar", () => {
+    it("creates a progress circle", () => {
         spyOnCircle();
         const progress = newCircleInstance({ progressOnClick: clickProps, value: 80 });
+
         progress.componentDidMount();
 
         expect(progressbar.Circle).toHaveBeenCalled();
@@ -154,6 +153,7 @@ describe("ProgressCircle", () => {
                 onClickType: "callMicroflow"
             };
             spyOn(window.mx.ui, "action").and.callThrough();
+
             const progress = render({ progressOnClick: onclickProps, value: 20 });
             progress.simulate("click");
 
@@ -167,7 +167,7 @@ describe("ProgressCircle", () => {
         });
     });
 
-    describe("without a microflow selected but an onClick microflow action is set ", () => {
+    describe("without a microflow selected but when an onClick microflow action is set ", () => {
         it(" it shows an error in configuration", () => {
             spyOnCircle();
             const onclickProps: OnclickProps = {
@@ -178,6 +178,7 @@ describe("ProgressCircle", () => {
                 onClickType: "callMicroflow"
             };
             spyOn(window.mx.ui, "error").and.callThrough();
+
             const progress = newCircleInstance({ progressOnClick: onclickProps, value: 20 });
             progress.componentDidMount();
 
@@ -204,6 +205,7 @@ describe("ProgressCircle", () => {
                     action.error(new Error("mx.ui.action error mock"));
                 }
             });
+
             spyOn(window.mx.ui, "error").and.callThrough();
 
             const progress = render({ progressOnClick: onclickProps, value: 20 });
@@ -213,7 +215,7 @@ describe("ProgressCircle", () => {
         });
     });
 
-    describe("with an onClick show page is set", () => {
+    describe("with an onClick show page set", () => {
         it("opens the page when a progress Circle is clicked", () => {
             const onclickProps: OnclickProps = {
                 onClickType: "showPage",
@@ -225,6 +227,7 @@ describe("ProgressCircle", () => {
                 }
             };
             spyOn(window.mx.ui, "openForm").and.callThrough();
+
             const progress = render({ progressOnClick: onclickProps, value: 20 });
             progress.simulate("click");
 
@@ -248,6 +251,7 @@ describe("ProgressCircle", () => {
                 }
             };
             spyOn(window.mx.ui, "error").and.callThrough();
+
             const progress = newCircleInstance({ progressOnClick: onclickProps, value: 20 });
             progress.componentDidMount();
 
@@ -259,5 +263,6 @@ describe("ProgressCircle", () => {
 
     afterAll(() => {
         window.mx = undefined;
+        window.mendix = undefined;
     });
 });
