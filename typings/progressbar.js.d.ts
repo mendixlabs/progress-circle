@@ -7,9 +7,9 @@ declare namespace progressbar {
 
         constructor(node: React.ReactNode, options?: CircleOptions);
 
-        setText(text: string);
-        animate(circleFraction: number);
-        destroy();
+        setText(text: string): void;
+        animate(circleFraction: number): void;
+        destroy(): void;
     }
 
     interface CircleOptions {
