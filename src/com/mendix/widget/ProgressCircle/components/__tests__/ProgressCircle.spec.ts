@@ -5,7 +5,7 @@ import * as progressbar from "progressbar.js";
 
 import { OnclickProps, ProgressCircle, ProgressCircleProps } from "../ProgressCircle";
 
-import { MockContext, mockMendix } from "../../../../../../../tests/mocks/Mendix";
+import { MockContext, mockMendix } from "tests/mocks/Mendix";
 
 describe("ProgressCircle", () => {
 
