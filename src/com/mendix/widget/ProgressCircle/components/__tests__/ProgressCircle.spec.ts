@@ -12,7 +12,6 @@ describe("ProgressCircle", () => {
     beforeAll(() => {
         window.mx = mockMendix;
         window.mendix = { lib: { MxContext: MockContext } };
-        window.mendix.lib.MxContext = MockContext;
     });
 
     let progressCircle: progressbar.Circle;
@@ -107,7 +106,7 @@ describe("ProgressCircle", () => {
         expect(progressCircle.text.textContent).toBe("Invalid");
     });
 
-    it("renders a circle with the correct text when the value is less than 0", () => {
+    it("renders a circle with negative values when the value is less than 0", () => {
         spyOnCircle();
 
         const progress = newCircleInstance({ animate: false, progressOnClick: clickProps, value: -1 });
@@ -116,7 +115,7 @@ describe("ProgressCircle", () => {
         expect(progressCircle.text.textContent).toBe("-1%");
     });
 
-    it("renders a circle with the correct text when the value is greater than the maximum", () => {
+    it("renders a circle with text greater than 100% when the value is greater than the maximum", () => {
         spyOnCircle();
 
         const progress = newCircleInstance({ progressOnClick: clickProps, value: 180 });
@@ -165,10 +164,8 @@ describe("ProgressCircle", () => {
                 }
             });
         });
-    });
 
-    describe("without a microflow selected but when an onClick microflow action is set ", () => {
-        it(" it shows an error in configuration", () => {
+        it("microflow selected it shows an error in configuration", () => {
             spyOnCircle();
             const onclickProps: OnclickProps = {
                 microflowProps: {
@@ -186,10 +183,8 @@ describe("ProgressCircle", () => {
                 "\n" + "'On click' call a microFlow is set and there is no 'Microflow' Selected in tab Events"
             );
         });
-    });
 
-    describe("with an invalid onClick microflow", () => {
-        it("shows an error when a progress circle is clicked", () => {
+        it("invalid microflow shows an error when a progress circle is clicked", () => {
             const invalidAction = "invalid_action";
             const errorMessage = "Error while executing microflow: invalid_action: mx.ui.action error mock";
             const onclickProps: OnclickProps = {
@@ -236,10 +231,8 @@ describe("ProgressCircle", () => {
                 location: "popup"
             });
         });
-    });
 
-    describe("without a page selected but an onClick show page is set", () => {
-        it("it shows an error in configuration", () => {
+        it("without a page selected it shows an error in configuration", () => {
             spyOnCircle();
             const onclickProps: OnclickProps = {
                 onClickType: "showPage",
@@ -258,6 +251,31 @@ describe("ProgressCircle", () => {
             expect(window.mx.ui.error).toHaveBeenCalledWith("Error in configuration of the Progress circle widget" +
                 "\n" + "'On click' Show a page is set and there is no 'Page' Selected in tab 'Events'"
             );
+        });
+    });
+
+    describe("without a on click", () => {
+        it("should not respond on user click", () => {
+            spyOnCircle();
+            const onclickProps: OnclickProps = {
+                onClickType: "showPage",
+                pageProps: {
+                    entity: "",
+                    guid: "2",
+                    page: "",
+                    pageSetting: "popup"
+                }
+            };
+            spyOn(window.mx.ui, "error");
+            spyOn(window.mx.ui, "openForm");
+            spyOn(window.mx.ui, "action");
+
+            const progress = render({ progressOnClick: onclickProps, value: 20 });
+            progress.simulate("click");
+
+            expect(window.mx.ui.error).not.toHaveBeenCalled();
+            expect(window.mx.ui.openForm).not.toHaveBeenCalled();
+            expect(window.mx.ui.action).not.toHaveBeenCalled();
         });
     });
 
