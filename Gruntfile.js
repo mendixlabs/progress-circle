@@ -76,7 +76,8 @@ module.exports = function (grunt) {
     grunt.registerTask("default", [ "clean build", "watch" ]);
     grunt.registerTask(
         "clean build",
-        "Compiles all the assets and copies the files to the build directory.", [ "clean:build", "webpack" , "compress:dist", "copy:mpk" ]
+        "Compiles all the assets and copies the files to the build directory.",
+        [ "clean:build", "webpack" , "compress:dist", "copy:mpk" ]
     );
     grunt.registerTask("build", [ "clean build" ]);
 };

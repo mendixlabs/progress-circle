@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget id="com.mendix.widget.ProgressCircle.ProgressCircle" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../../xsd/widget.xsd">
-    <name> Progress circle </name>
+    <name>Progress circle</name>
     <description>Displays circular progress</description>
     <icon/>
     <properties>
@@ -31,9 +31,10 @@
         <property key="maximumValueAttribute" type="attribute" required="false">
             <caption>Maximum value attribute</caption>
             <category>Data</category>
-            <description>Highest progress value. If not set, maximum value defaults to 100</description>
+            <description>Highest progress value. Larger then 0 If not set, maximum value defaults to 100</description>
             <attributeTypes>
                 <attributeType name="Integer" />
+                <attributeType name="Decimal" />
             </attributeTypes>
         </property>
         <property key="onClickEvent" type="enumeration" required="true" defaultValue="doNothing">

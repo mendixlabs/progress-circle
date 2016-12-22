@@ -71,13 +71,11 @@ class ProgressCircle extends WidgetBase {
                 callback: () => this.updateRendering(),
                 guid: this.contextObject.getGuid()
             });
-
             this.subscribe({
                 attr: this.progressAttribute,
                 callback: () => this.updateRendering(),
                 guid: this.contextObject.getGuid()
             });
-
             this.subscribe({
                 attr: this.maximumValueAttribute,
                 callback: () => this.updateRendering(),
@@ -88,7 +86,7 @@ class ProgressCircle extends WidgetBase {
 }
 
 // tslint:disable : only-arrow-functions
-dojoDeclare("com.mendix.widget.ProgressCircle.ProgressCircle", [ WidgetBase ], function (Source: any) {
+dojoDeclare("com.mendix.widget.ProgressCircle.ProgressCircle", [ WidgetBase ], function(Source: any) {
     let result: any = {};
     for (let property in Source.prototype) {
         if (property !== "constructor" && Source.prototype.hasOwnProperty(property)) {
@@ -96,4 +94,4 @@ dojoDeclare("com.mendix.widget.ProgressCircle.ProgressCircle", [ WidgetBase ], f
         }
     }
     return result;
-} (ProgressCircle));
+}(ProgressCircle));
