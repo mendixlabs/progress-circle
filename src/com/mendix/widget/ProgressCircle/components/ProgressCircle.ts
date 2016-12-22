@@ -91,21 +91,19 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         let progressText: string;
         if (value === null || typeof value === "undefined") {
             progressText = "--";
-        } else if (maximum < 1) {
-            window.console.warn("The maximum value is less than one. Progress is set to Invalid");
+        } else if (maximum <= 0) {
+            window.console.warn("The maximum value is 0. Progress is set to Invalid");
             progressText = "Invalid";
         } else {
-            if (value > maximum) {
-                progress = 100;
-                progressText = Math.round((value / maximum) * 100) + "%";
-            } else {
-                progress = Math.round((value / maximum) * 100);
-                progressText = progress + "%";
-            }
+            progress = Math.round((value / maximum) * 100);
+            progressText = progress + "%";
         }
 
+        let animateValue = progress / 100;
+        animateValue = animateValue > 1 ? 1 : animateValue < -1 ? -1 : animateValue;
+
         this.progressCircle.setText(progressText);
-        this.progressCircle.animate(progress / 100 || 0);
+        this.progressCircle.animate(animateValue);
     }
 
     private checkConfig() {
