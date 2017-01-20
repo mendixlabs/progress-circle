@@ -1,5 +1,5 @@
-import { Circle } from "progressbar.js";
 import { Component, DOM, ReactNode } from "react";
+import { Circle } from "progressbar.js";
 
 import "../ui/ProgressCircle.css";
 

@@ -70,71 +70,57 @@ describe("ProgressCircle", () => {
         expect(destroy).toHaveBeenCalled();
     });
 
-    describe("with no value specified", () => {
-        it("renders a circle no text", () => {
-            spyOnCircle();
+    it("renders a circle no text when no value is specified", () => {
+        spyOnCircle();
 
-            const progress = newCircleInstance({ value: null });
-            progress.componentDidMount();
+        const progress = newCircleInstance({ value: null });
+        progress.componentDidMount();
 
-            expect(progressCircle.text.textContent).toBe("");
-        });
+        expect(progressCircle.text.textContent).toBe("");
     });
 
-    describe("with a maximum value less than 1", () => {
-        it("renders a circle with the text set to NA", () => {
-            spyOnCircle();
+    it("renders a circle with the text set to NA when the maximum value is less than 1", () => {
+        spyOnCircle();
 
-            const progress = newCircleInstance({ animate: false, value: 80, maximumValue: -1 });
-            progress.componentDidMount();
+        const progress = newCircleInstance({ animate: false, value: 80, maximumValue: -1 });
+        progress.componentDidMount();
 
-            expect(progressCircle.text.textContent).toBe("NA");
-        });
+        expect(progressCircle.text.textContent).toBe("NA");
     });
 
-    describe("with the value less than 0", () => {
-        it("renders a circle with the correct text", () => {
-            spyOnCircle();
+    it("renders a circle with the correct text when the value is less than 0", () => {
+        spyOnCircle();
 
-            const progress = newCircleInstance({ animate: false, value: -1 });
-            progress.componentDidMount();
+        const progress = newCircleInstance({ animate: false, value: -1 });
+        progress.componentDidMount();
 
-            expect(progressCircle.text.textContent).toBe("-1%");
-        });
+        expect(progressCircle.text.textContent).toBe("-1%");
     });
 
-    describe("with the value greater than the maximum", () => {
-        it("renders a circle with the correct text", () => {
-            spyOnCircle();
+    it("renders a circle with the correct text when the value is greater than the maximum", () => {
+        spyOnCircle();
 
-            const progress = newCircleInstance({ value: 180 });
-            progress.componentDidMount();
+        const progress = newCircleInstance({ value: 180 });
+        progress.componentDidMount();
 
-            expect(progressCircle.text.textContent).toBe("180%");
-        });
+        expect(progressCircle.text.textContent).toBe("180%");
     });
 
-    describe("with the text size small", () => {
-        it("has the class widget-progress-circle-small", () => {
-            const progress = render({ textSize: "small", value: 20 });
+    it("has the class widget-progress-circle-small when the text size is small", () => {
+        const progress = render({ textSize: "small", value: 20 });
 
-            expect(progress.find(".widget-progress-circle-small").length).toBe(1);
-        });
+        expect(progress.find(".widget-progress-circle-small").length).toBe(1);
     });
 
-    describe("with the text size medium", () => {
-        it("has the class widget-progress-circle-medium", () => {
-            const progress = render({ textSize: "medium", value: 20 });
+    it("has the class widget-progress-circle-medium when the text size is medium", () => {
+        const progress = render({ textSize: "medium", value: 20 });
 
-            expect(progress.find(".widget-progress-circle-medium").length).toBe(1);
-        });
+        expect(progress.find(".widget-progress-circle-medium").length).toBe(1);
     });
 
-    describe("with the text size large", () => {
-        it("has the class widget-progress-circle-large", () => {
-            const progress = render({ textSize: "large", value: 20 });
+    it("has the class widget-progress-circle-large when the text size is large", () => {
+        const progress = render({ textSize: "large", value: 20 });
 
-            expect(progress.find(".widget-progress-circle-large").length).toBe(1);
-        });
+        expect(progress.find(".widget-progress-circle-large").length).toBe(1);
     });
 });
