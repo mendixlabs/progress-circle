@@ -5,30 +5,16 @@ import { Circle } from "progressbar.js";
 
 import "../ui/ProgressCircle.css";
 
-export interface OnclickProps {
-    onClickType: ProgressOnclick;
-    microflowProps?: MicroflowProps;
-    pageProps?: PageProps;
-}
-
-export interface MicroflowProps {
-    microflow: string;
-    guid: string;
-}
-
-export interface PageProps {
-    page: string;
-    pageSetting: PageSettings;
-    entity: string;
-    guid: string;
-}
-
 export interface ProgressCircleProps {
-    value: number | null;
-    maximumValue?: number;
-    textSize?: ProgressTextSize;
     animate?: boolean;
-    progressOnClick?: OnclickProps;
+    contextObject?: mendix.lib.MxObject;
+    maximumValue?: number;
+    microflow?: string;
+    onClickType?: ProgressOnclick;
+    page?: string;
+    pageSettings?: PageSettings;
+    textSize?: ProgressTextSize;
+    value: number | null;
 }
 
 export type ProgressTextSize = "small" | "medium" | "large";
@@ -38,6 +24,7 @@ export type PageSettings = "content" | "popup" | "modal";
 export class ProgressCircle extends Component<ProgressCircleProps, {}> {
     static defaultProps: ProgressCircleProps = {
         animate: true,
+        onClickType: "doNothing",
         maximumValue: 100,
         textSize: "medium",
         value: 0
@@ -56,14 +43,13 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
 
     render() {
         return DOM.div({
-            className: classNames(
-                "widget-progress-circle",
-                `widget-progress-circle-${this.props.textSize}`, {
+            className: classNames("widget-progress-circle", `widget-progress-circle-${this.props.textSize}`,
+                {
                     negative: this.props.value < 0,
                     "red-progress-text": this.props.maximumValue < 1
                 }
             ),
-            onClick: () => this.handleOnClick(this.props.progressOnClick),
+            onClick: () => this.handleOnClick(),
             ref: node => this.progressNode = node
         });
     }
@@ -100,7 +86,9 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         }
 
         let animateValue = progress / 100;
-        animateValue = animateValue > 1 ? 1 : animateValue < -1 ? -1 : animateValue;
+        animateValue = animateValue <= 1
+            ? animateValue < -1 ? -1 : animateValue
+            : 1;
 
         this.progressCircle.setText(progressText);
         this.progressCircle.animate(animateValue);
@@ -108,40 +96,39 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
 
     private checkConfig() {
         let errorMessage: string[] = [];
-        if (this.props.progressOnClick.onClickType === "callMicroflow"
-            && !this.props.progressOnClick.microflowProps.microflow) {
-            errorMessage.push("'On click' call a microFlow is set " +
-                "and there is no 'Microflow' Selected in tab Events");
+        if (this.props.onClickType === "callMicroflow" && !this.props.microflow) {
+            errorMessage.push("On click microflow is required");
         }
-        if (this.props.progressOnClick.onClickType === "showPage" && !this.props.progressOnClick.pageProps.page) {
-            errorMessage.push("'On click' Show a page is set and there is no 'Page' Selected in tab 'Events'");
+        if (this.props.onClickType === "showPage" && !this.props.page) {
+            errorMessage.push("On click page is required");
         }
         if (errorMessage.length > 0) {
-            errorMessage.unshift("Error in configuration of the Progress circle widget");
+            errorMessage.unshift("Error in configuration of the progress circle widget");
             window.mx.ui.error(errorMessage.join("\n"));
         }
     }
 
-    private handleOnClick(props: OnclickProps) {
-        if (props.onClickType === "callMicroflow" && props.microflowProps.microflow && props.microflowProps.guid) {
-            window.mx.ui.action(props.microflowProps.microflow, {
+    private handleOnClick() {
+        const { contextObject, microflow, onClickType, page } = this.props;
+        if (contextObject && onClickType === "callMicroflow" && microflow && contextObject.getGuid()) {
+            window.mx.ui.action(microflow, {
                 error: error =>
                     window.mx.ui.error(
-                        `Error while executing microflow: ${props.microflowProps.microflow}: ${error.message}`
+                        `Error while executing microflow: ${microflow}: ${error.message}`
                     ),
                 params: {
                     applyto: "selection",
-                    guids: [ props.microflowProps.guid ]
+                    guids: [contextObject.getGuid()]
                 }
             });
-        } else if (props.onClickType === "showPage" && props.pageProps.page && props.pageProps.guid) {
+        } else if (contextObject && onClickType === "showPage" && page && contextObject.getGuid()) {
             let context = new window.mendix.lib.MxContext();
-            context.setTrackId(props.pageProps.guid);
-            context.setTrackEntity(props.pageProps.entity);
+            context.setTrackId(contextObject.getGuid());
+            context.setTrackEntity(contextObject.getEntity());
 
-            window.mx.ui.openForm(props.pageProps.page, {
+            window.mx.ui.openForm(page, {
                 context,
-                location: props.pageProps.pageSetting
+                location: this.props.pageSettings
             });
         }
     }

@@ -35,6 +35,7 @@
             <attributeTypes>
                 <attributeType name="Integer" />
                 <attributeType name="Decimal" />
+                <attributeType name="Long" />
             </attributeTypes>
         </property>
         <property key="onClickEvent" type="enumeration" required="true" defaultValue="doNothing">

@@ -5,7 +5,10 @@ import { createElement } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 
 import {
-    OnclickProps, PageSettings, ProgressCircle as Circle, ProgressOnclick, ProgressTextSize
+    PageSettings,
+    ProgressCircle as Circle,
+    ProgressOnclick,
+    ProgressTextSize
 } from "./components/ProgressCircle";
 
 class ProgressCircle extends WidgetBase {
@@ -38,29 +41,17 @@ class ProgressCircle extends WidgetBase {
     private updateRendering() {
         render(createElement(Circle, {
             animate: this.animate,
+            contextObject: this.contextObject,
             maximumValue: this.contextObject && this.maximumValueAttribute
                 ? Number(this.contextObject.get(this.maximumValueAttribute))
                 : undefined,
-            progressOnClick: this.createOnClickProps(),
+            microflow: this.microflow,
+            onClickType: this.onClickEvent,
+            page: this.page,
+            pageSettings: this.pageSettings,
             textSize: this.textSize,
             value: this.contextObject ? Number(this.contextObject.get(this.progressAttribute)) : null
         }), this.domNode);
-    }
-
-    private createOnClickProps(): OnclickProps {
-        return ({
-            microflowProps: {
-                guid: this.contextObject ? this.contextObject.getGuid() : undefined,
-                microflow: this.microflow
-            },
-            onClickType: this.onClickEvent,
-            pageProps: {
-                entity: this.contextObject ? this.contextObject.getEntity() : undefined,
-                guid: this.contextObject ? this.contextObject.getGuid() : undefined,
-                page: this.page,
-                pageSetting: this.pageSettings
-            }
-        });
     }
 
     private resetSubscriptions() {
