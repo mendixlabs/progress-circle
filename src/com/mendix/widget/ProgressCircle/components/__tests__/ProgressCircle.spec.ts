@@ -24,7 +24,7 @@ describe("ProgressCircle", () => {
     it("renders the structure correctly", () => {
         const progress = render({ value: 60 });
 
-        expect(progress).toBeElement(DOM.div({ className: "widget-progress-circle" }));
+        expect(progress).toBeElement(DOM.div({ className: "widget-progress-circle widget-progress-circle-medium" }));
     });
 
     it("creates a circle progress bar", () => {

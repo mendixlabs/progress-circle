@@ -20,9 +20,7 @@ class ProgressCircle extends WidgetBase {
         this.resetSubscriptions();
         this.updateRendering();
 
-        if (callback) {
-            callback();
-        }
+        if (callback) callback();
     }
 
     updateRendering() {

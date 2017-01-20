@@ -4,7 +4,7 @@ import { Component, DOM, ReactNode } from "react";
 import "../ui/ProgressCircle.css";
 
 export interface ProgressCircleProps {
-    value: number;
+    value: number | null;
     maximumValue?: number;
     textSize?: ProgressTextSize;
     animate?: boolean;
@@ -51,15 +51,14 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
     }
 
-    private setProgress(value: number, maximum: number) {
+    private setProgress(value: number | null, maximum: number = 100) {
         if (!this.progressCircle) {
             this.createProgressCircle();
         }
 
-        let progress: number;
+        let progress = 0;
         let progressText: string;
         if (value === null || typeof value === "undefined") {
-            progress = 0;
             progressText = "";
         } else if (maximum < 1) {
             window.console.warn("The maximum value is less than one. Progress is set to NA");
