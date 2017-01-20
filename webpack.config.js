@@ -8,9 +8,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "dist/tmp"),
         filename: "src/com/mendix/widget/ProgressCircle/ProgressCircle.js",
-        libraryTarget:  "umd",
-        umdNamedDefine: true,
-        library: "com.mendix.widget.ProgressCircle.ProgressCircle"
+        libraryTarget:  "umd"
     },
     resolve: {
         extensions: [ "", ".ts", ".js", ".json" ]
@@ -21,13 +19,7 @@ module.exports = {
             { test: /\.ts$/, loader: "ts-loader" },
             { test: /\.json$/, loader: "json" },
             { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") }
-        ],
-        postLoaders: [ {
-            test: /\.ts$/,
-            loader: "istanbul-instrumenter",
-            include: path.resolve(__dirname, "src"),
-            exclude: /\.(spec)\.ts$/
-        } ]
+        ]
     },
     devtool: "source-map",
     externals: [ "mxui/widget/_WidgetBase", "dojo/_base/declare" ],
