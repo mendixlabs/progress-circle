@@ -1,7 +1,8 @@
-import { Component, DOM } from "react";
+import { Component, DOM, createElement } from "react";
 
 import * as classNames from "classnames";
 import { Circle } from "progressbar.js";
+import { Alert } from "./Alert";
 
 import "../ui/ProgressCircle.css";
 
@@ -21,7 +22,7 @@ export type ProgressTextSize = "small" | "medium" | "large";
 export type ProgressOnclick = "doNothing" | "showPage" | "callMicroflow";
 export type PageSettings = "content" | "popup" | "modal";
 
-export class ProgressCircle extends Component<ProgressCircleProps, {}> {
+export class ProgressCircle extends Component<ProgressCircleProps, { alertMessage: string }> {
     static defaultProps: ProgressCircleProps = {
         animate: true,
         onClickType: "doNothing",
@@ -31,6 +32,12 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
     };
     private progressNode: HTMLElement;
     private progressCircle: Circle;
+
+    constructor(props: ProgressCircleProps) {
+        super(props);
+
+        this.state = { alertMessage: "" };
+    }
 
     componentDidMount() {
         this.checkConfig();
@@ -42,16 +49,19 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
     }
 
     render() {
-        return DOM.div({
-            className: classNames("widget-progress-circle", `widget-progress-circle-${this.props.textSize}`,
-                {
-                    negative: this.props.value < 0,
-                    "red-progress-text": this.props.maximumValue < 1
-                }
-            ),
-            onClick: () => this.handleOnClick(),
-            ref: node => this.progressNode = node
-        });
+        return DOM.div({ className: "widget-progress-circle" },
+            DOM.div({
+                className: classNames(`widget-progress-circle-${this.props.textSize}`,
+                    {
+                        negative: this.props.value < 0,
+                        "red-progress-text": this.props.maximumValue < 1
+                    }
+                ),
+                onClick: () => this.handleOnClick(),
+                ref: node => this.progressNode = node
+            }),
+            this.state.alertMessage ? createElement(Alert, { message: this.state.alertMessage }) : null
+        );
     }
 
     componentWillUnmount() {
@@ -103,8 +113,8 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
             errorMessage.push("On click page is required");
         }
         if (errorMessage.length > 0) {
-            errorMessage.unshift("Error in configuration of the progress circle widget");
-            window.mx.ui.error(errorMessage.join("\n"));
+            errorMessage.unshift("Error in configuration of the progress circle widget:");
+            this.setState({ alertMessage: errorMessage.join("\n")});
         }
     }
 
@@ -113,12 +123,10 @@ export class ProgressCircle extends Component<ProgressCircleProps, {}> {
         if (contextObject && onClickType === "callMicroflow" && microflow && contextObject.getGuid()) {
             window.mx.ui.action(microflow, {
                 error: error =>
-                    window.mx.ui.error(
-                        `Error while executing microflow: ${microflow}: ${error.message}`
-                    ),
+                    this.setState({ alertMessage: `Error while executing microflow: ${microflow}: ${error.message}`}),
                 params: {
                     applyto: "selection",
-                    guids: [contextObject.getGuid()]
+                    guids: [ contextObject.getGuid() ]
                 }
             });
         } else if (contextObject && onClickType === "showPage" && page && contextObject.getGuid()) {

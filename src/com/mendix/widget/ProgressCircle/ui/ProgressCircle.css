@@ -3,6 +3,12 @@
     max-width: 300px;
 }
 
+.widget-progress-circle-small,
+.widget-progress-circle-medium,
+.widget-progress-circle-large {
+    margin-bottom: 10px;
+}
+
 .widget-progress-circle-small .progressbar-text {
     font-size: 16px;
 }
