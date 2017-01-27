@@ -11,7 +11,7 @@ export interface ProgressCircleProps {
     contextObject?: mendix.lib.MxObject;
     maximumValue?: number;
     microflow?: string;
-    onClickType?: ProgressOnclick;
+    onClickOption?: onClickOptions;
     page?: string;
     pageSettings?: PageSettings;
     textSize?: ProgressTextSize;
@@ -19,48 +19,53 @@ export interface ProgressCircleProps {
 }
 
 export type ProgressTextSize = "small" | "medium" | "large";
-export type ProgressOnclick = "doNothing" | "showPage" | "callMicroflow";
+export type onClickOptions = "doNothing" | "showPage" | "callMicroflow";
 export type PageSettings = "content" | "popup" | "modal";
 
 export class ProgressCircle extends Component<ProgressCircleProps, { alertMessage: string }> {
     static defaultProps: ProgressCircleProps = {
         animate: true,
-        onClickType: "doNothing",
         maximumValue: 100,
+        onClickOption: "doNothing",
         textSize: "medium",
         value: 0
     };
     private progressNode: HTMLElement;
     private progressCircle: Circle;
+    private setProgressNode: (node: HTMLElement) => void;
 
     constructor(props: ProgressCircleProps) {
         super(props);
 
         this.state = { alertMessage: "" };
+        this.handleOnClick = this.handleOnClick.bind(this);
+        this.setProgressNode = (node) => this.progressNode = node;
     }
 
     componentDidMount() {
         this.checkConfig();
+        this.createProgressCircle();
         this.setProgress(this.props.value, this.props.maximumValue);
     }
 
-    componentDidUpdate() {
-        this.setProgress(this.props.value, this.props.maximumValue);
+    componentWillReceiveProps(newProps: ProgressCircleProps) {
+        this.setProgress(newProps.value, newProps.maximumValue);
     }
 
     render() {
+        const alert = this.state.alertMessage ? createElement(Alert, { message: this.state.alertMessage }) : null;
         return DOM.div({ className: "widget-progress-circle" },
             DOM.div({
                 className: classNames(`widget-progress-circle-${this.props.textSize}`,
                     {
-                        negative: this.props.value < 0,
-                        "red-progress-text": this.props.maximumValue < 1
+                        "widget-progress-circle-negative": !!this.props.value && this.props.value < 0,
+                        "widget-progress-circle-alert": !!this.props.maximumValue && this.props.maximumValue < 1
                     }
                 ),
-                onClick: () => this.handleOnClick(),
-                ref: node => this.progressNode = node
+                onClick: this.handleOnClick,
+                ref: this.setProgressNode
             }),
-            this.state.alertMessage ? createElement(Alert, { message: this.state.alertMessage }) : null
+            alert
         );
     }
 
@@ -78,11 +83,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
     }
 
-    private setProgress(value: number | null, maximum: number = 100) {
-        if (!this.progressCircle) {
-            this.createProgressCircle();
-        }
-
+    private setProgress(value: number | null, maximum = 100) {
         let progress = 0;
         let progressText: string;
         if (value === null || typeof value === "undefined") {
@@ -96,45 +97,49 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         }
 
         let animateValue = progress / 100;
-        animateValue = animateValue <= 1
-            ? animateValue < -1 ? -1 : animateValue
-            : 1;
+        if (animateValue > 1) {
+            animateValue = 1;
+        } else if (animateValue < -1) {
+            animateValue = -1;
+        }
 
         this.progressCircle.setText(progressText);
         this.progressCircle.animate(animateValue);
     }
 
     private checkConfig() {
-        let errorMessage: string[] = [];
-        if (this.props.onClickType === "callMicroflow" && !this.props.microflow) {
+        const errorMessage: string[] = [];
+        if (this.props.onClickOption === "callMicroflow" && !this.props.microflow) {
             errorMessage.push("On click microflow is required");
         }
-        if (this.props.onClickType === "showPage" && !this.props.page) {
+        if (this.props.onClickOption === "showPage" && !this.props.page) {
             errorMessage.push("On click page is required");
         }
         if (errorMessage.length > 0) {
             errorMessage.unshift("Error in configuration of the progress circle widget:");
-            this.setState({ alertMessage: errorMessage.join("\n")});
+            this.setState({ alertMessage: errorMessage.join("\n") });
         }
     }
 
     private handleOnClick() {
-        const { contextObject, microflow, onClickType, page } = this.props;
-        if (contextObject && onClickType === "callMicroflow" && microflow && contextObject.getGuid()) {
+        const { contextObject, microflow, onClickOption, page } = this.props;
+        if (contextObject && onClickOption === "callMicroflow" && microflow && contextObject.getGuid()) {
             window.mx.ui.action(microflow, {
-                error: error =>
-                    this.setState({ alertMessage: `Error while executing microflow: ${microflow}: ${error.message}`}),
+                error: (error) =>
+                    this.setState({ alertMessage: `Error while executing microflow: ${microflow}: ${error.message}` }),
                 params: {
                     applyto: "selection",
                     guids: [ contextObject.getGuid() ]
                 }
             });
-        } else if (contextObject && onClickType === "showPage" && page && contextObject.getGuid()) {
-            let context = new window.mendix.lib.MxContext();
+        } else if (contextObject && onClickOption === "showPage" && page && contextObject.getGuid()) {
+            const context = new window.mendix.lib.MxContext();
             context.setTrackId(contextObject.getGuid());
             context.setTrackEntity(contextObject.getEntity());
 
             window.mx.ui.openForm(page, {
+                error: (error) =>
+                    this.setState({ alertMessage: `Error while opening page: ${page}: ${error.message}` }),
                 context,
                 location: this.props.pageSettings
             });

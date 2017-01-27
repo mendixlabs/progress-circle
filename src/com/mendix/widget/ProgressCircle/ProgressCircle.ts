@@ -7,8 +7,8 @@ import { render, unmountComponentAtNode } from "react-dom";
 import {
     PageSettings,
     ProgressCircle as Circle,
-    ProgressOnclick,
-    ProgressTextSize
+    ProgressTextSize,
+    onClickOptions
 } from "./components/ProgressCircle";
 
 class ProgressCircle extends WidgetBase {
@@ -16,7 +16,7 @@ class ProgressCircle extends WidgetBase {
     animate: boolean;
     maximumValueAttribute: string;
     microflow: string;
-    onClickEvent: ProgressOnclick;
+    onClickEvent: onClickOptions;
     page: string;
     pageSettings: PageSettings;
     progressAttribute: string;
@@ -43,14 +43,14 @@ class ProgressCircle extends WidgetBase {
             animate: this.animate,
             contextObject: this.contextObject,
             maximumValue: this.contextObject && this.maximumValueAttribute
-                ? Number(this.contextObject.get(this.maximumValueAttribute))
+                ? this.contextObject.get(this.maximumValueAttribute) as number
                 : undefined,
             microflow: this.microflow,
-            onClickType: this.onClickEvent,
+            onClickOption: this.onClickEvent,
             page: this.page,
             pageSettings: this.pageSettings,
             textSize: this.textSize,
-            value: this.contextObject ? Number(this.contextObject.get(this.progressAttribute)) : null
+            value: this.contextObject ? this.contextObject.get(this.progressAttribute) as number : null
         }), this.domNode);
     }
 
@@ -78,8 +78,8 @@ class ProgressCircle extends WidgetBase {
 
 // tslint:disable : only-arrow-functions
 dojoDeclare("com.mendix.widget.ProgressCircle.ProgressCircle", [ WidgetBase ], function(Source: any) {
-    let result: any = {};
-    for (let property in Source.prototype) {
+    const result: any = {};
+    for (const property in Source.prototype) {
         if (property !== "constructor" && Source.prototype.hasOwnProperty(property)) {
             result[property] = Source.prototype[property];
         }

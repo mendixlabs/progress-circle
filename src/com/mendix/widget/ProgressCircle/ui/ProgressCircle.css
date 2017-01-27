@@ -29,10 +29,10 @@
     stroke: #eee;
 }
 
-.widget-progress-circle.negative .widget-progress-circle-path {
+.widget-progress-circle-negative .widget-progress-circle-path {
     stroke: darkorange;
 }
 
-.widget-progress-circle.red-progress-text .progressbar-text {
+.widget-progress-circle-alert .progressbar-text {
     color: red !important; /* The Progress library has inline styling on the circle text*/
 }

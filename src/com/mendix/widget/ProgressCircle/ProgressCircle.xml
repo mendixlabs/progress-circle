@@ -24,8 +24,9 @@
             <category>Data</category>
             <description>Holds the progress value</description>
             <attributeTypes>
-                <attributeType name="Integer" />
-                <attributeType name="Decimal" />
+                <attributeType name="Integer"/>
+                <attributeType name="Decimal"/>
+                <attributeType name="Long"/>
             </attributeTypes>
         </property>
         <property key="maximumValueAttribute" type="attribute" required="false">
