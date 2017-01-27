@@ -13,7 +13,6 @@ Object.assign(webpackConfig, {
 
 module.exports = function(config) {
     if (config.codeCoverage) {
-        console.log("With instrumenter");
         Object.assign(webpackConfig, {
             module: Object.assign(webpackConfig.module, {
                 postLoaders: [{

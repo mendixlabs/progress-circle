@@ -23,8 +23,9 @@
     "@types/faker": "^3.1.32",
     "@types/jasmine": "^2.5.41",
     "@types/karma": "^0.13.33",
-    "@types/react": "^15.0.0",
-    "@types/react-dom": "^0.14.20",
+    "@types/react": "^15.0.6",
+    "@types/react-dom": "^0.14.22",
+    "check-dependencies": "^1.0.1",
     "copy-webpack-plugin": "^4.0.1",
     "core-js": "^2.4.1",
     "css-loader": "^0.26.1",
@@ -32,6 +33,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "faker": "^3.1.0",
     "grunt": "1.0.1",
+    "grunt-check-dependencies": "^1.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-compress": "^1.4.1",
     "grunt-contrib-copy": "^1.0.0",
@@ -65,7 +67,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "progressbar.js": "^1.0.1",
-    "react": "~15.3.2",
-    "react-dom": "~15.3.2"
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
   }
 }

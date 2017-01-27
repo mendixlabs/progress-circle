@@ -1,3 +1,4 @@
+// tslint:disable no-namespace
 declare namespace progressbar {
 
     export class Circle {
@@ -10,6 +11,7 @@ declare namespace progressbar {
         setText(text: string): void;
         animate(circleFraction: number): void;
         destroy(): void;
+        value(): void;
     }
 
     interface CircleOptions {

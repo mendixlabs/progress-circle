@@ -53,7 +53,6 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     }
 
     render() {
-        const alert = this.state.alertMessage ? createElement(Alert, { message: this.state.alertMessage }) : null;
         return DOM.div({ className: "widget-progress-circle" },
             DOM.div({
                 className: classNames(`widget-progress-circle-${this.props.textSize}`,
@@ -65,7 +64,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
                 onClick: this.handleOnClick,
                 ref: this.setProgressNode
             }),
-            alert
+            createElement(Alert, { message: this.state.alertMessage })
         );
     }
 
@@ -108,16 +107,15 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     }
 
     private checkConfig() {
-        const errorMessage: string[] = [];
+        const errorMessage: string[] = [ "Error in progress circle configuration:" ];
         if (this.props.onClickOption === "callMicroflow" && !this.props.microflow) {
-            errorMessage.push("On click microflow is required");
+            errorMessage.push("on click microflow is required");
         }
         if (this.props.onClickOption === "showPage" && !this.props.page) {
-            errorMessage.push("On click page is required");
+            errorMessage.push("on click page is required");
         }
-        if (errorMessage.length > 0) {
-            errorMessage.unshift("Error in configuration of the progress circle widget:");
-            this.setState({ alertMessage: errorMessage.join("\n") });
+        if (errorMessage.length > 1) {
+            this.setState({ alertMessage: errorMessage.join(" ") });
         }
     }
 
@@ -126,7 +124,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         if (contextObject && onClickOption === "callMicroflow" && microflow && contextObject.getGuid()) {
             window.mx.ui.action(microflow, {
                 error: (error) =>
-                    this.setState({ alertMessage: `Error while executing microflow: ${microflow}: ${error.message}` }),
+                    this.setState({ alertMessage: `Error while executing microflow ${microflow}: ${error.message}` }),
                 params: {
                     applyto: "selection",
                     guids: [ contextObject.getGuid() ]
@@ -139,7 +137,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
 
             window.mx.ui.openForm(page, {
                 error: (error) =>
-                    this.setState({ alertMessage: `Error while opening page: ${page}: ${error.message}` }),
+                    this.setState({ alertMessage: `Error while opening page ${page}: ${error.message}` }),
                 context,
                 location: this.props.pageSettings
             });
