@@ -2,12 +2,14 @@ const webpack = require("webpack");
 const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const rootFilePath = "src/com/mendix/widget/custom/progresscircle/";
+const fileName = "ProgressCircle";
 
 module.exports = {
-    entry: "./src/com/mendix/widget/ProgressCircle/ProgressCircle.ts",
+    entry: "./" + rootFilePath + fileName + ".ts",
     output: {
         path: path.resolve(__dirname, "dist/tmp"),
-        filename: "src/com/mendix/widget/ProgressCircle/ProgressCircle.js",
+        filename: rootFilePath + fileName + ".js",
         libraryTarget:  "umd"
     },
     resolve: {
@@ -33,7 +35,7 @@ module.exports = {
         ], {
             copyUnmodified: true
         }),
-        new ExtractTextPlugin("./src/com/mendix/widget/ProgressCircle/ui/ProgressCircle.css")
+        new ExtractTextPlugin("./" + rootFilePath + "ui/" + fileName + ".css")
     ],
     watch: true
 };

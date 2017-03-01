@@ -6,7 +6,7 @@ import * as progressbar from "progressbar.js";
 import { ProgressCircle, ProgressCircleProps } from "../ProgressCircle";
 import { Alert } from "../Alert";
 
-import { MockContext, mockMendix } from "tests/mocks/Mendix";
+import { MockContext, mockMendix } from "../../../../../../../../tests/mocks/Mendix";
 import { random } from "faker";
 
 describe("ProgressCircle", () => {
