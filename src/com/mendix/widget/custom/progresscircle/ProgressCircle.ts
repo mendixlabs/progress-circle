@@ -4,30 +4,22 @@ import * as WidgetBase from "mxui/widget/_WidgetBase";
 import { createElement } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 
-import {
-    PageSettings,
-    ProgressCircle as Circle,
-    ProgressTextSize,
-    onClickOptions
-} from "./components/ProgressCircle";
+import ProgressCircleContainer, { OnClickOptions, PageSettings } from "./components/ProgressCircleContainer";
+import { ProgressTextSize } from "./components/ProgressCircle";
 
 class ProgressCircle extends WidgetBase {
     // Properties from Mendix modeler
     animate: boolean;
     maximumValueAttribute: string;
     microflow: string;
-    onClickEvent: onClickOptions;
+    onClickEvent: OnClickOptions;
     page: string;
     pageSettings: PageSettings;
     progressAttribute: string;
     textSize: ProgressTextSize;
 
-    private contextObject: mendix.lib.MxObject;
-
     update(contextObject: mendix.lib.MxObject, callback?: () => void) {
-        this.contextObject = contextObject;
-        this.resetSubscriptions();
-        this.updateRendering();
+        this.updateRendering(contextObject);
 
         if (callback) callback();
     }
@@ -38,41 +30,18 @@ class ProgressCircle extends WidgetBase {
         return true;
     }
 
-    private updateRendering() {
-        render(createElement(Circle, {
+    private updateRendering(contextObject: mendix.lib.MxObject) {
+        render(createElement(ProgressCircleContainer, {
             animate: this.animate,
-            contextObject: this.contextObject,
-            maximumValue: this.contextObject && this.maximumValueAttribute
-                ? parseFloat(this.contextObject.get(this.maximumValueAttribute) as string)
-                : undefined,
+            contextObject,
+            maximumValueAttribute: this.maximumValueAttribute,
             microflow: this.microflow,
             onClickOption: this.onClickEvent,
             page: this.page,
             pageSettings: this.pageSettings,
             textSize: this.textSize,
-            value: this.contextObject ? parseFloat(this.contextObject.get(this.progressAttribute) as string) : null
+            progressAttribute: this.progressAttribute
         }), this.domNode);
-    }
-
-    private resetSubscriptions() {
-        this.unsubscribeAll();
-
-        if (this.contextObject) {
-            this.subscribe({
-                callback: () => this.updateRendering(),
-                guid: this.contextObject.getGuid()
-            });
-            this.subscribe({
-                attr: this.progressAttribute,
-                callback: () => this.updateRendering(),
-                guid: this.contextObject.getGuid()
-            });
-            this.subscribe({
-                attr: this.maximumValueAttribute,
-                callback: () => this.updateRendering(),
-                guid: this.contextObject.getGuid()
-            });
-        }
     }
 }
 

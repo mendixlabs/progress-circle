@@ -1,4 +1,4 @@
-import { ShallowWrapper, shallow } from "enzyme";
+import { shallow } from "enzyme";
 import { DOM, createElement } from "react";
 
 import * as progressbar from "progressbar.js";
@@ -6,20 +6,9 @@ import * as progressbar from "progressbar.js";
 import { ProgressCircle, ProgressCircleProps } from "../ProgressCircle";
 import { Alert } from "../Alert";
 
-import { MockContext, mockMendix } from "../../../../../../../../tests/mocks/Mendix";
-import { random } from "faker";
-
 describe("ProgressCircle", () => {
-
-    beforeAll(() => {
-        window.mx = mockMendix;
-        window.mendix = { lib: { MxContext: MockContext } };
-    });
-
     let progressCircle: progressbar.Circle;
     const renderProgressCircle = (props: ProgressCircleProps) => shallow(createElement(ProgressCircle, props));
-    const clickCircle = (progress: ShallowWrapper<any, any>) =>
-        progress.find(".widget-progress-circle-medium").simulate("click");
     const newCircleInstance = (props: ProgressCircleProps) => renderProgressCircle(props).instance() as ProgressCircle;
     const Circle = progressbar.Circle;
     const spyOnCircle = () =>
@@ -38,7 +27,7 @@ describe("ProgressCircle", () => {
 
         expect(progress).toBeElement(
             DOM.div({ className: "widget-progress-circle" },
-                DOM.div({ className: "widget-progress-circle-medium", onClick: jasmine.any(Function) as any }),
+                DOM.div({ className: "widget-progress-circle-medium" }),
                 createElement(Alert)
             )
         );
@@ -104,7 +93,6 @@ describe("ProgressCircle", () => {
         const progress = newCircleInstance({
             animate: false,
             maximumValue: -1,
-            onClickOption: "doNothing",
             value: 80
         });
         progress.componentDidMount();
@@ -159,134 +147,6 @@ describe("ProgressCircle", () => {
         const progress = renderProgressCircle({ textSize: "large", value: 20 });
 
         expect(progress.find(".widget-progress-circle-large").length).toBe(1);
-    });
-
-    describe("configured to call a microflow on click", () => {
-        const contextObject: any = {
-            getEntity: () => random.uuid(),
-            getGuid: () => random.uuid()
-        };
-        const circleProps: ProgressCircleProps = {
-            contextObject,
-            microflow: "ACT_OnClick",
-            onClickOption: "callMicroflow",
-            value: 20
-        };
-
-        it("executes a microflow when the progress circle is clicked", () => {
-            spyOn(window.mx.ui, "action").and.callThrough();
-
-            clickCircle(renderProgressCircle(circleProps));
-
-            expect(window.mx.ui.action).toHaveBeenCalledWith(circleProps.microflow, {
-                error: jasmine.any(Function),
-                params: {
-                    applyto: "selection",
-                    guids: [ jasmine.any(String) ]
-                }
-            });
-        });
-
-        it("shows an error when no microflow is specified", () => {
-            spyOnCircle();
-            circleProps.microflow = "";
-            const errorMessage = "Error in progress circle configuration: on click microflow is required";
-            const progress = renderProgressCircle(circleProps);
-            const progressInstance = progress.instance() as ProgressCircle;
-            progressInstance.componentDidMount();
-            const alert = progress.find(Alert);
-
-            expect(alert.props().message).toBe(errorMessage);
-        });
-
-        it("shows an error when an invalid microflow is specified ", () => {
-            const errorMessage = "Error while executing microflow invalid_action: mx.ui.action error mock";
-            circleProps.microflow = "invalid_action";
-
-            spyOn(window.mx.ui, "action").and.callFake((actionname: string, action: { error: (e: Error) => void }) => {
-                action.error(new Error("mx.ui.action error mock"));
-            });
-            spyOnCircle();
-            const progress = renderProgressCircle(circleProps);
-            clickCircle(progress);
-
-            const alert = progress.find(Alert);
-            expect(alert.props().message).toBe(errorMessage);
-        });
-    });
-
-    describe("configured to show a page on click", () => {
-        const contextObject: any = {
-            getEntity: () => random.uuid(),
-            getGuid: () => random.uuid()
-        };
-        const circleProps: ProgressCircleProps = {
-            contextObject,
-            onClickOption: "showPage",
-            page: "showpage.xml",
-            pageSettings: "popup",
-            value: 20
-        };
-
-        it("opens a page when the progress circle is clicked", () => {
-            spyOn(window.mx.ui, "openForm").and.callThrough();
-
-            clickCircle(renderProgressCircle(circleProps));
-
-            expect(window.mx.ui.openForm).toHaveBeenCalledWith(circleProps.page, {
-                context: new mendix.lib.MxContext(),
-                error: jasmine.any(Function),
-                location: "popup"
-            });
-        });
-
-        it("shows an error when no page is specified", () => {
-            spyOnCircle();
-            circleProps.page = "";
-            const errorMessage = "Error in progress circle configuration: on click page is required";
-            const progress = renderProgressCircle(circleProps);
-            clickCircle(progress);
-            const progressInstance = progress.instance() as ProgressCircle;
-            progressInstance.componentDidMount();
-
-            const alert = progress.find(Alert);
-            expect(alert.props().message).toBe(errorMessage);
-        });
-
-        it("shows an error when an invalid page is specified ", () => {
-            circleProps.page = "invalid_page";
-            const errorMessage = `Error while opening page ${circleProps.page}: mx.ui.openForm error mock`;
-
-            spyOn(window.mx.ui, "openForm").and.callFake((path: string, args: { error: Function }) => {
-                args.error(new Error("mx.ui.openForm error mock"));
-            });
-            spyOnCircle();
-            const progress = renderProgressCircle(circleProps);
-            clickCircle(progress);
-
-            const alert = progress.find(Alert);
-            expect(alert.props().message).toBe(errorMessage);
-        });
-    });
-
-    describe("with no action on click", () => {
-        const contextObject = jasmine.createSpyObj("contextObject", [ "getGuid", "getEntity" ]);
-        const circleProps: ProgressCircleProps = {
-            contextObject,
-            onClickOption: "doNothing",
-            value: 20
-        };
-
-        it("should not respond to click events", () => {
-            spyOnCircle();
-            spyOn(window.mx.ui, "openForm");
-            spyOn(window.mx.ui, "action");
-
-            clickCircle(renderProgressCircle(circleProps));
-
-            expect(window.mx.ui.openForm).not.toHaveBeenCalled();
-            expect(window.mx.ui.action).not.toHaveBeenCalled();
-        });
     });
 
     afterAll(() => {

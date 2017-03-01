@@ -6,27 +6,21 @@ import { Alert } from "./Alert";
 
 import "../ui/ProgressCircle.css";
 
-export interface ProgressCircleProps {
+interface ProgressCircleProps {
+    alertMessage?: string;
     animate?: boolean;
-    contextObject?: mendix.lib.MxObject;
     maximumValue?: number;
-    microflow?: string;
-    onClickOption?: onClickOptions;
-    page?: string;
-    pageSettings?: PageSettings;
+    onClickAction?: () => void;
     textSize?: ProgressTextSize;
     value: number | null;
 }
 
-export type ProgressTextSize = "small" | "medium" | "large";
-export type onClickOptions = "doNothing" | "showPage" | "callMicroflow";
-export type PageSettings = "content" | "popup" | "modal";
+type ProgressTextSize = "small" | "medium" | "large";
 
-export class ProgressCircle extends Component<ProgressCircleProps, { alertMessage: string }> {
+class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: string }> {
     static defaultProps: ProgressCircleProps = {
         animate: true,
         maximumValue: 100,
-        onClickOption: "doNothing",
         textSize: "medium",
         value: 0
     };
@@ -37,18 +31,19 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     constructor(props: ProgressCircleProps) {
         super(props);
 
-        this.state = { alertMessage: "" };
-        this.handleOnClick = this.handleOnClick.bind(this);
+        this.state = { alertMessage: props.alertMessage };
         this.setProgressNode = (node) => this.progressNode = node;
     }
 
     componentDidMount() {
-        this.checkConfig();
         this.createProgressCircle();
         this.setProgress(this.props.value, this.props.maximumValue);
     }
 
     componentWillReceiveProps(newProps: ProgressCircleProps) {
+        if (newProps.alertMessage !== this.props.alertMessage) {
+            this.setState({ alertMessage: newProps.alertMessage });
+        }
         this.setProgress(newProps.value, newProps.maximumValue);
     }
 
@@ -62,7 +57,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
                         "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false
                     }
                 ),
-                onClick: this.handleOnClick,
+                onClick: this.props.onClickAction,
                 ref: this.setProgressNode
             }),
             createElement(Alert, { message: this.state.alertMessage })
@@ -105,41 +100,6 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         this.progressCircle.setText(progressText);
         this.progressCircle.animate(animateValue);
     }
-
-    private checkConfig() {
-        const errorMessage: string[] = [ "Error in progress circle configuration:" ];
-        if (this.props.onClickOption === "callMicroflow" && !this.props.microflow) {
-            errorMessage.push("on click microflow is required");
-        }
-        if (this.props.onClickOption === "showPage" && !this.props.page) {
-            errorMessage.push("on click page is required");
-        }
-        if (errorMessage.length > 1) {
-            this.setState({ alertMessage: errorMessage.join(" ") });
-        }
-    }
-
-    private handleOnClick() {
-        const { contextObject, microflow, onClickOption, page } = this.props;
-        if (contextObject && onClickOption === "callMicroflow" && microflow && contextObject.getGuid()) {
-            window.mx.ui.action(microflow, {
-                error: (error) =>
-                    this.setState({ alertMessage: `Error while executing microflow ${microflow}: ${error.message}` }),
-                params: {
-                    applyto: "selection",
-                    guids: [ contextObject.getGuid() ]
-                }
-            });
-        } else if (contextObject && onClickOption === "showPage" && page && contextObject.getGuid()) {
-            const context = new window.mendix.lib.MxContext();
-            context.setContext(contextObject);
-
-            window.mx.ui.openForm(page, {
-                error: (error) =>
-                    this.setState({ alertMessage: `Error while opening page ${page}: ${error.message}` }),
-                context,
-                location: this.props.pageSettings
-            });
-        }
-    }
 }
+
+export { ProgressCircle, ProgressCircleProps, ProgressTextSize };
