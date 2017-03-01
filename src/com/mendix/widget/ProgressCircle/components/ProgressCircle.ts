@@ -53,12 +53,13 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     }
 
     render() {
+        const { maximumValue, value } = this.props;
         return DOM.div({ className: "widget-progress-circle" },
             DOM.div({
                 className: classNames(`widget-progress-circle-${this.props.textSize}`,
                     {
-                        "widget-progress-circle-negative": !!this.props.value && this.props.value < 0,
-                        "widget-progress-circle-alert": !!this.props.maximumValue && this.props.maximumValue < 1
+                        "widget-progress-circle-negative": !!value && value < 0,
+                        "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false
                     }
                 ),
                 onClick: this.handleOnClick,
@@ -88,7 +89,6 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         if (value === null || typeof value === "undefined") {
             progressText = "--";
         } else if (maximum <= 0) {
-            window.console.warn("The maximum value is 0. Progress is set to Invalid");
             progressText = "Invalid";
         } else {
             progress = Math.round((value / maximum) * 100);
@@ -132,8 +132,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
             });
         } else if (contextObject && onClickOption === "showPage" && page && contextObject.getGuid()) {
             const context = new window.mendix.lib.MxContext();
-            context.setTrackId(contextObject.getGuid());
-            context.setTrackEntity(contextObject.getEntity());
+            context.setContext(contextObject);
 
             window.mx.ui.openForm(page, {
                 error: (error) =>

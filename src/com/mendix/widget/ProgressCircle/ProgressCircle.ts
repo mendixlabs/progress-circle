@@ -43,14 +43,14 @@ class ProgressCircle extends WidgetBase {
             animate: this.animate,
             contextObject: this.contextObject,
             maximumValue: this.contextObject && this.maximumValueAttribute
-                ? this.contextObject.get(this.maximumValueAttribute) as number
+                ? parseFloat(this.contextObject.get(this.maximumValueAttribute) as string)
                 : undefined,
             microflow: this.microflow,
             onClickOption: this.onClickEvent,
             page: this.page,
             pageSettings: this.pageSettings,
             textSize: this.textSize,
-            value: this.contextObject ? this.contextObject.get(this.progressAttribute) as number : null
+            value: this.contextObject ? parseFloat(this.contextObject.get(this.progressAttribute) as string) : null
         }), this.domNode);
     }
 
