@@ -36,3 +36,6 @@
 .widget-progress-circle-alert .progressbar-text {
     color: red !important; /* The Progress library has inline styling on the circle text*/
 }
+.widget-progress-circle-clickable{
+    cursor: pointer;
+}

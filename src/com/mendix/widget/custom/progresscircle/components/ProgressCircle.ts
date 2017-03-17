@@ -13,6 +13,7 @@ interface ProgressCircleProps {
     onClickAction?: () => void;
     textSize?: ProgressTextSize;
     value: number | null;
+    clickable?: boolean;
 }
 
 type ProgressTextSize = "small" | "medium" | "large";
@@ -54,7 +55,8 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
                 className: classNames(`widget-progress-circle-${this.props.textSize}`,
                     {
                         "widget-progress-circle-negative": !!value && value < 0,
-                        "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false
+                        "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false,
+                        "widget-progress-circle-clickable": this.props.clickable
                     }
                 ),
                 onClick: this.props.onClickAction,
