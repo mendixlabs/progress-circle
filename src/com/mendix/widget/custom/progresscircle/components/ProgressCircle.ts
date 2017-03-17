@@ -14,6 +14,7 @@ interface ProgressCircleProps {
     textSize?: ProgressTextSize;
     value: number | null;
     clickable?: boolean;
+    color?: string;
 }
 
 type ProgressTextSize = "small" | "medium" | "large";
@@ -54,9 +55,9 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
             DOM.div({
                 className: classNames(`widget-progress-circle-${this.props.textSize}`,
                     {
-                        "widget-progress-circle-negative": !!value && value < 0,
                         "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false,
-                        "widget-progress-circle-clickable": this.props.clickable
+                        "widget-progress-circle-clickable": this.props.clickable,
+                        "widget-progress-circle-negative": !!value && value < 0 && !this.props.color
                     }
                 ),
                 onClick: this.props.onClickAction,
@@ -76,7 +77,10 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
             strokeWidth: 6,
             trailWidth: 6
         });
-        this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
+        this.props.color
+            ? this.progressCircle.path.style.stroke = this.props.color
+            : this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
+
         this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
     }
 

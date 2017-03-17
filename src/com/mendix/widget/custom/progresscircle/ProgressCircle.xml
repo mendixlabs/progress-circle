@@ -19,6 +19,11 @@
             <category>Display</category>
             <description>Animates when the progress circle is loaded and updated</description>
         </property>
+        <property key="color" type="string" required="false">
+            <caption>Circle color</caption>
+            <category>Display</category>
+            <description>Fill Color of the circle in HTML colors; color name, RGB or HEX</description>
+        </property>
         <property key="progressAttribute" type="attribute" required="true">
             <caption>Progress attribute</caption>
             <category>Data</category>

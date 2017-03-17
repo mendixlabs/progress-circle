@@ -34,12 +34,13 @@ class ProgressCircle extends WidgetBase {
         render(createElement(ProgressCircleContainer, {
             animate: this.animate,
             contextObject,
+            color: this.color,
             maximumValueAttribute: this.maximumValueAttribute,
             microflow: this.microflow,
             onClickOption: this.onClickEvent,
             page: this.page,
             progressAttribute: this.progressAttribute,
-            textSize: this.textSize,
+            textSize: this.textSize
         }), this.domNode);
     }
 }

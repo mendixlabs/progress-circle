@@ -11,6 +11,7 @@ interface ProgressCircleContainerProps {
     page?: string;
     progressAttribute: string;
     textSize: ProgressTextSize;
+    color?: string;
 }
 
 interface ProgressCircleContainerState {
@@ -48,6 +49,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
             alertMessage: this.state.alertMessage,
             animate: this.props.animate,
             clickable: !!this.props.microflow || !!this.props.page,
+            color: this.props.color,
             maximumValue: this.state.maximumValue,
             onClickAction: this.handleOnClick,
             textSize: this.props.textSize,
@@ -61,7 +63,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
     }
 
     private validateProps(): string {
-        let errorMessage: string = "";
+        let errorMessage = "";
         if (this.props.onClickOption === "callMicroflow" && !this.props.microflow) {
             errorMessage = "on click microflow is required";
         } else if (this.props.onClickOption === "showPage" && !this.props.page) {
