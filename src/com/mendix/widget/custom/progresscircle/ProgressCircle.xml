@@ -60,15 +60,5 @@
             <category>Events</category>
             <description>The page that will be opened on click</description>
         </property>
-        <property key="pageSettings" type="enumeration" required="true" defaultValue="popup">
-            <caption>Page settings</caption>
-            <category>Events</category>
-            <description/>
-            <enumerationValues>
-                <enumerationValue key="content">In content</enumerationValue>
-                <enumerationValue key="popup">Pop-up</enumerationValue>
-                <enumerationValue key="modal">Blocking pop-up</enumerationValue>
-            </enumerationValues>
-        </property>
     </properties>
 </widget>

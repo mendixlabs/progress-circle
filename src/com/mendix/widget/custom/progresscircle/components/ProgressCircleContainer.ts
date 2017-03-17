@@ -9,7 +9,6 @@ interface ProgressCircleContainerProps {
     microflow?: string;
     onClickOption: OnClickOptions;
     page?: string;
-    pageSettings: PageSettings;
     progressAttribute: string;
     textSize: ProgressTextSize;
 }
@@ -22,7 +21,6 @@ interface ProgressCircleContainerState {
 }
 
 type OnClickOptions = "doNothing" | "showPage" | "callMicroflow";
-type PageSettings = "content" | "popup" | "modal";
 
 class ProgressCircleContainer extends Component<ProgressCircleContainerProps, ProgressCircleContainerState> {
     private subscriptionHandles: number[];
@@ -49,6 +47,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         return createElement(ProgressCircle, {
             alertMessage: this.state.alertMessage,
             animate: this.props.animate,
+            clickable: !!this.props.microflow || !!this.props.page,
             maximumValue: this.state.maximumValue,
             onClickAction: this.handleOnClick,
             textSize: this.props.textSize,
@@ -116,7 +115,8 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
                 error: (error) =>
                     this.setState({
                         alertMessage: `Error while executing microflow ${microflow}: ${error.message}`,
-                        showAlert: false
+                        showAlert: false,
+                        progressValue: this.getValue(contextObject, this.props.progressAttribute) || null
                     }),
                 params: {
                     applyto: "selection",
@@ -131,13 +131,13 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
                 error: (error) =>
                     this.setState({
                         alertMessage: `Error while opening page ${page}: ${error.message}`,
-                        showAlert: false
+                        showAlert: false,
+                        progressValue: this.getValue(contextObject, this.props.progressAttribute) || null
                     }),
-                context,
-                location: this.props.pageSettings
+                context
             });
         }
     }
 }
 
-export { OnClickOptions, PageSettings, ProgressCircleContainer as default };
+export { OnClickOptions, ProgressCircleContainer as default };

@@ -4,7 +4,7 @@ import * as WidgetBase from "mxui/widget/_WidgetBase";
 import { createElement } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 
-import ProgressCircleContainer, { OnClickOptions, PageSettings } from "./components/ProgressCircleContainer";
+import ProgressCircleContainer, { OnClickOptions } from "./components/ProgressCircleContainer";
 import { ProgressTextSize } from "./components/ProgressCircle";
 
 class ProgressCircle extends WidgetBase {
@@ -14,9 +14,9 @@ class ProgressCircle extends WidgetBase {
     microflow: string;
     onClickEvent: OnClickOptions;
     page: string;
-    pageSettings: PageSettings;
     progressAttribute: string;
     textSize: ProgressTextSize;
+    color: string;
 
     update(contextObject: mendix.lib.MxObject, callback?: () => void) {
         this.updateRendering(contextObject);
@@ -38,9 +38,8 @@ class ProgressCircle extends WidgetBase {
             microflow: this.microflow,
             onClickOption: this.onClickEvent,
             page: this.page,
-            pageSettings: this.pageSettings,
+            progressAttribute: this.progressAttribute,
             textSize: this.textSize,
-            progressAttribute: this.progressAttribute
         }), this.domNode);
     }
 }
