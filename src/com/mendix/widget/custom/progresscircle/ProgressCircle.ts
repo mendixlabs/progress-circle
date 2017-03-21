@@ -16,7 +16,8 @@ class ProgressCircle extends WidgetBase {
     page: string;
     progressAttribute: string;
     textSize: ProgressTextSize;
-    color: string;
+    positiveValueColor: string;
+    negativeValueColor: string;
 
     update(contextObject: mendix.lib.MxObject, callback?: () => void) {
         this.updateRendering(contextObject);
@@ -34,11 +35,12 @@ class ProgressCircle extends WidgetBase {
         render(createElement(ProgressCircleContainer, {
             animate: this.animate,
             contextObject,
-            color: this.color,
             maximumValueAttribute: this.maximumValueAttribute,
             microflow: this.microflow,
+            negativeValueColor: this.negativeValueColor,
             onClickOption: this.onClickEvent,
             page: this.page,
+            positiveValueColor: this.positiveValueColor,
             progressAttribute: this.progressAttribute,
             textSize: this.textSize
         }), this.domNode);

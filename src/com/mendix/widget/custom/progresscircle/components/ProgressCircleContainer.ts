@@ -11,14 +11,15 @@ interface ProgressCircleContainerProps {
     page?: string;
     progressAttribute: string;
     textSize: ProgressTextSize;
-    color?: string;
+    positiveValueColor?: string;
+    negativeValueColor?: string;
 }
 
 interface ProgressCircleContainerState {
     alertMessage?: string;
     maximumValue?: number;
     showAlert?: boolean;
-    progressValue: number | null;
+    progressValue?: number | null;
 }
 
 type OnClickOptions = "doNothing" | "showPage" | "callMicroflow";
@@ -49,11 +50,12 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
             alertMessage: this.state.alertMessage,
             animate: this.props.animate,
             clickable: !!this.props.microflow || !!this.props.page,
-            color: this.props.color,
             maximumValue: this.state.maximumValue,
+            negativeValueColor: this.props.negativeValueColor,
             onClickAction: this.handleOnClick,
+            positiveValueColor: this.props.positiveValueColor,
             textSize: this.props.textSize,
-            value: this.state.progressValue
+            value: this.state.progressValue || null
         });
     }
 
@@ -84,7 +86,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         this.setState({
             maximumValue: this.getValue(contextObject, this.props.maximumValueAttribute),
             progressValue: this.getValue(contextObject, this.props.progressAttribute) || null
-        })
+        });
     }
 
     private resetSubscription(contextObject: mendix.lib.MxObject) {
@@ -117,8 +119,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
                 error: (error) =>
                     this.setState({
                         alertMessage: `Error while executing microflow ${microflow}: ${error.message}`,
-                        showAlert: false,
-                        progressValue: this.getValue(contextObject, this.props.progressAttribute) || null
+                        showAlert: false
                     }),
                 params: {
                     applyto: "selection",
@@ -133,8 +134,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
                 error: (error) =>
                     this.setState({
                         alertMessage: `Error while opening page ${page}: ${error.message}`,
-                        showAlert: false,
-                        progressValue: this.getValue(contextObject, this.props.progressAttribute) || null
+                        showAlert: false
                     }),
                 context
             });
