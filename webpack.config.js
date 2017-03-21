@@ -6,7 +6,7 @@ const rootFilePath = "src/com/mendix/widget/custom/progresscircle/";
 const fileName = "ProgressCircle";
 
 module.exports = {
-    entry: "./" + rootFilePath + fileName + ".ts",
+    entry: "./src/components/ProgressCircleContainer.ts",
     output: {
         path: path.resolve(__dirname, "dist/tmp"),
         filename: rootFilePath + fileName + ".js",
@@ -27,7 +27,7 @@ module.exports = {
         ]
     },
     devtool: "source-map",
-    externals: [ "mxui/widget/_WidgetBase", "dojo/_base/declare" ],
+    externals: [ "react", "react-dom" ],
     plugins: [
         new CopyWebpackPlugin([
             { from: "src/**/*.js" },

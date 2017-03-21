@@ -4,10 +4,10 @@ import { Alert } from "./Alert";
 
 interface ProgressCircleContainerProps {
     animate: boolean;
-    contextObject: mendix.lib.MxObject;
+    mxObject: mendix.lib.MxObject;
     maximumValueAttribute: string;
     microflow?: string;
-    onClickOption: OnClickOptions;
+    onClickEvent: OnClickOptions;
     page?: string;
     progressAttribute: string;
     textSize: ProgressTextSize;
@@ -32,12 +32,12 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
 
         this.state = {
             alertMessage: this.validateProps(),
-            maximumValue: this.getValue(props.contextObject, props.maximumValueAttribute),
-            progressValue: this.getValue(props.contextObject, props.progressAttribute) || null,
+            maximumValue: this.getValue(props.mxObject, props.maximumValueAttribute),
+            progressValue: this.getValue(props.mxObject, props.progressAttribute) || null,
             showAlert: !!this.validateProps()
         };
         this.subscriptionHandles = [];
-        this.resetSubscription(props.contextObject);
+        this.resetSubscription(props.mxObject);
         this.handleOnClick = this.handleOnClick.bind(this);
     }
 
@@ -60,15 +60,15 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
     }
 
     componentWillReceiveProps(newProps: ProgressCircleContainerProps) {
-        this.resetSubscription(newProps.contextObject);
-        this.updateValues(newProps.contextObject);
+        this.resetSubscription(newProps.mxObject);
+        this.updateValues(newProps.mxObject);
     }
 
     private validateProps(): string {
         let errorMessage = "";
-        if (this.props.onClickOption === "callMicroflow" && !this.props.microflow) {
+        if (this.props.onClickEvent === "callMicroflow" && !this.props.microflow) {
             errorMessage = "on click microflow is required";
-        } else if (this.props.onClickOption === "showPage" && !this.props.page) {
+        } else if (this.props.onClickEvent === "showPage" && !this.props.page) {
             errorMessage = "on click page is required";
         }
         if (errorMessage) {
@@ -113,8 +113,8 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
     }
 
     private handleOnClick() {
-        const { contextObject, microflow, onClickOption, page } = this.props;
-        if (contextObject && onClickOption === "callMicroflow" && microflow && contextObject.getGuid()) {
+        const { mxObject, microflow, onClickEvent, page } = this.props;
+        if (mxObject && onClickEvent === "callMicroflow" && microflow && mxObject.getGuid()) {
             window.mx.ui.action(microflow, {
                 error: (error) =>
                     this.setState({
@@ -123,12 +123,12 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
                     }),
                 params: {
                     applyto: "selection",
-                    guids: [ contextObject.getGuid() ]
+                    guids: [ mxObject.getGuid() ]
                 }
             });
-        } else if (contextObject && onClickOption === "showPage" && page && contextObject.getGuid()) {
+        } else if (mxObject && onClickEvent === "showPage" && page && mxObject.getGuid()) {
             const context = new window.mendix.lib.MxContext();
-            context.setContext(contextObject);
+            context.setContext(mxObject);
 
             window.mx.ui.openForm(page, {
                 error: (error) =>
