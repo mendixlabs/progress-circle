@@ -37,7 +37,6 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
             showAlert: !!this.validateProps()
         };
         this.subscriptionHandles = [];
-        this.resetSubscription(props.mxObject);
         this.handleOnClick = this.handleOnClick.bind(this);
     }
 
@@ -71,11 +70,8 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         } else if (this.props.onClickEvent === "showPage" && !this.props.page) {
             errorMessage = "on click page is required";
         }
-        if (errorMessage) {
-            errorMessage = `Error in progress circle configuration: ${errorMessage}`;
-        }
 
-        return errorMessage;
+        return errorMessage && `Error in progress circle configuration: ${errorMessage}`;
     }
 
     private getValue(contextObject: mendix.lib.MxObject, attribute: string): number | undefined {
@@ -97,6 +93,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
                 callback: () => this.updateValues(contextObject),
                 guid: contextObject.getGuid()
             }));
+
             [ this.props.progressAttribute, this.props.maximumValueAttribute ].forEach((attr) => {
                 this.subscriptionHandles.push(window.mx.data.subscribe({
                     attr,

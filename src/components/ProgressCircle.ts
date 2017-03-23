@@ -88,14 +88,13 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
     }
 
     private setCircleColor() {
-        if (this.props.value && this.props.value < 0 && this.props.negativeValueColor) {
-            this.progressCircle.path.style.stroke = this.props.negativeValueColor;
+        if (this.props.value && this.props.value < 0) {
+            this.progressCircle.path.style.stroke = this.props.negativeValueColor || null;
+        } else if (this.props.positiveValueColor) {
+            this.progressCircle.path.style.stroke = this.props.positiveValueColor || null;
         } else {
-            if (this.props.positiveValueColor) {
-                this.progressCircle.path.style.stroke = this.props.positiveValueColor;
-            } else {
-                this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
-            }
+            this.progressCircle.path.style.stroke = null;
+            this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
         }
     }
 

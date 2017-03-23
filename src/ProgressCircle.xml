@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget id="com.mendix.widget.custom.progresscircle.ProgressCircle" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../../../xsd/widget.xsd">
+<widget id="com.mendix.widget.custom.progresscircle.ProgressCircle" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../xsd/widget.xsd">
     <name>Progress circle</name>
     <description>Displays circular progress</description>
     <icon/>
@@ -22,12 +22,12 @@
         <property key="positiveValueColor" type="string" required="false">
             <caption>Positive value color</caption>
             <category>Display</category>
-            <description>Color of the circle with postive values in HTML colors; color name, RGB or HEX</description>
+            <description>Color of the circle with a positive value. Accepts color name, RGB or HEX formats</description>
         </property>
         <property key="negativeValueColor" type="string" required="false">
             <caption>Negative value color</caption>
             <category>Display</category>
-            <description>Color of the circle with negative values in HTML colors; color name, RGB or HEX</description>
+            <description>Color of the circle with negative values. Accepts color name, RGB or HEX</description>
         </property>
         <property key="progressAttribute" type="attribute" required="true">
             <caption>Progress attribute</caption>
@@ -42,7 +42,7 @@
         <property key="maximumValueAttribute" type="attribute" required="false">
             <caption>Maximum value attribute</caption>
             <category>Data</category>
-            <description>Highest progress value. Larger then 0 If not set, maximum value defaults to 100</description>
+            <description>Holds the highest progress value which must be greater than 0. If not set, maximum value defaults to 100</description>
             <attributeTypes>
                 <attributeType name="Integer" />
                 <attributeType name="Decimal" />
