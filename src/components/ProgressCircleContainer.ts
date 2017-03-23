@@ -26,6 +26,7 @@ type OnClickOptions = "doNothing" | "showPage" | "callMicroflow";
 
 class ProgressCircleContainer extends Component<ProgressCircleContainerProps, ProgressCircleContainerState> {
     private subscriptionHandles: number[];
+    private defaultMaximumValue = 100;
 
     constructor(props: ProgressCircleContainerProps) {
         super(props);
@@ -80,7 +81,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
 
     private updateValues(contextObject: mendix.lib.MxObject) {
         this.setState({
-            maximumValue: this.getValue(contextObject, this.props.maximumValueAttribute),
+            maximumValue: this.getValue(contextObject, this.props.maximumValueAttribute) || this.defaultMaximumValue,
             progressValue: this.getValue(contextObject, this.props.progressAttribute) || null
         });
     }
