@@ -1,5 +1,5 @@
-# Progress Circle
-Displays a progress circle.
+# Progress circle
+Displays a progress in a circle.
 
 ## Features
 * Show the percentage based on the progress value and the maximum progress value
@@ -8,19 +8,42 @@ Displays a progress circle.
 * Show the progress circle with custom color
 
 ## Dependencies
-Mendix 7
+Mendix 7.1
+
+## Usage
+Place the widget in the context of an object that has attributes for value and maximum value
 
 ## Demo project
 http://progresscircle.mxapps.io
 
-## Usage
-Place the widget in the context of an Object that has attributes for value and maximum value
+## Issues, suggestions and feature requests
+We are actively maintaining this widget, please report any issues or suggestion for improvement at https://github.com/mendixlabs/progress-circle/issues
 
-## Issues
-Please report issues at https://github.com/mendixlabs/progress-circle/issues.
+## Development
+Prerequisite: Install git, node package manager, webpack CLI, grunt CLI, Karma CLI
 
-## Disclaimer
-Status: In development
+To contribute, fork and clone.
 
-This widget should not be used in a production environment.
-No guarantees are given that this works or keeps working, until it is officially released.
+    > git clone https://github.com/mendixlabs/progress-circle.git
+
+The code is in typescript. Use a typescript IDE of your choice, like Visual Studio Code or WebStorm.
+
+To set up the development environment, run:
+
+    > npm install
+
+Create a folder named `dist` in the project root.
+
+Create a Mendix test project in the dist folder and rename its root folder to `dist/MxTestProject`. Changes to the widget code shall be automatically pushed to this test project.
+
+To automatically compile, bundle and push code changes to the running test project, run:
+
+    > grunt
+
+To run the project unit tests with code coverage, results can be found at `dist/testresults/coverage/index.html`, run:
+
+    > npm test
+
+or run the test continuously during development:
+
+    > karma start
