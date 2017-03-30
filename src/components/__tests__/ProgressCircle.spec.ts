@@ -81,7 +81,7 @@ describe("ProgressCircle", () => {
     it("renders a circle with the text -- when no value is specified", () => {
         spyOnCircle();
 
-        const progress = newCircleInstance({ value: null });
+        const progress = newCircleInstance({ value: undefined });
         progress.componentDidMount();
 
         expect(progressCircle.text.textContent).toBe("--");

@@ -83,7 +83,8 @@
                 "named-imports-order": "lowercase-last"
             }
         ],
-        "curly": false
+        "curly": false,
+        "arrow-parens": false
     },
     "jsRules": {
         "trailing-comma": [ false ],

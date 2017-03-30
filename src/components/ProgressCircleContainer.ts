@@ -19,7 +19,7 @@ interface ProgressCircleContainerState {
     alertMessage?: string;
     maximumValue?: number;
     showAlert?: boolean;
-    progressValue?: number | null;
+    progressValue?: number;
 }
 
 type OnClickOptions = "doNothing" | "showPage" | "callMicroflow";
@@ -27,6 +27,7 @@ type OnClickOptions = "doNothing" | "showPage" | "callMicroflow";
 class ProgressCircleContainer extends Component<ProgressCircleContainerProps, ProgressCircleContainerState> {
     private subscriptionHandles: number[];
     private defaultMaximumValue = 100;
+    private attributeCallback: (mxObject: mendix.lib.MxObject) => () => void;
 
     constructor(props: ProgressCircleContainerProps) {
         super(props);
@@ -34,11 +35,12 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         this.state = {
             alertMessage: this.validateProps(),
             maximumValue: this.getValue(props.mxObject, props.maximumValueAttribute),
-            progressValue: this.getValue(props.mxObject, props.progressAttribute) || null,
+            progressValue: this.getValue(props.mxObject, this.props.progressAttribute),
             showAlert: !!this.validateProps()
         };
         this.subscriptionHandles = [];
         this.handleOnClick = this.handleOnClick.bind(this);
+        this.attributeCallback = mxObject => () => this.updateValues(mxObject);
     }
 
     render() {
@@ -55,13 +57,17 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
             onClickAction: this.handleOnClick,
             positiveValueColor: this.props.positiveValueColor,
             textSize: this.props.textSize,
-            value: this.state.progressValue || null
+            value: this.state.progressValue
         });
     }
 
     componentWillReceiveProps(newProps: ProgressCircleContainerProps) {
         this.resetSubscription(newProps.mxObject);
         this.updateValues(newProps.mxObject);
+    }
+
+    componentWillUnmount() {
+        this.subscriptionHandles.forEach((handle) => window.mx.data.unsubscribe(handle));
     }
 
     private validateProps(): string {
@@ -75,39 +81,35 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         return errorMessage && `Error in progress circle configuration: ${errorMessage}`;
     }
 
-    private getValue(contextObject: mendix.lib.MxObject, attribute: string): number | undefined {
-        return contextObject ? parseFloat(contextObject.get(attribute) as string) : undefined;
+    private getValue(mxObject: mendix.lib.MxObject, attribute: string): number | undefined {
+        return mxObject ? parseFloat(mxObject.get(attribute) as string) : undefined;
     }
 
-    private updateValues(contextObject: mendix.lib.MxObject) {
+    private updateValues(mxObject: mendix.lib.MxObject) {
         this.setState({
-            maximumValue: this.getValue(contextObject, this.props.maximumValueAttribute) || this.defaultMaximumValue,
-            progressValue: this.getValue(contextObject, this.props.progressAttribute) || null
+            maximumValue: this.getValue(mxObject, this.props.maximumValueAttribute) || this.defaultMaximumValue,
+            progressValue: this.getValue(mxObject, this.props.progressAttribute)
         });
     }
 
-    private resetSubscription(contextObject: mendix.lib.MxObject) {
-        this.unSubscribe();
+    private resetSubscription(mxObject: mendix.lib.MxObject) {
+        this.subscriptionHandles.forEach((handle) => window.mx.data.unsubscribe(handle));
 
-        if (contextObject) {
+        if (mxObject) {
             this.subscriptionHandles.push(window.mx.data.subscribe({
-                callback: () => this.updateValues(contextObject),
-                guid: contextObject.getGuid()
+                callback: this.attributeCallback(mxObject),
+                guid: mxObject.getGuid()
             }));
 
             [ this.props.progressAttribute, this.props.maximumValueAttribute ].forEach(attr => {
                 this.subscriptionHandles.push(window.mx.data.subscribe({
                     attr,
-                    callback: () => this.updateValues(contextObject),
-                    guid: contextObject.getGuid()
+                    callback: this.attributeCallback(mxObject),
+                    guid: mxObject.getGuid()
                 }));
             });
         }
 
-    }
-
-    private unSubscribe() {
-        this.subscriptionHandles.forEach(handle => window.mx.data.unsubscribe(handle));
     }
 
     private handleOnClick() {

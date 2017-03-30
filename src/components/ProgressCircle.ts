@@ -12,7 +12,7 @@ interface ProgressCircleProps {
     maximumValue?: number;
     onClickAction?: () => void;
     textSize?: ProgressTextSize;
-    value: number | null;
+    value?: number;
     clickable?: boolean;
     positiveValueColor?: string;
     negativeValueColor?: string;
@@ -24,8 +24,7 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
     static defaultProps: ProgressCircleProps = {
         animate: true,
         maximumValue: 100,
-        textSize: "medium",
-        value: 0
+        textSize: "medium"
     };
     private progressNode: HTMLElement;
     private progressCircle: Circle;
@@ -98,7 +97,7 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
         }
     }
 
-    private setProgress(value: number | null, maximum = 100) {
+    private setProgress(value: number | undefined, maximum = 100) {
         let progress = 0;
         let progressText: string;
         if (value === null || typeof value === "undefined") {
