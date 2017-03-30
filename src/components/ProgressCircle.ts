@@ -14,8 +14,6 @@ interface ProgressCircleProps {
     textSize?: ProgressTextSize;
     value?: number;
     clickable?: boolean;
-    positiveValueColor?: string;
-    negativeValueColor?: string;
 }
 
 type ProgressTextSize = "small" | "medium" | "large";
@@ -49,10 +47,6 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
         this.setProgress(newProps.value, newProps.maximumValue);
     }
 
-    componentDidUpdate() {
-        this.setCircleColor();
-    }
-
     render() {
         const { maximumValue, value } = this.props;
         return DOM.div({ className: "widget-progress-circle" },
@@ -61,7 +55,7 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
                     {
                         "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false,
                         "widget-progress-circle-clickable": this.props.clickable,
-                        "widget-progress-circle-negative": !!value && value < 0 && !this.props.negativeValueColor
+                        "widget-progress-circle-negative": !!value && value < 0
                     }
                 ),
                 onClick: this.props.onClickAction,
@@ -81,20 +75,8 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
             strokeWidth: 6,
             trailWidth: 6
         });
-
-        this.setCircleColor();
         this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
-    }
-
-    private setCircleColor() {
-        if (this.props.value && this.props.value < 0) {
-            this.progressCircle.path.style.stroke = this.props.negativeValueColor || null;
-        } else if (this.props.positiveValueColor) {
-            this.progressCircle.path.style.stroke = this.props.positiveValueColor || null;
-        } else {
-            this.progressCircle.path.style.stroke = null;
-            this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
-        }
+        this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
     }
 
     private setProgress(value: number | undefined, maximum = 100) {

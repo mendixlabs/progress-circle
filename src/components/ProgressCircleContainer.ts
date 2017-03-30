@@ -11,8 +11,6 @@ interface ProgressCircleContainerProps {
     page?: string;
     progressAttribute: string;
     textSize: ProgressTextSize;
-    positiveValueColor?: string;
-    negativeValueColor?: string;
 }
 
 interface ProgressCircleContainerState {
@@ -53,9 +51,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
             animate: this.props.animate,
             clickable: !!this.props.microflow || !!this.props.page,
             maximumValue: this.state.maximumValue,
-            negativeValueColor: this.props.negativeValueColor,
             onClickAction: this.handleOnClick,
-            positiveValueColor: this.props.positiveValueColor,
             textSize: this.props.textSize,
             value: this.state.progressValue
         });
@@ -86,8 +82,9 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
     }
 
     private updateValues(mxObject: mendix.lib.MxObject) {
+        const maxValue = this.getValue(mxObject, this.props.maximumValueAttribute);
         this.setState({
-            maximumValue: this.getValue(mxObject, this.props.maximumValueAttribute) || this.defaultMaximumValue,
+            maximumValue: (maxValue || maxValue === 0) ? maxValue : this.defaultMaximumValue,
             progressValue: this.getValue(mxObject, this.props.progressAttribute)
         });
     }

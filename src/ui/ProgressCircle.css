@@ -21,16 +21,16 @@
     font-size: 36px;
 }
 
-.widget-progress-circle-path {
-    stroke: #307bbb;
-}
-
 .widget-progress-circle-trail-path {
     stroke: #eee;
 }
 
+.widget-progress-circle-path {
+    stroke: #307bbb;
+}
+
 .widget-progress-circle-negative .widget-progress-circle-path {
-    stroke: darkorange;
+    stroke: #D9534F;
 }
 
 .widget-progress-circle-alert .progressbar-text {

@@ -149,19 +149,6 @@ describe("ProgressCircle", () => {
         expect(progress.find(".widget-progress-circle-large").length).toBe(1);
     });
 
-    it("updates the progress color when the values are changed", () => {
-        spyOnCircle();
-
-        const progress = renderProgressCircle({ positiveValueColor: "blue", value: 80 });
-        const progressInstance = progress.instance() as ProgressCircle;
-        progressInstance.componentDidMount();
-        progress.setProps({ negativeValueColor: "red", value: -60 });
-        progressInstance.componentDidUpdate();
-
-        expect(progressInstance.props.negativeValueColor).toBe("red");
-        expect(progressInstance.props.value).toBe(-60);
-    });
-
     afterAll(() => {
         window.mx = undefined as any;
         window.mendix = undefined as any;

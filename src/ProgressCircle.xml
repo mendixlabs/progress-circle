@@ -19,16 +19,6 @@
             <category>Display</category>
             <description>Animates when the progress circle is loaded and updated</description>
         </property>
-        <property key="positiveValueColor" type="string" required="false">
-            <caption>Positive value color</caption>
-            <category>Display</category>
-            <description>Color of the circle with a positive value. Accepts color name, RGB or HEX formats</description>
-        </property>
-        <property key="negativeValueColor" type="string" required="false">
-            <caption>Negative value color</caption>
-            <category>Display</category>
-            <description>Color of the circle with negative values. Accepts color name, RGB or HEX</description>
-        </property>
         <property key="progressAttribute" type="attribute">
             <caption>Progress attribute</caption>
             <category>Data</category>
