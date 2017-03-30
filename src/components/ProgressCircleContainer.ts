@@ -95,7 +95,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
                 guid: contextObject.getGuid()
             }));
 
-            [ this.props.progressAttribute, this.props.maximumValueAttribute ].forEach((attr) => {
+            [ this.props.progressAttribute, this.props.maximumValueAttribute ].forEach(attr => {
                 this.subscriptionHandles.push(window.mx.data.subscribe({
                     attr,
                     callback: () => this.updateValues(contextObject),
@@ -107,18 +107,16 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
     }
 
     private unSubscribe() {
-        this.subscriptionHandles.forEach((handle) => window.mx.data.unsubscribe(handle));
+        this.subscriptionHandles.forEach(handle => window.mx.data.unsubscribe(handle));
     }
 
     private handleOnClick() {
         const { mxObject, microflow, onClickEvent, page } = this.props;
         if (mxObject && onClickEvent === "callMicroflow" && microflow && mxObject.getGuid()) {
             window.mx.ui.action(microflow, {
-                error: (error) =>
-                    this.setState({
-                        alertMessage: `Error while executing microflow ${microflow}: ${error.message}`,
-                        showAlert: false
-                    }),
+                error: error => window.mx.ui.error(
+                    `Error while executing microflow ${microflow}: ${error.message}`
+                ),
                 params: {
                     applyto: "selection",
                     guids: [ mxObject.getGuid() ]
@@ -129,15 +127,13 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
             context.setContext(mxObject);
 
             window.mx.ui.openForm(page, {
-                error: (error) =>
-                    this.setState({
-                        alertMessage: `Error while opening page ${page}: ${error.message}`,
-                        showAlert: false
-                    }),
+                error: error => window.mx.ui.error(
+                    `Error while opening page ${page}: ${error.message}`
+                ),
                 context
             });
         }
     }
 }
 
-export { OnClickOptions, ProgressCircleContainer as default };
+export { ProgressCircleContainer as default };
