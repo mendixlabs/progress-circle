@@ -11,6 +11,7 @@ describe("ProgressCircle", () => {
     const renderProgressCircle = (props: ProgressCircleProps) => shallow(createElement(ProgressCircle, props));
     const newCircleInstance = (props: ProgressCircleProps) => renderProgressCircle(props).instance() as ProgressCircle;
     const Circle = progressbar.Circle;
+    const bootstrapStyle = "primary";
     const spyOnCircle = () =>
         spyOn(progressbar, "Circle").and.callFake(() => {
             progressCircle = new Circle(document.createElement("div"), {
@@ -23,11 +24,11 @@ describe("ProgressCircle", () => {
         });
 
     it("renders the structure correctly", () => {
-        const progress = renderProgressCircle({ value: 60 });
+        const progress = renderProgressCircle({ value: 60, bootstrapStyle });
 
         expect(progress).toBeElement(
             DOM.div({ className: "widget-progress-circle" },
-                DOM.div({ className: "widget-progress-circle-medium" }),
+                DOM.div({ className: "widget-progress-circle-medium widget-progress-circle-primary" }),
                 createElement(Alert)
             )
         );
@@ -117,12 +118,6 @@ describe("ProgressCircle", () => {
 
         expect(progressCircle.text.textContent).toBe("180%");
         expect(progressCircle.animate).toHaveBeenCalledWith(1);
-    });
-
-    it("has the class widget-progress-circle-negative when the value is less than zero", () => {
-        const progress = renderProgressCircle({ value: -20 });
-
-        expect(progress.find(".widget-progress-circle-negative").length).toBe(1);
     });
 
     it("has the class widget-progress-circle-alert when the maximum value is less than one", () => {

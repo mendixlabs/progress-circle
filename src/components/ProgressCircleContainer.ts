@@ -1,9 +1,10 @@
 import { Component, createElement } from "react";
-import { ProgressCircle, ProgressTextSize } from "./ProgressCircle";
+import { BootstrapStyle, ProgressCircle, ProgressTextSize } from "./ProgressCircle";
 import { Alert } from "./Alert";
 
 interface ProgressCircleContainerProps {
     animate: boolean;
+    bootstrapStyle: BootstrapStyle;
     mxObject: mendix.lib.MxObject;
     maximumValueAttribute: string;
     microflow?: string;
@@ -49,6 +50,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         return createElement(ProgressCircle, {
             alertMessage: this.state.alertMessage,
             animate: this.props.animate,
+            bootstrapStyle: this.props.bootstrapStyle,
             clickable: !!this.props.microflow || !!this.props.page,
             maximumValue: this.state.maximumValue,
             onClickAction: this.handleOnClick,
@@ -123,7 +125,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
             });
         } else if (mxObject && onClickEvent === "showPage" && page && mxObject.getGuid()) {
             const context = new window.mendix.lib.MxContext();
-            context.setContext(mxObject);
+            context.setContext(mxObject.getEntity(), mxObject.getGuid());
 
             window.mx.ui.openForm(page, {
                 error: error => window.mx.ui.error(

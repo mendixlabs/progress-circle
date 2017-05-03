@@ -4,11 +4,12 @@ import * as classNames from "classnames";
 import { Circle } from "progressbar.js";
 import { Alert } from "./Alert";
 
-import "../ui/ProgressCircle.css";
+import "../ui/ProgressCircle.scss";
 
 interface ProgressCircleProps {
     alertMessage?: string;
     animate?: boolean;
+    bootstrapStyle?: BootstrapStyle;
     maximumValue?: number;
     onClickAction?: () => void;
     textSize?: ProgressTextSize;
@@ -16,6 +17,7 @@ interface ProgressCircleProps {
     clickable?: boolean;
 }
 
+type BootstrapStyle = "primary" | "inverse" | "success" | "info" | "warning" | "danger";
 type ProgressTextSize = "small" | "medium" | "large";
 
 class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: string }> {
@@ -48,14 +50,14 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
     }
 
     render() {
-        const { maximumValue, value } = this.props;
+        const { maximumValue } = this.props;
         return DOM.div({ className: "widget-progress-circle" },
             DOM.div({
-                className: classNames(`widget-progress-circle-${this.props.textSize}`,
+                className: classNames(
+                    `widget-progress-circle-${this.props.textSize} widget-progress-circle-${this.props.bootstrapStyle}`,
                     {
                         "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false,
-                        "widget-progress-circle-clickable": this.props.clickable,
-                        "widget-progress-circle-negative": !!value && value < 0
+                        "widget-progress-circle-clickable": this.props.clickable
                     }
                 ),
                 onClick: this.props.onClickAction,
@@ -103,4 +105,4 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
     }
 }
 
-export { ProgressCircle, ProgressCircleProps, ProgressTextSize };
+export { BootstrapStyle, ProgressCircle, ProgressCircleProps, ProgressTextSize };

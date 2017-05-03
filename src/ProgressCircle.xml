@@ -19,6 +19,19 @@
             <category>Display</category>
             <description>Animates when the progress circle is loaded and updated</description>
         </property>
+        <property key="bootstrapStyle" type="enumeration" defaultValue="primary">
+            <caption>Bootstrap style</caption>
+            <category>Display</category>
+            <description>Bootstrap color to apply to the slider</description>
+            <enumerationValues>
+                <enumerationValue key="primary">Primary</enumerationValue>
+                <enumerationValue key="inverse">Inverse</enumerationValue>
+                <enumerationValue key="info">Info</enumerationValue>
+                <enumerationValue key="success">Success</enumerationValue>
+                <enumerationValue key="warning">Warning</enumerationValue>
+                <enumerationValue key="danger">Danger</enumerationValue>
+            </enumerationValues>
+        </property>
         <property key="progressAttribute" type="attribute">
             <caption>Progress attribute</caption>
             <category>Data</category>

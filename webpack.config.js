@@ -22,6 +22,13 @@ module.exports = {
             { test: /\.css$/, loader: ExtractTextPlugin.extract({
                 fallback: "style-loader",
                 use: "css-loader"
+            }) },
+            { test: /\.scss$/, loader: ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: [
+                    { loader: "css-loader" },
+                    { loader: "sass-loader" }
+                ]
             }) }
         ]
     },
@@ -36,8 +43,6 @@ module.exports = {
             copyUnmodified: true
         }),
         new ExtractTextPlugin({ filename: "./src/com/mendix/widget/custom/progresscircle/ui/ProgressCircle.css" }),
-        new webpack.LoaderOptionsPlugin({
-            debug: true
-        })
+        new webpack.LoaderOptionsPlugin({ debug: true })
     ]
 };
