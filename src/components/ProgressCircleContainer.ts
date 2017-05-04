@@ -2,10 +2,15 @@ import { Component, createElement } from "react";
 import { BootstrapStyle, ProgressCircle, ProgressTextSize } from "./ProgressCircle";
 import { Alert } from "./Alert";
 
-interface ProgressCircleContainerProps {
+interface WrapperProps {
+    class?: string;
+    mxObject: mendix.lib.MxObject;
+    style?: string;
+}
+
+interface ProgressCircleContainerProps extends WrapperProps {
     animate: boolean;
     bootstrapStyle: BootstrapStyle;
-    mxObject: mendix.lib.MxObject;
     maximumValueAttribute: string;
     microflow?: string;
     onClickEvent: OnClickOptions;
@@ -51,9 +56,11 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
             alertMessage: this.state.alertMessage,
             animate: this.props.animate,
             bootstrapStyle: this.props.bootstrapStyle,
+            className: this.props.class,
             clickable: !!this.props.microflow || !!this.props.page,
             maximumValue: this.state.maximumValue,
             onClickAction: this.handleOnClick,
+            style: ProgressCircleContainer.parseStyle(this.props.style),
             textSize: this.props.textSize,
             value: this.state.progressValue
         });
@@ -134,6 +141,23 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
                 context
             });
         }
+    }
+
+    private static parseStyle(style = ""): { [key: string]: string } {
+        try {
+            return style.split(";").reduce<{ [key: string]: string }>((styleObject, line) => {
+                const pair = line.split(":");
+                if (pair.length === 2) {
+                    const name = pair[0].trim().replace(/(-.)/g, match => match[1].toUpperCase());
+                    styleObject[name] = pair[1].trim();
+                }
+                return styleObject;
+            }, {});
+        } catch (error) {
+            console.log("Failed to parse style", style, error);
+        }
+
+        return {};
     }
 }
 

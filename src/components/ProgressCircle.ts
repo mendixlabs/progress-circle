@@ -10,11 +10,13 @@ interface ProgressCircleProps {
     alertMessage?: string;
     animate?: boolean;
     bootstrapStyle?: BootstrapStyle;
+    className?: string;
     maximumValue?: number;
     onClickAction?: () => void;
     textSize?: ProgressTextSize;
     value?: number;
     clickable?: boolean;
+    style?: object;
 }
 
 type BootstrapStyle = "primary" | "inverse" | "success" | "info" | "warning" | "danger";
@@ -51,7 +53,13 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
 
     render() {
         const { maximumValue } = this.props;
-        return DOM.div({ className: "widget-progress-circle" },
+        return DOM.div({
+            className: classNames(
+                "widget-progress-circle",
+                this.props.className
+            ),
+            style: this.props.style
+        },
             DOM.div({
                 className: classNames(
                     `widget-progress-circle-${this.props.textSize} widget-progress-circle-${this.props.bootstrapStyle}`,
