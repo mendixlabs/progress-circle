@@ -8,7 +8,7 @@ interface WrapperProps {
     style?: string;
 }
 
-interface ProgressCircleContainerProps extends WrapperProps {
+export interface ContainerProps extends WrapperProps {
     animate: boolean;
     bootstrapStyle: BootstrapStyle;
     maximumValueAttribute: string;
@@ -19,7 +19,7 @@ interface ProgressCircleContainerProps extends WrapperProps {
     textSize: ProgressTextSize;
 }
 
-interface ProgressCircleContainerState {
+interface ContainerState {
     alertMessage?: string;
     maximumValue?: number;
     showAlert?: boolean;
@@ -28,12 +28,12 @@ interface ProgressCircleContainerState {
 
 type OnClickOptions = "doNothing" | "showPage" | "callMicroflow";
 
-class ProgressCircleContainer extends Component<ProgressCircleContainerProps, ProgressCircleContainerState> {
+export default class ProgressCircleContainer extends Component<ContainerProps, ContainerState> {
     private subscriptionHandles: number[];
     private defaultMaximumValue = 100;
     private attributeCallback: (mxObject: mendix.lib.MxObject) => () => void;
 
-    constructor(props: ProgressCircleContainerProps) {
+    constructor(props: ContainerProps) {
         super(props);
 
         this.state = {
@@ -66,7 +66,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         });
     }
 
-    componentWillReceiveProps(newProps: ProgressCircleContainerProps) {
+    componentWillReceiveProps(newProps: ContainerProps) {
         this.resetSubscription(newProps.mxObject);
         this.updateValues(newProps.mxObject);
     }
@@ -143,7 +143,7 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         }
     }
 
-    private static parseStyle(style = ""): { [key: string]: string } {
+    public static parseStyle(style = ""): { [key: string]: string } {
         try {
             return style.split(";").reduce<{ [key: string]: string }>((styleObject, line) => {
                 const pair = line.split(":");
@@ -160,5 +160,3 @@ class ProgressCircleContainer extends Component<ProgressCircleContainerProps, Pr
         return {};
     }
 }
-
-export { ProgressCircleContainer as default };

@@ -6,7 +6,7 @@ import { Alert } from "./Alert";
 
 import "../ui/ProgressCircle.scss";
 
-interface ProgressCircleProps {
+export interface ProgressCircleProps {
     alertMessage?: string;
     animate?: boolean;
     bootstrapStyle?: BootstrapStyle;
@@ -19,10 +19,10 @@ interface ProgressCircleProps {
     style?: object;
 }
 
-type BootstrapStyle = "primary" | "inverse" | "success" | "info" | "warning" | "danger";
-type ProgressTextSize = "small" | "medium" | "large";
+export type BootstrapStyle = "primary" | "inverse" | "success" | "info" | "warning" | "danger";
+export type ProgressTextSize = "small" | "medium" | "large";
 
-class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: string }> {
+export class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: string }> {
     static defaultProps: ProgressCircleProps = {
         animate: true,
         maximumValue: 100,
@@ -112,5 +112,3 @@ class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: str
         this.progressCircle.animate(animateValue);
     }
 }
-
-export { BootstrapStyle, ProgressCircle, ProgressCircleProps, ProgressTextSize };

@@ -3,7 +3,7 @@ const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-module.exports = {
+const widgetConfig = {
     entry: "./src/components/ProgressCircleContainer.ts",
     output: {
         path: path.resolve(__dirname, "dist/tmp"),
@@ -46,3 +46,29 @@ module.exports = {
         new webpack.LoaderOptionsPlugin({ debug: true })
     ]
 };
+
+const previewConfig = {
+    entry: "./src/ProgressCircle.webmodeler.ts",
+    output: {
+        path: path.resolve(__dirname, "dist/tmp"),
+        filename: "src/ProgressCircle.webmodeler.js",
+        libraryTarget: "commonjs"
+    },
+    resolve: {
+        extensions: [ ".ts", ".js" ]
+    },
+    module: {
+        rules: [
+            { test: /\.ts$/, use: "ts-loader" },
+            { test: /\.css$/, loader: "style-loader!css-loader" },
+            { test: /\.scss$/, loader: "style-loader!css-loader!sass-loader" }
+        ]
+    },
+    devtool: "inline-source-map",
+    externals: [ "react", "react-dom" ],
+    plugins: [
+        new webpack.LoaderOptionsPlugin({ debug: true })
+    ]
+};
+
+module.exports = [ widgetConfig, previewConfig ];
