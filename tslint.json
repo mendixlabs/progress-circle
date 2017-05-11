@@ -84,7 +84,8 @@
             }
         ],
         "curly": false,
-        "arrow-parens": false
+        "arrow-parens": false,
+        "linebreak-style": [ true, "LF" ]
     },
     "jsRules": {
         "trailing-comma": [ false ],
