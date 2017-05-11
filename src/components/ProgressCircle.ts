@@ -54,11 +54,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     render() {
         const { maximumValue } = this.props;
         return DOM.div({
-            className: classNames(
-                "widget-progress-circle",
-                this.props.className
-            ),
-            style: this.props.style
+            className: classNames("widget-progress-circle", this.props.className), style: this.props.style
         },
             DOM.div({
                 className: classNames(
