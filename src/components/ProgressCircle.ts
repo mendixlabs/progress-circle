@@ -11,12 +11,12 @@ export interface ProgressCircleProps {
     animate?: boolean;
     bootstrapStyle?: BootstrapStyle;
     className?: string;
+    clickable?: boolean;
     maximumValue?: number;
     onClickAction?: () => void;
+    style?: object;
     textSize?: ProgressTextSize;
     value?: number;
-    clickable?: boolean;
-    style?: object;
 }
 
 export type BootstrapStyle = "primary" | "inverse" | "success" | "info" | "warning" | "danger";
@@ -58,7 +58,8 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         },
             DOM.div({
                 className: classNames(
-                    `widget-progress-circle-${this.props.textSize} widget-progress-circle-${this.props.bootstrapStyle}`,
+                    `widget-progress-circle-${this.props.textSize}`,
+                    `widget-progress-circle-${this.props.bootstrapStyle}`,
                     {
                         "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false,
                         "widget-progress-circle-clickable": this.props.clickable

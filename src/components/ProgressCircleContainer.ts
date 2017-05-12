@@ -3,9 +3,9 @@ import { BootstrapStyle, ProgressCircle, ProgressTextSize } from "./ProgressCirc
 import { Alert } from "./Alert";
 
 interface WrapperProps {
-    class?: string;
-    mxObject: mendix.lib.MxObject;
-    style?: string;
+    class: string;
+    mxObject?: mendix.lib.MxObject;
+    style: string;
 }
 
 export interface ContainerProps extends WrapperProps {
@@ -38,8 +38,8 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
 
         this.state = {
             alertMessage: this.validateProps(),
-            maximumValue: this.getValue(props.mxObject, props.maximumValueAttribute),
-            progressValue: this.getValue(props.mxObject, this.props.progressAttribute),
+            maximumValue: this.getValue(props.maximumValueAttribute, props.mxObject),
+            progressValue: this.getValue(props.progressAttribute, props.mxObject),
             showAlert: !!this.validateProps()
         };
         this.subscriptionHandles = [];
@@ -86,19 +86,19 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
         return errorMessage && `Error in progress circle configuration: ${errorMessage}`;
     }
 
-    private getValue(mxObject: mendix.lib.MxObject, attribute: string): number | undefined {
+    private getValue( attribute: string, mxObject?: mendix.lib.MxObject): number | undefined {
         return mxObject ? parseFloat(mxObject.get(attribute) as string) : undefined;
     }
 
-    private updateValues(mxObject: mendix.lib.MxObject) {
-        const maxValue = this.getValue(mxObject, this.props.maximumValueAttribute);
+    private updateValues(mxObject?: mendix.lib.MxObject) {
+        const maxValue = this.getValue(this.props.maximumValueAttribute, mxObject);
         this.setState({
             maximumValue: (maxValue || maxValue === 0) ? maxValue : this.defaultMaximumValue,
-            progressValue: this.getValue(mxObject, this.props.progressAttribute)
+            progressValue: this.getValue(this.props.progressAttribute, mxObject)
         });
     }
 
-    private resetSubscription(mxObject: mendix.lib.MxObject) {
+    private resetSubscription(mxObject?: mendix.lib.MxObject) {
         this.subscriptionHandles.forEach((handle) => window.mx.data.unsubscribe(handle));
 
         if (mxObject) {
