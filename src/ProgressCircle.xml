@@ -19,10 +19,23 @@
             <category>Display</category>
             <description>Animates when the progress circle is loaded and updated</description>
         </property>
-        <property key="bootstrapStyle" type="enumeration" defaultValue="primary">
-            <caption>Style</caption>
+        <property key="positiveValueColor" type="enumeration" defaultValue="primary">
+            <caption>Positive value color</caption>
             <category>Display</category>
-            <description>Color to apply to the circle</description>
+            <description>Color of the circle with a positive progress value</description>
+            <enumerationValues>
+                <enumerationValue key="primary">Primary</enumerationValue>
+                <enumerationValue key="inverse">Inverse</enumerationValue>
+                <enumerationValue key="info">Info</enumerationValue>
+                <enumerationValue key="success">Success</enumerationValue>
+                <enumerationValue key="warning">Warning</enumerationValue>
+                <enumerationValue key="danger">Danger</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="negativeValueColor" type="enumeration" defaultValue="danger">
+            <caption>Negative value color</caption>
+            <category>Display</category>
+            <description>Color of the circle with a negative progress value</description>
             <enumerationValues>
                 <enumerationValue key="primary">Primary</enumerationValue>
                 <enumerationValue key="inverse">Inverse</enumerationValue>

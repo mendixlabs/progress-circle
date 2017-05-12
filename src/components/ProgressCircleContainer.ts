@@ -10,12 +10,13 @@ interface WrapperProps {
 
 export interface ContainerProps extends WrapperProps {
     animate: boolean;
-    bootstrapStyle: BootstrapStyle;
     maximumValueAttribute: string;
     microflow?: string;
+    negativeValueColor: BootstrapStyle;
     onClickEvent: OnClickOptions;
     page?: string;
     progressAttribute: string;
+    positiveValueColor: BootstrapStyle;
     textSize: ProgressTextSize;
 }
 
@@ -55,11 +56,12 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
         return createElement(ProgressCircle, {
             alertMessage: this.state.alertMessage,
             animate: this.props.animate,
-            bootstrapStyle: this.props.bootstrapStyle,
             className: this.props.class,
             clickable: !!this.props.microflow || !!this.props.page,
             maximumValue: this.state.maximumValue,
+            negativeValueColor: this.props.negativeValueColor,
             onClickAction: this.handleOnClick,
+            positiveValueColor: this.props.positiveValueColor,
             style: ProgressCircleContainer.parseStyle(this.props.style),
             textSize: this.props.textSize,
             value: this.state.progressValue

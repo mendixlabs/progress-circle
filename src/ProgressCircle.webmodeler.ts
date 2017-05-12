@@ -16,9 +16,9 @@ export class preview extends Component<ContainerProps, {}> {
 
     private transformProps(props: ContainerProps): ProgressCircleProps {
         return {
-            bootstrapStyle: props.bootstrapStyle,
             className: props.class,
             clickable: false,
+            positiveValueColor: props.positiveValueColor,
             style: ProgressCircleContainer.parseStyle(props.style),
             textSize: props.textSize,
             value: 67

@@ -9,11 +9,12 @@ import "../ui/ProgressCircle.scss";
 export interface ProgressCircleProps {
     alertMessage?: string;
     animate?: boolean;
-    bootstrapStyle?: BootstrapStyle;
     className?: string;
     clickable?: boolean;
     maximumValue?: number;
+    negativeValueColor?: BootstrapStyle;
     onClickAction?: () => void;
+    positiveValueColor?: BootstrapStyle;
     style?: object;
     textSize?: ProgressTextSize;
     value?: number;
@@ -31,6 +32,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     private progressNode: HTMLElement;
     private progressCircle: Circle;
     private setProgressNode: (node: HTMLElement) => void;
+    private progressCircleColorClass: string;
 
     constructor(props: ProgressCircleProps) {
         super(props);
@@ -49,6 +51,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
             this.setState({ alertMessage: newProps.alertMessage });
         }
         this.setProgress(newProps.value, newProps.maximumValue);
+        this.setCircleColor(newProps.negativeValueColor, newProps.positiveValueColor, newProps.value);
     }
 
     render() {
@@ -59,7 +62,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
             DOM.div({
                 className: classNames(
                     `widget-progress-circle-${this.props.textSize}`,
-                    `widget-progress-circle-${this.props.bootstrapStyle}`,
+                    this.progressCircleColorClass,
                     {
                         "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false,
                         "widget-progress-circle-clickable": this.props.clickable
@@ -84,6 +87,13 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         });
         this.progressCircle.path.className.baseVal = "widget-progress-circle-path";
         this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
+        this.setCircleColor(this.props.negativeValueColor, this.props.positiveValueColor, this.props.value);
+    }
+
+    private setCircleColor(negativeValueColor?: BootstrapStyle, positiveValueColor?: BootstrapStyle, value?: number) {
+        this.progressCircleColorClass = `widget-progress-circle-${
+            (value && value < 0) ? negativeValueColor : positiveValueColor
+        }`;
     }
 
     private setProgress(value: number | undefined, maximum = 100) {

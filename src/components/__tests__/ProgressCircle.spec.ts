@@ -3,7 +3,7 @@ import { DOM, createElement } from "react";
 
 import * as progressbar from "progressbar.js";
 
-import { ProgressCircle, ProgressCircleProps } from "../ProgressCircle";
+import { BootstrapStyle, ProgressCircle, ProgressCircleProps } from "../ProgressCircle";
 import { Alert } from "../Alert";
 
 describe("ProgressCircle", () => {
@@ -11,7 +11,7 @@ describe("ProgressCircle", () => {
     const renderProgressCircle = (props: ProgressCircleProps) => shallow(createElement(ProgressCircle, props));
     const newCircleInstance = (props: ProgressCircleProps) => renderProgressCircle(props).instance() as ProgressCircle;
     const Circle = progressbar.Circle;
-    const bootstrapStyle = "primary";
+    const positiveValueColor: BootstrapStyle = "primary";
     const spyOnCircle = () =>
         spyOn(progressbar, "Circle").and.callFake(() => {
             progressCircle = new Circle(document.createElement("div"), {
@@ -24,11 +24,11 @@ describe("ProgressCircle", () => {
         });
 
     it("renders the structure correctly", () => {
-        const progress = renderProgressCircle({ value: 60, bootstrapStyle });
+        const progress = renderProgressCircle({ value: 60, positiveValueColor });
 
         expect(progress).toBeElement(
             DOM.div({ className: "widget-progress-circle" },
-                DOM.div({ className: "widget-progress-circle-medium widget-progress-circle-primary" }),
+                DOM.div({ className: "widget-progress-circle-medium" }),
                 createElement(Alert)
             )
         );
