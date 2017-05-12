@@ -1,7 +1,7 @@
 {
   "name": "progresscircle",
   "widgetName": "ProgressCircle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Displays a progress in a circle",
   "scripts": {
     "pretest": "tsc",
