@@ -2,31 +2,12 @@
 
 .widget-progress-circle {
     width: 100%;
-    max-width: 300px;
 }
 
 .widget-progress-circle-small,
 .widget-progress-circle-medium,
 .widget-progress-circle-large {
     margin-bottom: 10px;
-}
-
-.widget-progress-circle-small {
-    .progressbar-text {
-        font-size: 16px;
-    }
-}
-
-.widget-progress-circle-medium {
-    .progressbar-text {
-        font-size: 26px;
-    }
-}
-
-.widget-progress-circle-large {
-    .progressbar-text {
-        font-size: 36px;
-    }
 }
 
 .widget-progress-circle-trail-path {

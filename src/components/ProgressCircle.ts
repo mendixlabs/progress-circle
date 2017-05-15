@@ -21,7 +21,7 @@ export interface ProgressCircleProps {
 }
 
 export type BootstrapStyle = "primary" | "inverse" | "success" | "info" | "warning" | "danger";
-export type ProgressTextSize = "small" | "medium" | "large";
+export type ProgressTextSize = "small" | "medium" | "large" | "h4" | "h5" | "h6";
 
 export class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: string }> {
     static defaultProps: ProgressCircleProps = {
@@ -55,15 +55,18 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     }
 
     render() {
-        const { maximumValue } = this.props;
+        const { maximumValue, textSize } = this.props;
         return DOM.div({
             className: classNames("widget-progress-circle", this.props.className), style: this.props.style
         },
             DOM.div({
                 className: classNames(
-                    `widget-progress-circle-${this.props.textSize}`,
+                    `${textSize === "h4" || textSize === "h5" || textSize === "h6" ? textSize : ""}`,
                     this.progressCircleColorClass,
                     {
+                        "h1": textSize === "large",
+                        "h2": textSize === "medium",
+                        "h3": textSize === "small",
                         "widget-progress-circle-alert": typeof maximumValue === "number" ? maximumValue < 1 : false,
                         "widget-progress-circle-clickable": this.props.clickable
                     }

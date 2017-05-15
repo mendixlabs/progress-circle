@@ -5,13 +5,16 @@
     <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuMTM0A1t6AAABY0lEQVQ4T6WTvy8EURDHtxCulFCQnCO5QicaqpPrr9pGI+QKjdDQUUk0q9L4Ec0RocDS6a+6lfgXrnMbGnLFKlzs3vp+14y82zg/4iWfZN68N9+dmZ1nxXGc4HlePzgGsYm1h0OD6ZNmvXzVGNU4DS6AhgQFwAE2yC64/pR9/ugUz55uMwdhmyIDh61w9uJhORHAJX5Zg6tgTNXTzLt+YfwoaKoIM6GApl39KijN4vV9Jl95CbQcCmjaXb+cZu7SL/XuRx99EQFHD7F2QAtwMwwmwauwpPdmTp/vTAFbgifAtl4SnwtGxA7Vz8aaAlm5sAUqwrr43jQI6wbkaPPvdBPYAH1gFxTBrwS0hFWwIvYmKIEaGBTfp1i6hKSJWDkQAW4i8ZVBW3xrKsDBMgU6fiPWkNqGr0dtDpROJQX+PEg6jTpI/xtlHvBh0MEDpsb62CR2+sfHpOpUS1JiXd/Q+Zxj6x3u72eCF5jDPgAAAABJRU5ErkJggg==</icon>
     <properties>
         <property key="textSize" type="enumeration" defaultValue="medium">
-            <caption>Text size</caption>
+            <caption>Text style</caption>
             <category>Display</category>
             <description>Size of the progress text</description>
             <enumerationValues>
-                <enumerationValue key="small">Small</enumerationValue>
-                <enumerationValue key="medium">Medium</enumerationValue>
-                <enumerationValue key="large">Large</enumerationValue>
+                <enumerationValue key="large">Heading 1</enumerationValue>
+                <enumerationValue key="medium">Heading 2</enumerationValue>
+                <enumerationValue key="small">Heading 3</enumerationValue>
+                <enumerationValue key="h4">Heading 4</enumerationValue>
+                <enumerationValue key="h5">Heading 5</enumerationValue>
+                <enumerationValue key="h6">Heading 6</enumerationValue>
             </enumerationValues>
         </property>
         <property key="animate" type="boolean" defaultValue="true">
@@ -20,7 +23,7 @@
             <description>Animates when the progress circle is loaded and updated</description>
         </property>
         <property key="positiveValueColor" type="enumeration" defaultValue="primary">
-            <caption>Positive value color</caption>
+            <caption>Positive style</caption>
             <category>Display</category>
             <description>Color of the circle with a positive progress value</description>
             <enumerationValues>
@@ -33,7 +36,7 @@
             </enumerationValues>
         </property>
         <property key="negativeValueColor" type="enumeration" defaultValue="danger">
-            <caption>Negative value color</caption>
+            <caption>Negative style</caption>
             <category>Display</category>
             <description>Color of the circle with a negative progress value</description>
             <enumerationValues>
@@ -75,16 +78,16 @@
                 <enumerationValue key="callMicroflow">Call a microflow</enumerationValue>
             </enumerationValues>
         </property>
+        <property key="page" type="form" required="false">
+            <caption>Page</caption>
+            <category>Events</category>
+            <description>The page that will be opened on click</description>
+        </property>
         <property key="microflow" type="microflow" required="false">
             <caption>Microflow</caption>
             <category>Events</category>
             <description>The microflow that will be executed on click</description>
             <returnType type="Void" />
-        </property>
-        <property key="page" type="form" required="false">
-            <caption>Page</caption>
-            <category>Events</category>
-            <description>The page that will be opened on click</description>
         </property>
     </properties>
 </widget>
