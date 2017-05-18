@@ -48,6 +48,11 @@
                 <enumerationValue key="danger">Danger</enumerationValue>
             </enumerationValues>
         </property>
+        <property key="circleThickness" type="integer" defaultValue="6">
+            <caption>Circle thickness</caption>
+            <category>Display</category>
+            <description>Thickness of the progress circle</description>
+        </property>
         <property key="progressAttribute" type="attribute">
             <caption>Progress attribute</caption>
             <category>Data</category>

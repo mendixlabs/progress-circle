@@ -16,6 +16,7 @@ export class preview extends Component<ContainerProps, {}> {
 
     private transformProps(props: ContainerProps): ProgressCircleProps {
         return {
+            circleThickness: props.circleThickness,
             className: props.class,
             clickable: false,
             positiveValueColor: props.positiveValueColor,
