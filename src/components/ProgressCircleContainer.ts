@@ -39,10 +39,10 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
         super(props);
 
         this.state = {
-            alertMessage: ProgressCircleContainer.validateProps(props.onClickEvent, props.page, props.microflow),
+            alertMessage: ProgressCircleContainer.validateProps(props),
             maximumValue: this.getValue(props.maximumValueAttribute, props.mxObject),
             progressValue: this.getValue(props.progressAttribute, props.mxObject),
-            showAlert: !!ProgressCircleContainer.validateProps(props.onClickEvent, props.page, props.microflow)
+            showAlert: !!ProgressCircleContainer.validateProps(props)
         };
         this.subscriptionHandles = [];
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -79,11 +79,11 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
         this.subscriptionHandles.forEach((handle) => window.mx.data.unsubscribe(handle));
     }
 
-    public static validateProps(onClickEvent?: OnClickOptions, page?: string, microflow?: string): string {
+    public static validateProps(props: ContainerProps): string {
         let errorMessage = "";
-        if (onClickEvent === "callMicroflow" && !microflow) {
+        if (props.onClickEvent === "callMicroflow" && !props.microflow) {
             errorMessage = "on click microflow is required";
-        } else if (onClickEvent === "showPage" && !page) {
+        } else if (props.onClickEvent === "showPage" && !props.page) {
             errorMessage = "on click page is required";
         }
 
@@ -101,13 +101,14 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
                 return styleObject;
             }, {});
         } catch (error) {
+            // tslint:disable-next-line no-console
             console.log("Failed to parse style", style, error);
         }
 
         return {};
     }
 
-    private getValue( attribute: string, mxObject?: mendix.lib.MxObject): number | undefined {
+    private getValue(attribute: string, mxObject?: mendix.lib.MxObject): number | undefined {
         return mxObject ? parseFloat(mxObject.get(attribute) as string) : undefined;
     }
 
