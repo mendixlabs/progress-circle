@@ -127,19 +127,19 @@ describe("ProgressCircle", () => {
     });
 
     it("has the class h3 when the text style is small", () => {
-        const progress = renderProgressCircle({ textSize: "small", value: 20 });
+        const progress = renderProgressCircle({ textSize: "h3", value: 20 });
 
         expect(progress.find(".h3").length).toBe(1);
     });
 
     it("has the class h2 when the text styles is medium", () => {
-        const progress = renderProgressCircle({ textSize: "medium", value: 20 });
+        const progress = renderProgressCircle({ textSize: "h2", value: 20 });
 
         expect(progress.find(".h2").length).toBe(1);
     });
 
     it("has the class h1 when the text style is large", () => {
-        const progress = renderProgressCircle({ textSize: "large", value: 20 });
+        const progress = renderProgressCircle({ textSize: "h1", value: 20 });
 
         expect(progress.find(".h1").length).toBe(1);
     });

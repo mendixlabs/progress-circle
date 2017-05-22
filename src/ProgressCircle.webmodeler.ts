@@ -12,8 +12,7 @@ export class preview extends Component<ContainerProps, {}> {
     }
 
     render() {
-        const { onClickEvent, page, microflow } = this.props;
-        const warnings = ProgressCircleContainer.validateProps(onClickEvent, page, microflow);
+        const warnings = ProgressCircleContainer.validateProps(this.props);
         if (!warnings) {
             return createElement(ProgressCircle, this.transformProps(this.props));
         } else {
