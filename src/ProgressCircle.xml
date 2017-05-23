@@ -52,7 +52,7 @@
         <property key="circleThickness" type="integer" defaultValue="6">
             <caption>Circle thickness</caption>
             <category>Display</category>
-            <description>Thickness of the progress circle</description>
+            <description>Thickness of the progress circle (thinkness is limited to 30)</description>
         </property>
         <property key="progressAttribute" type="attribute">
             <caption>Progress attribute</caption>
