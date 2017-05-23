@@ -38,11 +38,12 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
     constructor(props: ContainerProps) {
         super(props);
 
+        const alertMessage = ProgressCircleContainer.validateProps(props);
         this.state = {
-            alertMessage: ProgressCircleContainer.validateProps(props),
+            alertMessage,
             maximumValue: this.getValue(props.maximumValueAttribute, props.mxObject),
             progressValue: this.getValue(props.progressAttribute, props.mxObject),
-            showAlert: !!ProgressCircleContainer.validateProps(props)
+            showAlert: !!alertMessage
         };
         this.subscriptionHandles = [];
         this.handleOnClick = this.handleOnClick.bind(this);
