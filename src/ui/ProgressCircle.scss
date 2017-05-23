@@ -4,18 +4,12 @@
     width: 100%;
 }
 
-.widget-progress-circle-small,
-.widget-progress-circle-medium,
-.widget-progress-circle-large {
-    margin-bottom: 10px;
-}
-
 .widget-progress-circle-trail-path {
     stroke: #eee;
 }
 
 .widget-progress-circle-path {
-    stroke: #307bbb;
+    stroke: $brand-primary;
 }
 
 .widget-progress-circle-alert {
