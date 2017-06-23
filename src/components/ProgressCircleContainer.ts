@@ -158,10 +158,10 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             context.setContext(mxObject.getEntity(), mxObject.getGuid());
 
             window.mx.ui.openForm(page, {
+                context,
                 error: error => window.mx.ui.error(
                     `Error while opening page ${page}: ${error.message}`
-                ),
-                context
+                )
             });
         }
     }
