@@ -1,52 +1,48 @@
-import { Component, DOM, createElement } from "react";
-import { Alert } from "./components/Alert";
+import { Component, createElement } from "react";
 import { ProgressCircle, ProgressCircleProps } from "./components/ProgressCircle";
 import ProgressCircleContainer, { ContainerProps } from "./components/ProgressCircleContainer";
 
-import * as css from "./ui/ProgressCircle.scss";
+declare function require(name: string): string;
+
+type VisibilityMap = {
+    [P in keyof ContainerProps]: boolean;
+};
 
 // tslint:disable-next-line:class-name
 export class preview extends Component<ContainerProps, {}> {
-    componentWillMount() {
-        this.addPreviewStyle("widget-progress-circle-style");
-    }
-
     render() {
-        const warnings = ProgressCircleContainer.validateProps(this.props);
-        if (!warnings) {
-            return createElement(ProgressCircle, this.transformProps(this.props));
-        } else {
-            return DOM.div({},
-                createElement(Alert, { message: warnings }),
-                createElement(ProgressCircle, this.transformProps(this.props))
-            );
-        }
-
+        return createElement(ProgressCircle, this.transformProps(this.props));
     }
 
     private transformProps(props: ContainerProps): ProgressCircleProps {
         return {
-            circleThickness: props.circleThickness,
+            alertMessage: ProgressCircleContainer.validateProps(props),
             className: props.class,
             clickable: false,
             positiveValueColor: props.positiveValueColor,
             style: ProgressCircleContainer.parseStyle(props.style),
             textSize: props.textSize,
+            circleThickness: props.circleThickness,
             value: 67
         };
     }
+}
 
-    private addPreviewStyle(styleId: string) {
-        // This workaround is to load style in the preview temporary till mendix has a better solution
-        const iFrame = document.getElementsByClassName("t-page-editor-iframe")[0] as HTMLIFrameElement;
-        const iFrameDoc = iFrame.contentDocument;
-        if (!iFrameDoc.getElementById(styleId)) {
-            const styleTarget = iFrameDoc.head || iFrameDoc.getElementsByTagName("head")[0];
-            const styleElement = document.createElement("style");
-            styleElement.setAttribute("type", "text/css");
-            styleElement.setAttribute("id", styleId);
-            styleElement.appendChild(document.createTextNode(css));
-            styleTarget.appendChild(styleElement);
-        }
+export function getPreviewCss() {
+    return require("./ui/ProgressCircle.scss");
+}
+
+export function getVisibleProperties(valueMap: ContainerProps, visibilityMap: VisibilityMap) {
+    if (valueMap.onClickEvent === "doNothing") {
+        visibilityMap.microflow = false;
+        visibilityMap.page = false;
+    } else if (valueMap.onClickEvent === "showPage") {
+        visibilityMap.page = true;
+        visibilityMap.microflow = false;
+    } else if (valueMap.onClickEvent === "callMicroflow") {
+        visibilityMap.page = false;
+        visibilityMap.microflow = true;
     }
+
+    return visibilityMap;
 }
