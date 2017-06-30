@@ -17,12 +17,12 @@ export class preview extends Component<ContainerProps, {}> {
     private transformProps(props: ContainerProps): ProgressCircleProps {
         return {
             alertMessage: ProgressCircleContainer.validateProps(props),
+            circleThickness: props.circleThickness,
             className: props.class,
             clickable: false,
             positiveValueColor: props.positiveValueColor,
             style: ProgressCircleContainer.parseStyle(props.style),
             textSize: props.textSize,
-            circleThickness: props.circleThickness,
             value: 67
         };
     }

@@ -67,6 +67,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
                 className: classNames("widget-progress-circle", this.props.className),
                 style: this.props.style
             },
+            createElement(Alert, { message: this.state.alertMessage }),
             DOM.div({
                 className: classNames(
                     textClass,
@@ -80,8 +81,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
                 ),
                 onClick: this.props.onClickAction,
                 ref: this.setProgressNode
-            }),
-            createElement(Alert, { message: this.state.alertMessage })
+            })
         );
     }
 
