@@ -14,7 +14,7 @@ Mendix 7.1
 Place the widget in the context of an object that has attributes for value and maximum value
 
 ## Demo project
-http://progresscircle.mxapps.io
+https://progresscircle.mxapps.io
 
 ## Issues, suggestions and feature requests
 We are actively maintaining this widget, please report any issues or suggestion for improvement at https://github.com/mendixlabs/progress-circle/issues
