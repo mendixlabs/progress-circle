@@ -8,7 +8,7 @@ Displays a progress in a circle.
 * Show progress circle with different colors
 
 ## Dependencies
-Mendix 7.1
+Mendix 7.5
 
 ## Usage
 Place the widget in the context of an object that has attributes for value and maximum value
@@ -35,7 +35,7 @@ To set up the development environment, run:
 Create a folder named `dist` in the project root.
 
 
-Create a Mendix test project in the dist folder and rename its root folder to `dist/MxTestProject`. Or get the test project from https://github.com/mendixlabs/progress-circle/releases/download/v1.2.2/TestProgressCircle.mpk Changes to the widget code shall be automatically pushed to this test project.
+Create a Mendix test project in the dist folder and rename its root folder to `dist/MxTestProject`. Or get the test project from https://github.com/mendixlabs/progress-circle/releases/latest Changes to the widget code shall be automatically pushed to this test project.
 
 To automatically compile, bundle and push code changes to the running test project, run:
 
