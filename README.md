@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/mendixlabs/progress-circle.svg?branch=master)](https://travis-ci.org/mendixlabs/progress-circle)
+[![Dependency Status](https://david-dm.org/mendixlabs/progress-circle.svg)](https://david-dm.org/mendixlabs/progress-circle)
+[![Dev Dependency Status](https://david-dm.org/mendixlabs/progress-circle.svg#info=devDependencies)](https://david-dm.org/mendixlabs/progress-circle#info=devDependencies)
+[![codecov](https://codecov.io/gh/mendixlabs/progress-circle/branch/master/graph/badge.svg)](https://codecov.io/gh/mendixlabs/progress-circle)
+
 # Progress circle
 Displays a progress in a circle.
 
