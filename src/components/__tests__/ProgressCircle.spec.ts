@@ -28,7 +28,7 @@ describe("ProgressCircle", () => {
 
         expect(progress).toBeElement(
             createElement("div", { className: "widget-progress-circle" },
-                createElement(Alert),
+                createElement(Alert, { bootstrapStyle: "danger" }),
                 createElement("div", { className: "h2" })
             )
         );

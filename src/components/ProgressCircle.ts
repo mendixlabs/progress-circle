@@ -67,7 +67,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
                 className: classNames("widget-progress-circle", this.props.className),
                 style: this.props.style
             },
-            createElement(Alert, { message: this.state.alertMessage }),
+            createElement(Alert, { bootstrapStyle: "danger", message: this.state.alertMessage }),
             createElement("div", {
                 className: classNames(
                     textClass,
