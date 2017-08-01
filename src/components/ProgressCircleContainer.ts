@@ -53,7 +53,11 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
 
     render() {
         if (this.state.showAlert) {
-            return createElement(Alert, { bootstrapStyle: "danger", message: this.state.alertMessage });
+            return createElement(Alert, {
+                bootstrapStyle: "danger",
+                className: "widget-progress-circle-alert",
+                message: this.state.alertMessage
+            });
         }
 
         return createElement(ProgressCircle, {
