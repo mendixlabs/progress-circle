@@ -9,7 +9,7 @@ describe("ProgressCircle", () => {
         expect(homePage.progressText.getText()).toBe("-60");
     });
 
-    it("sets the progress percentage", () => {
+    it("updates the progress percentage when the value is changed", () => {
         playgroundPage.open();
         playgroundPage.progressTextBox.waitForVisible();
         playgroundPage.progressTextBox.setValue(67);
