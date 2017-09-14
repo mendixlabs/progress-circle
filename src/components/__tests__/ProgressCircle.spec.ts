@@ -108,7 +108,7 @@ describe("ProgressCircle", () => {
         const progress = newCircleInstance({ animate: false, value: -200 });
         progress.componentDidMount();
 
-        expect(progressCircle.text.textContent).toBe("-200");
+        expect(progressCircle.text.textContent).toBe("-200%");
     });
 
     it("renders a circle without percentage", () => {
@@ -126,7 +126,7 @@ describe("ProgressCircle", () => {
         const progress = newCircleInstance({ value: 180 });
         progress.componentDidMount();
 
-        expect(progressCircle.text.textContent).toBe("180");
+        expect(progressCircle.text.textContent).toBe("180%");
         expect(progressCircle.animate).toHaveBeenCalledWith(1);
     });
 

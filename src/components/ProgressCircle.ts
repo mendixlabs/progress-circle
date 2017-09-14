@@ -29,7 +29,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     static defaultProps: ProgressCircleProps = {
         animate: true,
         maximumValue: 100,
-        showPercentage: false,
+        showPercentage: true,
         textSize: "h2"
     };
     private progressNode: HTMLElement|null;
@@ -46,7 +46,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
 
     componentDidMount() {
         this.createProgressCircle(this.props.circleThickness);
-        this.setProgress(this.props.value, this.props.maximumValue);
+        this.setProgress(this.props.value, this.props.maximumValue, this.props.showPercentage);
     }
 
     componentWillReceiveProps(newProps: ProgressCircleProps) {
@@ -57,7 +57,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
             this.progressCircle.destroy();
             this.createProgressCircle(newProps.circleThickness);
         }
-        this.setProgress(newProps.value, newProps.maximumValue);
+        this.setProgress(newProps.value, newProps.maximumValue, newProps.showPercentage);
     }
 
     render() {
@@ -102,7 +102,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         this.progressCircle.trail.className.baseVal = "widget-progress-circle-trail-path";
     }
 
-    private setProgress(value: number | undefined, maximum = 100) {
+    private setProgress(value: number | undefined, maximum = 100, showPercentage = true) {
         let progress = 0;
         let progressText: string;
         if (value === null || typeof value === "undefined") {
@@ -111,7 +111,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
             progressText = "Invalid";
         } else {
             progress = Math.round((value / maximum) * 100);
-            progressText = `${this.props.showPercentage ? progress + "%" : progress}`;
+            progressText = `${showPercentage ? progress + "%" : progress}`;
         }
 
         let animateValue = progress / 100;
