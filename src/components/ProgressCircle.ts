@@ -17,7 +17,7 @@ export interface ProgressCircleProps {
     onClickAction?: () => void;
     positiveValueColor?: BootstrapStyle;
     style?: object;
-    text?: DisplayText;
+    displayText?: DisplayText;
     textSize?: ProgressTextSize;
     value?: number;
     circleThickness?: number;
@@ -29,8 +29,8 @@ export type ProgressTextSize = "text" |"h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 export class ProgressCircle extends Component<ProgressCircleProps, { alertMessage?: string }> {
     static defaultProps: ProgressCircleProps = {
         animate: true,
+        displayText: "percentage",
         maximumValue: 100,
-        text: "percentage",
         textSize: "h2"
     };
     private progressNode: HTMLElement|null;
@@ -47,7 +47,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
 
     componentDidMount() {
         this.createProgressCircle(this.props.circleThickness);
-        this.setProgress(this.props.value, this.props.maximumValue, this.props.text);
+        this.setProgress(this.props.value, this.props.maximumValue, this.props.displayText);
     }
 
     componentWillReceiveProps(newProps: ProgressCircleProps) {
@@ -58,7 +58,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
             this.progressCircle.destroy();
             this.createProgressCircle(newProps.circleThickness);
         }
-        this.setProgress(newProps.value, newProps.maximumValue, newProps.text);
+        this.setProgress(newProps.value, newProps.maximumValue, newProps.displayText);
     }
 
     render() {

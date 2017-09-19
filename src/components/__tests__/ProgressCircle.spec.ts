@@ -48,7 +48,7 @@ describe("ProgressCircle", () => {
         const setText = progressbar.Circle.prototype.setText as jasmine.Spy;
         spyOnCircle();
 
-        const progress = newCircleInstance({ animate: false, value: 80, text: "percentage" });
+        const progress = newCircleInstance({ animate: false, value: 80, displayText: "percentage" });
         progress.componentDidMount();
 
         expect(setText).toHaveBeenCalled();
@@ -108,11 +108,11 @@ describe("ProgressCircle", () => {
         expect(destroy).toHaveBeenCalled();
     });
 
-    describe("renders a circle with ", () => {
+    describe("renders a circle with", () => {
         it("no text when display text is none", () => {
             spyOnCircle();
 
-            const progress = newCircleInstance({ value: 50, text: "none" });
+            const progress = newCircleInstance({ value: 50, displayText: "none" });
             progress.componentDidMount();
 
             expect(progressCircle.text.textContent).toBe("");
@@ -121,7 +121,7 @@ describe("ProgressCircle", () => {
         it("only the value when display text is value", () => {
             spyOnCircle();
 
-            const progress = newCircleInstance({ value: 10, text: "value" });
+            const progress = newCircleInstance({ value: 10, displayText: "value" });
             progress.componentDidMount();
 
             expect(progressCircle.text.textContent).not.toContain("%");
@@ -141,8 +141,8 @@ describe("ProgressCircle", () => {
 
             const progress = newCircleInstance({
                 animate: false,
+                displayText: "percentage",
                 maximumValue: -1,
-                text: "percentage",
                 value: 80
             });
             progress.componentDidMount();
@@ -170,7 +170,7 @@ describe("ProgressCircle", () => {
         });
     });
 
-    describe("has the class ", () => {
+    describe("has the class", () => {
         it("widget-progress-circle-alert when the maximum value is less than one", () => {
             const progress = renderProgressCircle({ value: 20, maximumValue: 0 });
 
@@ -188,10 +188,5 @@ describe("ProgressCircle", () => {
 
             expect(progress.find(".h1").length).toBe(1);
         });
-    });
-
-    afterAll(() => {
-        window.mx = undefined as any;
-        window.mendix = undefined as any;
     });
 });

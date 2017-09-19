@@ -20,9 +20,9 @@ export class preview extends Component<ContainerProps, {}> {
             circleThickness: props.circleThickness,
             className: props.class,
             clickable: false,
+            displayText: props.displayText,
             positiveValueColor: props.positiveValueColor,
             style: ProgressCircleContainer.parseStyle(props.style),
-            text: props.text,
             textSize: props.textSize,
             value: 67
         };
