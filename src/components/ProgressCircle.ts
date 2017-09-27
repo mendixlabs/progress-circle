@@ -113,7 +113,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
         } else {
             progress = Math.round((value / maximum) * 100);
             if (text === "value") {
-                progressText = `${progress}`;
+                progressText = `${value}`;
             } else if (text === "percentage") {
                 progressText = progress + "%";
             } else {
