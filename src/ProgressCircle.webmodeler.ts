@@ -34,17 +34,10 @@ export function getPreviewCss() {
     return require("./ui/ProgressCircle.scss");
 }
 
-export function getVisibleProperties(valueMap: ContainerProps, visibilityMap: VisibilityMap) {
-    if (valueMap.onClickEvent === "doNothing") {
-        visibilityMap.microflow = false;
-        visibilityMap.page = false;
-    } else if (valueMap.onClickEvent === "showPage") {
-        visibilityMap.page = true;
-        visibilityMap.microflow = false;
-    } else if (valueMap.onClickEvent === "callMicroflow") {
-        visibilityMap.page = false;
-        visibilityMap.microflow = true;
-    }
+export function getVisibleProperties(props: ContainerProps, visibilityMap: VisibilityMap) {
+    visibilityMap.microflow = props.onClickEvent === "callMicroflow";
+    visibilityMap.nanoflow = props.onClickEvent === "callNanoflow";
+    visibilityMap.page = props.onClickEvent === "showPage";
 
     return visibilityMap;
 }

@@ -14,6 +14,7 @@ export interface ContainerProps extends WrapperProps {
     circleThickness: number;
     maximumValueAttribute: string;
     microflow?: string;
+    nanoflow: Nanoflow;
     negativeValueColor: BootstrapStyle;
     onClickEvent: OnClickOptions;
     page?: string;
@@ -21,6 +22,10 @@ export interface ContainerProps extends WrapperProps {
     positiveValueColor: BootstrapStyle;
     displayText: DisplayText;
     textSize: ProgressTextSize;
+}
+
+interface Nanoflow {
+    nanoflow?: object[];
 }
 
 interface ContainerState {
@@ -31,7 +36,7 @@ interface ContainerState {
 }
 
 export type DisplayText = "none" | "value" | "percentage";
-type OnClickOptions = "doNothing" | "showPage" | "callMicroflow";
+type OnClickOptions = "doNothing" | "showPage" | "callMicroflow" | "callNanoflow";
 
 export default class ProgressCircleContainer extends Component<ContainerProps, ContainerState> {
     private subscriptionHandles: number[];
@@ -67,7 +72,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             animate: this.props.animate,
             circleThickness: this.props.circleThickness,
             className: this.props.class,
-            clickable: !!this.props.microflow || !!this.props.page,
+            clickable: !!this.props.microflow || !!this.props.page || !!this.props.nanoflow,
             displayText: this.props.displayText,
             maximumValue: this.state.maximumValue,
             negativeValueColor: this.props.negativeValueColor,
@@ -92,6 +97,8 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
         let errorMessage = "";
         if (props.onClickEvent === "callMicroflow" && !props.microflow) {
             errorMessage = "on click microflow is required";
+        } else if (props.onClickEvent === "callNanoflow" && !props.nanoflow.nanoflow) {
+            errorMessage = "on click nanoflow is required";
         } else if (props.onClickEvent === "showPage" && !props.page) {
             errorMessage = "on click page is required";
         }
@@ -149,7 +156,8 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
     }
 
     private handleOnClick() {
-        const { mxObject, microflow, onClickEvent, page, mxform } = this.props;
+        const { mxObject, microflow, nanoflow, onClickEvent, page, mxform } = this.props;
+
         if (mxObject && mxObject.getGuid()) {
             const context = new window.mendix.lib.MxContext();
             context.setContext(mxObject.getEntity(), mxObject.getGuid());
@@ -158,6 +166,13 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
                     context,
                     error: error =>
                         window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`),
+                    origin: mxform
+                });
+            } else if (onClickEvent === "callNanoflow" && nanoflow) {
+                window.mx.data.callNanoflow({
+                    context,
+                    error: error => mx.ui.error(`Error executing nanoflow ${nanoflow} : ${error.message}`),
+                    nanoflow,
                     origin: mxform
                 });
             } else if (onClickEvent === "showPage" && page) {
