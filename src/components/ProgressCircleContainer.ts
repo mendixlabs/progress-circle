@@ -168,7 +168,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
                         window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`),
                     origin: mxform
                 });
-            } else if (onClickEvent === "callNanoflow" && nanoflow) {
+            } else if (onClickEvent === "callNanoflow" && nanoflow.nanoflow) {
                 window.mx.data.callNanoflow({
                     context,
                     error: error => mx.ui.error(`Error executing nanoflow ${nanoflow} : ${error.message}`),
