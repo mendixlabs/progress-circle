@@ -34,10 +34,10 @@ export function getPreviewCss() {
     return require("./ui/ProgressCircle.scss");
 }
 
-export function getVisibleProperties(props: ContainerProps, visibilityMap: VisibilityMap) {
-    visibilityMap.microflow = props.onClickEvent === "callMicroflow";
-    visibilityMap.nanoflow = props.onClickEvent === "callNanoflow";
-    visibilityMap.page = props.onClickEvent === "showPage";
+export function getVisibleProperties(valueMap: ContainerProps, visibilityMap: VisibilityMap) {
+    visibilityMap.microflow = valueMap.onClickEvent === "callMicroflow";
+    visibilityMap.nanoflow = valueMap.onClickEvent === "callNanoflow";
+    visibilityMap.page = valueMap.onClickEvent === "showPage";
 
     return visibilityMap;
 }

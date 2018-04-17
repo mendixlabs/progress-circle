@@ -25,7 +25,8 @@ export interface ContainerProps extends WrapperProps {
 }
 
 interface Nanoflow {
-    nanoflow?: object[];
+    nanoflow: object[];
+    paramsSpec: { Progress: string };
 }
 
 interface ContainerState {
@@ -164,14 +165,13 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             if (onClickEvent === "callMicroflow" && microflow) {
                 window.mx.ui.action(microflow, {
                     context,
-                    error: error =>
-                        window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`),
+                    error: error => window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`),
                     origin: mxform
                 });
             } else if (onClickEvent === "callNanoflow" && nanoflow.nanoflow) {
                 window.mx.data.callNanoflow({
                     context,
-                    error: error => mx.ui.error(`Error executing nanoflow ${nanoflow} : ${error.message}`),
+                    error: error => window.mx.ui.error(`Error while executing nanoflow ${nanoflow} : ${error.message}`),
                     nanoflow,
                     origin: mxform
                 });
