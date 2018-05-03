@@ -73,7 +73,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             animate: this.props.animate,
             circleThickness: this.props.circleThickness,
             className: this.props.class,
-            clickable: !!this.props.microflow || !!this.props.page || !!this.props.nanoflow,
+            clickable: this.props.onClickEvent !== "doNothing",
             displayText: this.props.displayText,
             maximumValue: this.state.maximumValue,
             negativeValueColor: this.props.negativeValueColor,
