@@ -15,8 +15,8 @@ exports.config = {
     bail: 0,
     screenshotPath: "dist/wdio/",
     baseUrl: debug ? "http://localhost:8080/" : "https://progresscircle.mxapps.io/",
-    waitforTimeout: 30000,
-    connectionRetryTimeout: 90000,
+    waitforTimeout: 40000,
+    connectionRetryTimeout: 100000,
     connectionRetryCount: 0,
     services: [ "selenium-standalone" ],
 
@@ -25,7 +25,7 @@ exports.config = {
     execArgv: debug ? [ "--inspect" ] : undefined,
     // Options to be passed to Jasmine.
     jasmineNodeOpts: {
-        defaultTimeoutInterval: debug ? (60 * 60 * 1000) : (30 * 1000),
+        defaultTimeoutInterval: debug ? (60 * 60 * 1000) : (60 * 1000),
         expectationResultHandler: function(passed, assertion) {
             if (passed) {
                 return;
