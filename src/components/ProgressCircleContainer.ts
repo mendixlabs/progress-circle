@@ -171,7 +171,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             } else if (onClickEvent === "callNanoflow" && nanoflow.nanoflow) {
                 window.mx.data.callNanoflow({
                     context,
-                    error: error => window.mx.ui.error(`Error while executing nanoflow ${nanoflow} : ${error.message}`),
+                    error: error => window.mx.ui.error(`An error occurred while executing the nanoflow: ${error.message}`),
                     nanoflow,
                     origin: mxform
                 });
