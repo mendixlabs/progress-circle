@@ -22,6 +22,7 @@ export interface ContainerProps extends WrapperProps {
     positiveValueColor: BootstrapStyle;
     displayText: DisplayText;
     textSize: ProgressTextSize;
+    openPageAs: PageLocation;
 }
 
 interface Nanoflow {
@@ -38,6 +39,7 @@ interface ContainerState {
 
 export type DisplayText = "none" | "value" | "percentage";
 type OnClickOptions = "doNothing" | "showPage" | "callMicroflow" | "callNanoflow";
+type PageLocation = "content"| "popup" | "modal";
 
 export default class ProgressCircleContainer extends Component<ContainerProps, ContainerState> {
     private subscriptionHandles: number[];
@@ -157,7 +159,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
     }
 
     private handleOnClick() {
-        const { mxObject, microflow, nanoflow, onClickEvent, page, mxform } = this.props;
+        const { mxObject, microflow, nanoflow, onClickEvent, openPageAs, page, mxform } = this.props;
 
         if (mxObject && mxObject.getGuid()) {
             const context = new window.mendix.lib.MxContext();
@@ -178,7 +180,8 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             } else if (onClickEvent === "showPage" && page) {
                 window.mx.ui.openForm(page, {
                     context,
-                    error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`)
+                    error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`),
+                    location: openPageAs
                 });
             }
         }

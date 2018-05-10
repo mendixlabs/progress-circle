@@ -38,6 +38,7 @@ export function getVisibleProperties(valueMap: ContainerProps, visibilityMap: Vi
     visibilityMap.microflow = valueMap.onClickEvent === "callMicroflow";
     visibilityMap.nanoflow = valueMap.onClickEvent === "callNanoflow";
     visibilityMap.page = valueMap.onClickEvent === "showPage";
+    visibilityMap.openPageAs = valueMap.onClickEvent === "showPage";
 
     return visibilityMap;
 }
