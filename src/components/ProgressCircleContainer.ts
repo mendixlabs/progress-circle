@@ -1,5 +1,5 @@
 import { Component, createElement } from "react";
-import { BootstrapStyle, DataSource, ProgressCircle, ProgressTextSize } from "./ProgressCircle";
+import { BootstrapStyle, ProgressCircle, ProgressTextSize } from "./ProgressCircle";
 import { Alert } from "./Alert";
 
 interface WrapperProps {
@@ -12,7 +12,6 @@ interface WrapperProps {
 export interface ContainerProps extends WrapperProps {
     animate: boolean;
     circleThickness: number;
-    dateSource: DataSource;
     displayText: DisplayText;
     displayTextAttribute: string;
     displayTextStatic: string;
@@ -40,7 +39,7 @@ interface ContainerState {
     maximumValue?: number;
     showAlert?: boolean;
     progressValue?: number;
-    displayTextAttribute: string;
+    displayTextAttributeValue: string;
 }
 
 export type DisplayText = "none" | "value" | "percentage" | "static" | "attribute";
@@ -61,7 +60,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             maximumValue: this.getValue(props.maximumValueAttribute, props.mxObject),
             progressValue: this.getValue(props.progressAttribute, props.mxObject),
             showAlert: !!alertMessage,
-            displayTextAttribute: ""
+            displayTextAttributeValue: ""
         };
         this.subscriptionHandles = [];
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -84,15 +83,14 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             className: this.props.class,
             clickable: this.props.onClickEvent !== "doNothing",
             displayText: this.props.displayText,
-            displayTextValue: this.state.displayTextAttribute,
-            displayTextStatic: this.props.displayText === "static" ? this.props.displayTextStatic : "",
-            maximumValue: this.props.dateSource === "attribute" ? this.state.maximumValue : this.props.staticMaximumValue,
+            displayTextValue: this.getDisplayTextValue(),
+            maximumValue: this.state.maximumValue || this.props.staticMaximumValue,
             negativeValueColor: this.props.negativeValueColor,
             onClickAction: this.handleOnClick,
             positiveValueColor: this.props.positiveValueColor,
             style: ProgressCircleContainer.parseStyle(this.props.style),
             textSize: this.props.textSize,
-            value: this.props.dateSource === "attribute" ? this.state.progressValue : this.props.staticValue
+            value: this.props.progressAttribute ? this.state.progressValue || 0 : this.props.staticValue
         });
     }
 
@@ -154,13 +152,27 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
     }
 
     private getDisplayText = (mxObject?: mendix.lib.MxObject) => {
-        const { displayText, displayTextAttribute } = this.props;
+        const { displayTextAttribute } = this.props;
 
-        if (mxObject && displayText === "attribute") {
+        if (mxObject) {
             this.setState({
-                displayTextAttribute: mxObject.get(displayTextAttribute) as string
+                displayTextAttributeValue: mxObject.get(displayTextAttribute) as string
+            });
+        } else {
+            this.setState({
+                displayTextAttributeValue: ""
             });
         }
+    }
+
+    private getDisplayTextValue() {
+        if (this.props.displayText === "attribute") {
+            return this.state.displayTextAttributeValue;
+        } else if (this.props.displayText === "static") {
+            return this.props.displayTextStatic;
+        }
+
+        return "";
     }
 
     private updateAttributeValues(mxObject?: mendix.lib.MxObject) {
@@ -168,7 +180,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
         this.setState({
             maximumValue: (maxValue || maxValue === 0) ? maxValue : this.defaultMaximumValue,
             progressValue: this.getValue(this.props.progressAttribute, mxObject),
-            displayTextAttribute: mxObject ? mxObject.get(this.props.displayTextAttribute) as string : ""
+            displayTextAttributeValue: mxObject ? mxObject.get(this.props.displayTextAttribute) as string : ""
         });
     }
 

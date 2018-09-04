@@ -11,10 +11,8 @@ export interface ProgressCircleProps {
     alertMessage?: string;
     animate?: boolean;
     className?: string;
-    dateSource?: DataSource;
     clickable?: boolean;
     displayTextValue?: string;
-    displayTextStatic?: string;
     maximumValue?: number;
     negativeValueColor?: BootstrapStyle;
     onClickAction?: () => void;
@@ -26,7 +24,6 @@ export interface ProgressCircleProps {
     circleThickness?: number;
 }
 
-export type DataSource = "attribute" | "static";
 export type BootstrapStyle = "primary" | "inverse" | "success" | "info" | "warning" | "danger";
 export type ProgressTextSize = "text" |"h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -121,15 +118,8 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
                 progressText = `${value}`;
             } else if (text === "percentage") {
                 progressText = progress + "%";
-            } else if (text === "static" && this.props.displayTextStatic) {
-                progressText = !(this.props.displayTextStatic.includes("{value}"))
-                    ? `${progress} ${this.props.displayTextStatic}`
-                    : this.props.displayTextStatic
-                        .replace("{value}", String(value))
-                        .replace("{maximumValue}", String(this.props.maximumValue));
-
-            } else if (text === "attribute" && displayTextValue) {
-                progressText = `${progress} ${displayTextValue}`;
+            } else if (text === "static" || text === "attribute") {
+                progressText = displayTextValue || "";
             } else {
                 progressText = "";
             }
