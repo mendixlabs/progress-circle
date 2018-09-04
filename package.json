@@ -1,7 +1,7 @@
 {
   "name": "progresscircle",
   "widgetName": "ProgressCircle",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Displays a progress in a circle",
   "scripts": {
     "start": "nodemon --watch webpack.config.js --watch Gruntfile.js --exec grunt",
@@ -35,18 +35,18 @@
   },
   "devDependencies": {
     "@types/big.js": "0.0.31",
-    "@types/classnames": "^2.2.3",
+    "@types/classnames": "^2.2.6",
     "@types/core-js": "^0.9.42",
     "@types/dojo": "^1.9.38",
     "@types/enzyme": "^2.8.8",
-    "@types/jasmine": "^2.6.0",
-    "@types/karma": "^1.7.3",
+    "@types/jasmine": "^2.8.8",
+    "@types/karma": "^1.7.6",
     "@types/react": "^15.0.38",
     "@types/react-dom": "^15.5.4",
-    "@types/webdriverio": "^4.10.1",
+    "@types/webdriverio": "^4.10.4",
     "check-dependencies": "^1.1.0",
-    "copy-webpack-plugin": "^4.0.1",
-    "core-js": "^2.5.1",
+    "copy-webpack-plugin": "^4.5.2",
+    "core-js": "^2.5.7",
     "css-loader": "^0.28.1",
     "enzyme": "^2.9.1",
     "extract-text-webpack-plugin": "^3.0.0",
@@ -58,7 +58,7 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-file-append": "0.0.7",
     "grunt-newer": "^1.1.1",
-    "grunt-webpack": "^3.0.2",
+    "grunt-webpack": "^3.1.3",
     "istanbul": "^0.4.3",
     "istanbul-instrumenter-loader": "^3.0.0",
     "jasmine": "^2.8.0",
@@ -98,8 +98,7 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
-    "@types/webdriverio": "^4.8.5",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "progressbar.js": "^1.0.1"
   }
 }

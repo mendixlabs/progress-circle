@@ -84,7 +84,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             clickable: this.props.onClickEvent !== "doNothing",
             displayText: this.props.displayText,
             displayTextValue: this.getDisplayTextValue(),
-            maximumValue: this.state.maximumValue || this.props.staticMaximumValue,
+            maximumValue: this.props.maximumValueAttribute ? this.state.maximumValue : this.props.staticMaximumValue,
             negativeValueColor: this.props.negativeValueColor,
             onClickAction: this.handleOnClick,
             positiveValueColor: this.props.positiveValueColor,
@@ -97,7 +97,6 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
     componentWillReceiveProps(newProps: ContainerProps) {
         this.resetSubscription(newProps.mxObject);
         this.updateAttributeValues(newProps.mxObject);
-        this.getDisplayText(newProps.mxObject);
     }
 
     componentWillUnmount() {
@@ -151,20 +150,6 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
         return mxObject ? parseFloat(mxObject.get(attribute) as string) : undefined;
     }
 
-    private getDisplayText = (mxObject?: mendix.lib.MxObject) => {
-        const { displayTextAttribute } = this.props;
-
-        if (mxObject) {
-            this.setState({
-                displayTextAttributeValue: mxObject.get(displayTextAttribute) as string
-            });
-        } else {
-            this.setState({
-                displayTextAttributeValue: ""
-            });
-        }
-    }
-
     private getDisplayTextValue() {
         if (this.props.displayText === "attribute") {
             return this.state.displayTextAttributeValue;
@@ -193,7 +178,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
                 guid: mxObject.getGuid()
             }));
 
-            [ this.props.progressAttribute, this.props.maximumValueAttribute ].forEach(attr => {
+            [ this.props.displayTextAttribute, this.props.progressAttribute, this.props.maximumValueAttribute ].forEach(attr => {
                 this.subscriptionHandles.push(window.mx.data.subscribe({
                     attr,
                     callback: this.attributeCallback(mxObject),

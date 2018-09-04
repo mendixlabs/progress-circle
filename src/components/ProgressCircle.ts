@@ -48,7 +48,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
 
     componentDidMount() {
         this.createProgressCircle(this.props.circleThickness);
-        this.setProgress(this.props.value, this.props.maximumValue, this.props.displayText);
+        this.setProgress(this.props.value, this.props.maximumValue, this.props.displayText, this.props.displayTextValue);
     }
 
     componentWillReceiveProps(newProps: ProgressCircleProps) {
