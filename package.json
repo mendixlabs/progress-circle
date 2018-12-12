@@ -4,7 +4,7 @@
   "version": "1.6.0",
   "description": "Displays a progress in a circle",
   "scripts": {
-    "start": "nodemon --watch webpack.config.js --watch Gruntfile.js --exec grunt",
+    "start": "grunt",
     "emit": "tsc",
     "pretest": "tsc && npm run lint && npm run build",
     "test": "npm run test:unit && npm run test:conditional",
@@ -74,7 +74,6 @@
     "mendix-client": "^7.13.3",
     "mendix-widget-build-script": "^1.0.0-rc2",
     "node-sass": "^4.9.3",
-    "nodemon": "^1.18.3",
     "raw-loader": "^0.5.1",
     "react": "^15.6.2",
     "react-addons-test-utils": "^15.6.2",
