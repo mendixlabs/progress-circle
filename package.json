@@ -22,7 +22,7 @@
     "deployAndTest": "npm run deploy && npm run test:e2e"
   },
   "pre-commit": [
-    "checkTypes",
+    "typeCheck",
     "lint"
   ],
   "repository": {
