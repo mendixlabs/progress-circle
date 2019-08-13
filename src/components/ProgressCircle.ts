@@ -17,6 +17,7 @@ export interface ProgressCircleProps {
     negativeValueColor?: BootstrapStyle;
     onClickAction?: () => void;
     positiveValueColor?: BootstrapStyle;
+    overshootValueColor?: BootstrapStyle;
     style?: object;
     displayText?: DisplayText;
     textSize?: ProgressTextSize;
@@ -63,7 +64,7 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
     }
 
     render() {
-        const { maximumValue, textSize, negativeValueColor, positiveValueColor, value } = this.props;
+        const { maximumValue, textSize, negativeValueColor, positiveValueColor, overshootValueColor, value } = this.props;
         const textClass = textSize === "text" ? "mx-text" : textSize;
         const validMax = typeof maximumValue === "number" ? maximumValue > 0 : false;
         return createElement("div",
@@ -78,7 +79,8 @@ export class ProgressCircle extends Component<ProgressCircleProps, { alertMessag
                     this.progressCircleColorClass,
                     {
                         [`widget-progress-circle-${negativeValueColor}`]: value ? value < 0 : false,
-                        [`widget-progress-circle-${positiveValueColor}`]: value ? value > 0 : false,
+                        [`widget-progress-circle-${positiveValueColor}`]: value ? value > 0 && value < (maximumValue || 0) : false,
+                        [`widget-progress-circle-${overshootValueColor}`]: value ? value >= (maximumValue || 0) : false,
                         "widget-progress-circle-alert": !validMax,
                         "widget-progress-circle-clickable": this.props.clickable
                     }

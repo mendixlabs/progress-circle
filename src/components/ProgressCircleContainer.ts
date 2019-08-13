@@ -23,6 +23,7 @@ export interface ContainerProps extends WrapperProps {
     page?: string;
     progressAttribute: string;
     positiveValueColor: BootstrapStyle;
+    overshootValueColor: BootstrapStyle;
     textSize: ProgressTextSize;
     openPageAs: PageLocation;
     staticValue: number;
@@ -88,6 +89,7 @@ export default class ProgressCircleContainer extends Component<ContainerProps, C
             negativeValueColor: this.props.negativeValueColor,
             onClickAction: this.handleOnClick,
             positiveValueColor: this.props.positiveValueColor,
+            overshootValueColor: this.props.overshootValueColor,
             style: ProgressCircleContainer.parseStyle(this.props.style),
             textSize: this.props.textSize,
             value: this.props.progressAttribute ? this.state.progressValue || 0 : this.props.staticValue

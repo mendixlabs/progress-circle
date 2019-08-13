@@ -106,6 +106,20 @@
                 <enumerationValue key="danger">Danger</enumerationValue>
             </enumerationValues>
         </property>
+        <property key="overshootValueColor" type="enumeration" defaultValue="danger">
+            <caption>Overshoot style</caption>
+            <category>Appearance</category>
+            <description>Color of the circle with a overshooted progress value</description>
+            <enumerationValues>
+                <enumerationValue key="default">Default</enumerationValue>
+                <enumerationValue key="primary">Primary</enumerationValue>
+                <enumerationValue key="inverse">Inverse</enumerationValue>
+                <enumerationValue key="info">Info</enumerationValue>
+                <enumerationValue key="success">Success</enumerationValue>
+                <enumerationValue key="warning">Warning</enumerationValue>
+                <enumerationValue key="danger">Danger</enumerationValue>
+            </enumerationValues>
+        </property>
         <property key="circleThickness" type="integer" defaultValue="6">
             <caption>Circle thickness</caption>
             <category>Appearance</category>

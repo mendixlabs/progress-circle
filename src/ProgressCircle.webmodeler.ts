@@ -24,6 +24,7 @@ export class preview extends Component<ContainerProps, {}> {
             displayTextValue: this.getDisplayTextValue(),
             maximumValue: props.staticMaximumValue,
             positiveValueColor: props.positiveValueColor,
+            overshootValueColor: props.overshootValueColor,
             style: ProgressCircleContainer.parseStyle(props.style),
             textSize: props.textSize,
             value: props.staticValue
